@@ -4,7 +4,7 @@
   <select id="selectAll" resultType="cn.com.yuyang.pojo.Bumen" resultMap="getOneToOneMap">
   select
   t1.id,t1.buMenMingCheng,t1.buMenJianJie,t1.dangAnId,t1.chuangJianShiJian,
-  t2.xingMing
+  t2.xingMing,t2.biYeYuanXiao
   from oadb.bumen as t1 ,oadb.renyuandangan as t2
   where t1.dangAnId = t2.id
   </select>
