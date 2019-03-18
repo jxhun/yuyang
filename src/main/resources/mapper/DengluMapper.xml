@@ -2,17 +2,4 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.com.yuyang.pojo.DengluMapper">
 
-  <select id="selectQuanXian" resultMap="getOneToOneMao">
-
-  </select>
-
-  <resultMap id="getOneToOneMao" type="cn.com.yuyang.pojo.Denglu">
-    <id property="id" column="id1"/>
-    <result property="mingcheng" column="mingcheng"/>
-    <association property="ixueshengList" javaType="com.jxhun.pojo.Ixuesheng">
-      <id property="id" column="id"/>
-      <result property="xuehao" column="xuehao"/>
-      <result property="cId" column="c_id"/>
-    </association>
-  </resultMap>
 </mapper>

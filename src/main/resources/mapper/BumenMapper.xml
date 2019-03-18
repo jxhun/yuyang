@@ -1,21 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.com.yuyang.pojo.BumenMapper">
-  <select id="selectAll" resultType="cn.com.yuyang.pojo.Bumen" resultMap="getOneToOneMap">
-  select
-  t1.id,t1.buMenMingCheng,t1.buMenJianJie,t1.dangAnId,t1.chuangJianShiJian,
-  t2.xingMing,t2.biYeYuanXiao
-  from oadb.bumen as t1 ,oadb.renyuandangan as t2
-  where t1.dangAnId = t2.id
-  </select>
-  <resultMap id="getOneToOneMap" type="cn.com.yuyang.pojo.Bumen">
-    <id property="id" column="id"/>
-    <result property="bumenmingcheng" column="bumenmingcheng"/>
-    <result property="bumenjianjie" column="bumenjianjie"/>
-    <result property="chuangjianshijian" column="bumenjianjie"/>
-    <association property="renyuandangan" javaType="cn.com.yuyang.pojo.Renyuandangan">
-      <id property="id" column="id"/>
-      <result property="xuehao" column="xuehao"/>
-    </association>
-  </resultMap>
+
 </mapper>
