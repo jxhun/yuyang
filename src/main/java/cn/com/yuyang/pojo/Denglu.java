@@ -1,9 +1,5 @@
 package cn.com.yuyang.pojo;
 
-<<<<<<< HEAD
-=======
-
->>>>>>> Revert: 更新
 public class Denglu {
 
   private long id;
@@ -16,10 +12,7 @@ public class Denglu {
   private long zhuangTai;
   private String gongHao;
   private String shouJiHaoMa;
-<<<<<<< HEAD
-=======
   private String token;
->>>>>>> Revert: 更新
 
 
   public long getId() {
@@ -111,8 +104,6 @@ public class Denglu {
     this.shouJiHaoMa = shouJiHaoMa;
   }
 
-<<<<<<< HEAD
-=======
 
   public String getToken() {
     return token;
@@ -122,5 +113,4 @@ public class Denglu {
     this.token = token;
   }
 
->>>>>>> Revert: 更新
 }
