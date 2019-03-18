@@ -27,7 +27,7 @@ public class GongGaoController {
 
     public GongGaoController(GongGaoService gongGaoService) {
         this.gongGaoService = gongGaoService;
-        System.out.println("-----GongGaoController()------");
+        System.out.println("-----GongGaoController()-------");
     }
 
     /**

@@ -1,6 +1,5 @@
 package cn.com.yuyang.pojo;
 
-
 public class Denglu {
 
   private long id;
