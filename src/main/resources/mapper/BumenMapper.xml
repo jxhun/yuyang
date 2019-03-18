@@ -15,7 +15,7 @@
     <result property="chuangjianshijian" column="bumenjianjie"/>
     <association property="renyuandangan" javaType="cn.com.yuyang.pojo.Renyuandangan">
       <id property="id" column="id"/>
-      <result property="xuehao" column="xuehao"/>
+      <result property="xuehao" column="xuehao"/> 
     </association>
   </resultMap>
 </mapper>
