@@ -8,10 +8,10 @@ public class Zhiwubiao {
   private String zhiWuJianJie;
   private long chaKanKaoQin;
   private long qinJiaShenPi;
-  private long buMenCaoZuo;
+  private long quanXianGuanLi;
   private long chaKanYuanGong;
   private long caoZuoYuanGong;
-  private long _FaBuXiuGaiGongGao;
+  private long faBuXiuGaiGongGao;
   private long daiBanShiXiang;
   private java.sql.Timestamp chuangJianShiJian;
 
@@ -61,12 +61,12 @@ public class Zhiwubiao {
   }
 
 
-  public long getBuMenCaoZuo() {
-    return buMenCaoZuo;
+  public long getQuanXianGuanLi() {
+    return quanXianGuanLi;
   }
 
-  public void setBuMenCaoZuo(long buMenCaoZuo) {
-    this.buMenCaoZuo = buMenCaoZuo;
+  public void setQuanXianGuanLi(long quanXianGuanLi) {
+    this.quanXianGuanLi = quanXianGuanLi;
   }
 
 
@@ -88,12 +88,12 @@ public class Zhiwubiao {
   }
 
 
-  public long get_FaBuXiuGaiGongGao() {
-    return _FaBuXiuGaiGongGao;
+  public long getFaBuXiuGaiGongGao() {
+    return faBuXiuGaiGongGao;
   }
 
-  public void set_FaBuXiuGaiGongGao(long _FaBuXiuGaiGongGao) {
-    this._FaBuXiuGaiGongGao = _FaBuXiuGaiGongGao;
+  public void setFaBuXiuGaiGongGao(long faBuXiuGaiGongGao) {
+    this.faBuXiuGaiGongGao = faBuXiuGaiGongGao;
   }
 
 
