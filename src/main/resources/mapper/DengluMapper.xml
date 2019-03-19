@@ -2,115 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.com.yuyang.pojo.DengluMapper">
 
-    <select id="selectChaXun" resultMap="getOneToOneMap">
-        select
-        t1.id,
-        t1.dangAnId,
-        t1.miMa,
-        t1.dengLuCiShu,
-        t1.zuiHouYiCiDengLuShiJian,
-        t1.cuoWuCiShu,
-        t1.dongJieShiJian,
-        t1.zhuangTai,
-        t1.gongHao,
-        t1.shouJiHaoMa,
-        t2.id,
-        t2.xingMing,
-        t2.ruZhiShiJian,
-        t2.heTongDaoQiShiJian,
-        t2.xingBie,
-        t2.shengRi,
-        t2.jinJiLianXiDianHua,
-        t2.xianZhuZhi,
-        t2.xueLi,
-        t2.youXiang,
-        t2.biYeYuanXiao,
-        t2.zaiZhiZhuangTai,
-        t2.minZu,
-        t2.jiGuan,
-        t2.shenFenZheng,
-        t2.zhengZhiMianMao,
-        t2.hunYin,
-        t2.nianLing,
-        t2.beiZhu,
-        t2.zhiWuId,
-        t2.buMenId,
-        t2.touXiang
-        t3.id,
-        t3.zhiWuMingCheng,
-        t3.zhiWuJianJie,
-        t3.qinJiaShenPi,
-        t3.quanXianGuanLi,
-        t3.chaKanYuanGong,
-        t3.chaKanKaoQin,
-        t3.caoZuoYuanGong,
-        t3.chuangJianShiJian,
-        t3.faBuXiuGaiGongGao,
-        t3.daiBanShiXiang
-        from denglu t1,renyuandangan t2,zhiwubiao t3
-        where t1.dangAnId=t2.id and t2.zhiWuId=t3.id
-        <if test="buMenId !=null and buMenId !=''">
-            and t2.buMenId=#{buMenId}
-        </if>
-        <if test="gongHao !=null and gongHao !=''">
-            and t1.gongHao=#{gongHao}
-        </if>
-        <if test="xingMing !=null and xingMing !=''">
-            and t2.xingMing like #{xingMing}
-        </if>
-        <if test="startTime !=null or endTime !=null">
-            and t2.ruZhiShiJian between  #{startTime} and #{endTime}
-        </if>
+  <select id="selectQuanXian" resultMap="getOneToOneMao">
 
-    </select>
+  </select>
 
-    <resultMap id="getOneToOneMap" type="cn.com.yuyang.pojo.Denglu">
-        <id property="id" column="id"/>
-        <result property="dangAnId" column="dangAnId"/>
-        <result property="miMa" column="miMa"/>
-        <result property="dengLuCiShu" column="dengLuCiShu"/>
-        <result property="zuiHouYiCiDengLuShiJian" column="zuiHouYiCiDengLuShiJian"/>
-        <result property="cuoWuCiShu" column="cuoWuCiShu"/>
-        <result property="dongJieShiJian" column="dongJieShiJian"/>
-        <result property="gongHao" column="gongHao"/>
-        <result property="zhuangTai" column="zhuangTai"/>
-        <result property="shouJiHaoMa" column="shouJiHaoMa"/>
-        <association property="renyuandangan" javaType="cn.com.yuyang.pojo.Renyuandangan">
-            <id property="id" column="id2"/>
-            <result property="xingMing" column="xingMing"/>
-            <result property="ruZhiShiJian" column="ruZhiShiJian"/>
-            <result property="heTongDaoQiShiJian" column="heTongDaoQiShiJian"/>
-            <result property="xingBie" column="xingBie"/>
-            <result property="shengRi" column="shengRi"/>
-            <result property="jinJiLianXiDianHua" column="jinJiLianXiDianHua"/>
-            <result property="xianZhuZhi" column="xianZhuZhi"/>
-            <result property="xueLi" column="xueLi"/>
-            <result property="youXiang" column="youXiang"/>
-            <result property="biYeYuanXiao" column="biYeYuanXiao"/>
-            <result property="zaiZhiZhuangTai" column="zaiZhiZhuangTai"/>
-            <result property="minZu" column="minZu"/>
-            <result property="jiGuan" column="jiGuan"/>
-            <result property="shenFenZheng" column="shenFenZheng"/>
-            <result property="zhengZhiMianMao" column="zhengZhiMianMao"/>
-            <result property="hunYin" column="hunYin"/>
-            <result property="nianLing" column="nianLing"/>
-            <result property="beiZhu" column="beiZhu"/>
-            <result property="zhiWuId" column="zhiWuId"/>
-            <result property="buMenId" column="buMenId"/>
-            <result property="touXiang" column="touXiang"/>
-            <association property="zhiwubiao" javaType="cn.com.yuyang.pojo.Zhiwubiao">
-                <id property="id" column="id3"/>
-                <result property="zhiWuMingCheng" column="zhiWuMingCheng"/>
-                <result property="zhiWuJianJie" column="zhiWuJianJie"/>
-                <result property="qinJiaShenPi" column="qinJiaShenPi"/>
-                <result property="buMenCaoZuo" column="buMenCaoZuo"/>
-                <result property="chaKanYuanGong" column="chaKanYuanGong"/>
-                <result property="chaKanKaoQin" column="chaKanKaoQin"/>
-                <result property="caoZuoYuanGong" column="caoZuoYuanGong"/>
-                <result property="chuangJianShiJian" column="chuangJianShiJian"/>
-                <result property="faBuXiuGaiGongGao" column="faBuXiuGaiGongGao"/>
-                <result property="daiBanShiXiang" column="daiBanShiXiang"/>
-            </association>
-        </association>
-    </resultMap>
+  <resultMap id="getOneToOneMao" type="cn.com.yuyang.pojo.Denglu">
+    <id property="id" column="id1"/>
+    <result property="mingcheng" column="mingcheng"/>
+    <association property="ixueshengList" javaType="com.jxhun.pojo.Ixuesheng">
+      <id property="id" column="id"/>
+      <result property="xuehao" column="xuehao"/>
+      <result property="cId" column="c_id"/>
+    </association>
+  </resultMap>
 </mapper>

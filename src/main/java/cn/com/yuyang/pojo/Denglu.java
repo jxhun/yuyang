@@ -1,7 +1,5 @@
 package cn.com.yuyang.pojo;
 
-import java.util.List;
-
 public class Denglu {
 
   private long id;
@@ -15,15 +13,6 @@ public class Denglu {
   private String gongHao;
   private String shouJiHaoMa;
   private String token;
-  private Renyuandangan renyuandangan;
-
-  public Renyuandangan renyuandangan() {
-    return renyuandangan;
-  }
-
-  public void setRenyuandangans(Renyuandangan renyuandangan) {
-    this.renyuandangan = renyuandangan;
-  }
 
 
   public long getId() {

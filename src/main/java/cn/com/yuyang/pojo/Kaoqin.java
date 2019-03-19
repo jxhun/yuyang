@@ -10,25 +10,6 @@ public class Kaoqin {
   private long zhuangTai;
   private String qingJiaZhuangTai;
   private java.sql.Date dangTianRiQi;
-  private Qingjiabiao qingjiabiao;
-
-  private Renyuandangan renyuandangan;
-
-  public Renyuandangan getRenyuandangan() {
-    return renyuandangan;
-  }
-
-  public void setRenyuandangan(Renyuandangan renyuandangan) {
-    this.renyuandangan = renyuandangan;
-  }
-
-  public Qingjiabiao getQingjiabiao() {
-    return qingjiabiao;
-  }
-
-  public void setQingjiabiao(Qingjiabiao qingjiabiao) {
-    this.qingjiabiao = qingjiabiao;
-  }
 
 
   public long getId() {
