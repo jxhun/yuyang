@@ -8,7 +8,7 @@ public class XinXiBean {
     private long shouXinId;         //收信人档案id
     private String xinXiBiaoTi;     //信息的主题
     private String xinXiNeiRong;    //信息的内容
-    private java.sql.Timestamp xinXiShiJian;    //信息发送的时间
+    private Timestamp xinXiShiJian;    //信息发送的时间
     private String fuJianDiZhi;     //信息附件地址
     private long faSongZhuangTai;   //信息发送状态，0为草稿箱，1为已发送
     private long shouCangZhuangTai; //收藏状态，true为收藏，false为未收藏

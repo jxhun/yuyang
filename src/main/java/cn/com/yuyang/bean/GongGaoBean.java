@@ -14,7 +14,7 @@ public class GongGaoBean {
     private int dangAnId;   // 档案id
     private String token;   // 前端传入的token
     private String gongGaoMingCheng;  // 公告名称
-    private java.sql.Timestamp faBuShiJian;   // 发布时间
+    private Timestamp faBuShiJian;   // 发布时间
     private String lanMu;    // 栏目
     private String neiRong;  // 公告内容
     private long buMenId;   // 部门id
