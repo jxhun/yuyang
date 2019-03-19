@@ -6,8 +6,8 @@ public class Qingjiabiao {
   private long id;
   private long shenQingRen;
   private String _LeiXing;
-  private java.sql.Timestamp qiShiShiJian;
-  private java.sql.Timestamp zhongZhiShiJian;
+  private java.sql.Date qiShiShiJian;
+  private java.sql.Date zhongZhiShiJian;
   private String qingJiaShiYou;
   private long shenPiRen;
   private long chuLiZhuangTai;
@@ -42,20 +42,20 @@ public class Qingjiabiao {
   }
 
 
-  public java.sql.Timestamp getQiShiShiJian() {
+  public java.sql.Date getQiShiShiJian() {
     return qiShiShiJian;
   }
 
-  public void setQiShiShiJian(java.sql.Timestamp qiShiShiJian) {
+  public void setQiShiShiJian(java.sql.Date qiShiShiJian) {
     this.qiShiShiJian = qiShiShiJian;
   }
 
 
-  public java.sql.Timestamp getZhongZhiShiJian() {
+  public java.sql.Date getZhongZhiShiJian() {
     return zhongZhiShiJian;
   }
 
-  public void setZhongZhiShiJian(java.sql.Timestamp zhongZhiShiJian) {
+  public void setZhongZhiShiJian(java.sql.Date zhongZhiShiJian) {
     this.zhongZhiShiJian = zhongZhiShiJian;
   }
 
