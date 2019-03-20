@@ -1,11 +1,13 @@
 package cn.com.yuyang.controller;
 
+import cn.com.yuyang.util.SessionKey;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,14 +34,18 @@ public class shangChuanController {
     //    2、执行上传操作
     @RequestMapping(value = {"/executeImport"}, method = RequestMethod.POST)
     @ResponseBody
-    public String executeImport(MultipartFile articleFile) throws Exception {
+    public String executeImport(MultipartFile articleFile, HttpServletRequest request) throws Exception {
         String originalFilename = articleFile.getOriginalFilename();
-        String luJing = "F:/ideaProject/yuyang/src/main/webapp/img/";  // 图片上传路径
-        if (originalFilename != null || originalFilename.endsWith(".doc") || originalFilename.endsWith(".docx") ||
-                originalFilename.endsWith(".xls") || originalFilename.endsWith(".xlsx")) {
-            luJing = "F:/ideaProject/yuyang/src/main/webapp/office/";  // office文件上传路径
+        String luJingHouZui = System.currentTimeMillis() + originalFilename.substring(originalFilename.indexOf("."));// 文件存储路径后缀
+        String luJingQianZui = "F:/ideaProject/yuyang/src/main/webapp/img/";  // 图片上传路径前缀
+        request.getSession().setAttribute(SessionKey.FUJIANDIZHI,"/img/" + luJingHouZui);  // 传入工程内路径到session
+        if (originalFilename != null && (originalFilename.endsWith(".doc") || originalFilename.endsWith(".docx") ||
+                originalFilename.endsWith(".xls") || originalFilename.endsWith(".xlsx"))) {
+            luJingQianZui = "F:/ideaProject/yuyang/src/main/webapp/office/";  // office文件上传路径前缀
+            request.getSession().setAttribute(SessionKey.FUJIANDIZHI,"/office/" + luJingHouZui);  // 传入工程内路径到session
         }
-        File file = new File(luJing + System.currentTimeMillis() + originalFilename.substring(originalFilename.indexOf(".")));
+
+        File file = new File(luJingQianZui + luJingHouZui);
         try {
             articleFile.transferTo(file);
             return "true";

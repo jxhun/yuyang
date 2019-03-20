@@ -21,4 +21,5 @@ public class SessionKey {
     public final static String TOKEN = "Token"; // 登录成功后传入session的token
     public final static String XINGMING = "xingMing"; // 登录成功后传入session的姓名
     public final static String BUMENID = "buMenId"; // 登录成功后传入session的部门的id
+    public final static String FUJIANDIZHI = "fuJianDiZhi"; // 上传的附件地址
 }
