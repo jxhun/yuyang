@@ -1,5 +1,6 @@
 package cn.com.yuyang.pojo;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public class Denglu {
@@ -17,15 +18,6 @@ public class Denglu {
   private String token;
   private Renyuandangan renyuandangan;
 
-  public Renyuandangan renyuandangan() {
-    return renyuandangan;
-  }
-
-  public void setRenyuandangans(Renyuandangan renyuandangan) {
-    this.renyuandangan = renyuandangan;
-  }
-
-
   public long getId() {
     return id;
   }
@@ -33,7 +25,6 @@ public class Denglu {
   public void setId(long id) {
     this.id = id;
   }
-
 
   public long getDangAnId() {
     return dangAnId;
@@ -43,7 +34,6 @@ public class Denglu {
     this.dangAnId = dangAnId;
   }
 
-
   public String getMiMa() {
     return miMa;
   }
@@ -51,7 +41,6 @@ public class Denglu {
   public void setMiMa(String miMa) {
     this.miMa = miMa;
   }
-
 
   public long getDengLuCiShu() {
     return dengLuCiShu;
@@ -61,15 +50,13 @@ public class Denglu {
     this.dengLuCiShu = dengLuCiShu;
   }
 
-
-  public java.sql.Timestamp getZuiHouYiCiDengLuShiJian() {
+  public Timestamp getZuiHouYiCiDengLuShiJian() {
     return zuiHouYiCiDengLuShiJian;
   }
 
-  public void setZuiHouYiCiDengLuShiJian(java.sql.Timestamp zuiHouYiCiDengLuShiJian) {
+  public void setZuiHouYiCiDengLuShiJian(Timestamp zuiHouYiCiDengLuShiJian) {
     this.zuiHouYiCiDengLuShiJian = zuiHouYiCiDengLuShiJian;
   }
-
 
   public long getCuoWuCiShu() {
     return cuoWuCiShu;
@@ -79,15 +66,13 @@ public class Denglu {
     this.cuoWuCiShu = cuoWuCiShu;
   }
 
-
-  public java.sql.Timestamp getDongJieShiJian() {
+  public Timestamp getDongJieShiJian() {
     return dongJieShiJian;
   }
 
-  public void setDongJieShiJian(java.sql.Timestamp dongJieShiJian) {
+  public void setDongJieShiJian(Timestamp dongJieShiJian) {
     this.dongJieShiJian = dongJieShiJian;
   }
-
 
   public long getZhuangTai() {
     return zhuangTai;
@@ -97,7 +82,6 @@ public class Denglu {
     this.zhuangTai = zhuangTai;
   }
 
-
   public String getGongHao() {
     return gongHao;
   }
@@ -105,7 +89,6 @@ public class Denglu {
   public void setGongHao(String gongHao) {
     this.gongHao = gongHao;
   }
-
 
   public String getShouJiHaoMa() {
     return shouJiHaoMa;
@@ -115,7 +98,6 @@ public class Denglu {
     this.shouJiHaoMa = shouJiHaoMa;
   }
 
-
   public String getToken() {
     return token;
   }
@@ -124,4 +106,11 @@ public class Denglu {
     this.token = token;
   }
 
+  public Renyuandangan getRenyuandangan() {
+    return renyuandangan;
+  }
+
+  public void setRenyuandangan(Renyuandangan renyuandangan) {
+    this.renyuandangan = renyuandangan;
+  }
 }

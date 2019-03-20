@@ -31,7 +31,7 @@ public class KaoQinService {
         return kaoqinMapper.selectUser(geRenKaoQinBean);
     }
     public List<Kaoqin> selectBing(GeRenKaoQinBean geRenKaoQinBean){
-        return kaoqinMapper.selectUser(geRenKaoQinBean);
+        return kaoqinMapper.selectBing(geRenKaoQinBean);
     }
     public List<Kaoqin> selectKaoQinGuanLi(KaoQinGuanLiBean kaoQinGuanLiBean){
         return kaoqinMapper.selectKaoQinGuanLi(kaoQinGuanLiBean);
