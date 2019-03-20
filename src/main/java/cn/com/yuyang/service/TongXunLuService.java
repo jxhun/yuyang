@@ -1,5 +1,6 @@
 package cn.com.yuyang.service;
 
+import cn.com.yuyang.bean.IdBean;
 import cn.com.yuyang.pojo.Haoyoubiao;
 import cn.com.yuyang.pojo.HaoyoubiaoMapper;
 import org.springframework.stereotype.Controller;
@@ -33,13 +34,22 @@ public class TongXunLuService {
     }
 
     /**
-     * 这个方法用来查询该人的好友
+     * 这个方法用来查询该人的好友，可以通过搜索框查询
+     * 如果IDBean中传递过来有id，那么就用haoyoubiaoMapper调用chaXunTongXunLu()方法
+     * 如果IDBean中传递过来有手机号码或者姓名，那么就用haoyoubiaoMapper调用souSuo()方法
      *
-     * @param dangAnId
+     * @param idBean 里面存储的有姓名或者手机号码或者id
      * @return
      */
-    public List<Map<String, Object>> chaXunTongXunLu(Integer dangAnId) {
-        List<Haoyoubiao> list = haoyoubiaoMapper.chaXunTongXunLu(dangAnId);  // 得到查询结果
+    public List<Map<String, Object>> chaXunTongXunLu(IdBean idBean) {
+        List<Haoyoubiao> list = new ArrayList<>();
+        if (idBean != null && idBean.getDangAnId() != 0) {
+            list = haoyoubiaoMapper.chaXunTongXunLu(idBean);  // 得到查询结果
+        } else if (idBean != null &&   // 如果idbean不为空，里面手机号码或者姓名存在一个，那么就调用搜索方法
+                (idBean.getShouJiHaoMa() != null && !idBean.getShouJiHaoMa().trim().equals("") ||
+                        idBean.getXingMing() != null && !idBean.getXingMing().trim().equals(""))) {
+            list = haoyoubiaoMapper.souSuo(idBean);  // 得到查询结果
+        }
         List<Map<String, Object>> mapList = new ArrayList<>();  // 这个list用来封装取出结果的map
         for (Haoyoubiao hy : list) {
             Map<String, Object> map = new HashMap<>(); // 这个map来取出内容
@@ -47,6 +57,7 @@ public class TongXunLuService {
             map.put("xingMing", hy.getRenyuandangan().getXingMing()); // 得到姓名存入
             map.put("shouJiHaoMa", hy.getDengLu().getShouJiHaoMa()); // 得到手机号码存入
             map.put("jinJiLianXiDianHua", hy.getRenyuandangan().getJinJiLianXiDianHua()); // 得到好友的第二个电话
+            map.put("zhiWuMingCheng", hy.getRenyuandangan().getZhiwubiao().getZhiWuMingCheng());// 得到职务名称
             map.put("id", hy.getRenyuandangan().getId()); // 得到好友的id
             mapList.add(map);  // 存入值得map存入list
         }
@@ -56,8 +67,9 @@ public class TongXunLuService {
 
     /**
      * 通过前端传入的好友档案id得到好友的具体信息，封装一个map返回到controller层
+     *
      * @param id 好友的档案id
-     * @return  返回一个组装好的结果map
+     * @return 返回一个组装好的结果map
      */
     public Map<String, Object> selectHaoYou(Integer id) {
         Map<String, Object> map = new HashMap<>(); // 这个map来取出内容

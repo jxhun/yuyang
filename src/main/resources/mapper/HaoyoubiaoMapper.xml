@@ -2,12 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.com.yuyang.pojo.HaoyoubiaoMapper">
     <select id="chaXunTongXunLu" resultMap="getOneToOneMao">
-        select dl.shouJiHaoMa,ry.jinJiLianXiDianHua,ry.xingMing,bm.buMenMingCheng,ry.id
+        select dl.shouJiHaoMa,ry.jinJiLianXiDianHua,ry.xingMing,bm.buMenMingCheng,ry.id,zw.zhiWuMingCheng
         from denglu as dl
                  join renyuandangan as ry
-                 join bumen as bm on
+                 join bumen as bm
+                 join zhiwubiao as zw on
                     dl.dangAnId = ry.id and
                     ry.buMenId = bm.id and
+                    ry.zhiWuId = zw.id and
                     dl.shouJiHaoMa in (select shouJiHaoMa
                                        from denglu as dl
                                        where dangAnId in
@@ -31,6 +33,10 @@
             <association property="bumen" javaType="cn.com.yuyang.pojo.Bumen">
                 <id property="id" column="id3"/>
                 <result property="buMenMingCheng" column="buMenMingCheng"/>
+            </association>
+            <association property="zhiwubiao" javaType="cn.com.yuyang.pojo.Zhiwubiao">
+                <id property="id" column="id4"/>
+                <result property="zhiWuMingCheng" column="zhiWuMingCheng"/>
             </association>
         </association>
     </resultMap>
@@ -80,4 +86,20 @@
             </association>
         </association>
     </resultMap>
+
+    <select id="souSuo" resultMap="getOneToOne">
+        select bm.buMenMingCheng,ry.xingMing,dl.shouJiHaoMa,ry.jinJiLianXiDianHua,zw.zhiWuMingCheng
+        from renyuandangan as ry
+        join denglu as dl
+        join bumen as bm
+        join zhiwubiao as zw on
+        ry.id = dl.dangAnId and ry.zhiWuId = zw.id and ry.buMenId = bm.id
+        <if test="xingMing != null and xingMing != ''">
+            and ry.xingMing = #{xingMing}
+        </if>
+        <if test="shouJiHaoMa != null and shouJiHaoMa != ''">
+            and dl.shouJiHaoMa = #{shouJiHaoMa}
+        </if>
+    </select>
+
 </mapper>

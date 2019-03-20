@@ -1,10 +1,7 @@
 package cn.com.yuyang.controller;
 
-import cn.com.yuyang.bean.GongGaoBean;
 import cn.com.yuyang.bean.IdBean;
-import cn.com.yuyang.pojo.Haoyoubiao;
 import cn.com.yuyang.service.TongXunLuService;
-import cn.com.yuyang.util.SessionKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,6 +37,12 @@ public class TongXunLuController {
         System.out.println("------TongXunLuController-------");
     }
 
+    /**
+     * 这个方法用来用户进入通讯录就查看所有的好友
+     * @param idBean 里面存储有前端传入的登录人档案id,或者存储有前端传入的好友姓名或者手机号码
+     * @param request request对象用来拿到session
+     * @return
+     */
     @RequestMapping(value = {"/chaXun"})
     @ResponseBody
     public Map<String, Object> chaXun(@RequestBody(required = false) IdBean idBean, HttpServletRequest request) {
@@ -48,15 +51,25 @@ public class TongXunLuController {
         // 如果token不为空,说明用户已经登录,并且前端的token必须和我session的token相同
 //        if (token != null && token.equals(idBean.getToken())) {
 //        System.out.println(idBean.getDangAnId());
-        List<Map<String, Object>> list = tongXunLuService.chaXunTongXunLu(1);
+//        idBean = new IdBean();
+//        idBean.setShouJiHaoMa("11122211111");
+        List<Map<String, Object>> list = tongXunLuService.chaXunTongXunLu(idBean);
         returnMap.put("returncode", 200);
         returnMap.put("msg", "200查询成功,注意id是好友的档案id，查看好友详情需要将这个id传给后台");
         returnMap.put("data", list);
-//        }
+//    } else { returnMap.put("returncode", -1);// 失败返回状态码-1
+//        returnMap.put("msg", "-1,登录超时，token验证失败"); // 提示失败}
 
         return returnMap;
     }
 
+    /**
+     * 查看好友详情方法，前端需要传入好友的id
+     *
+     * @param idBean  id bean对象
+     * @param request request对象用来拿到session
+     * @return 成功返回结果map
+     */
     @RequestMapping(value = {"/xiangQing"})
     @ResponseBody
     public Map<String, Object> xiangQing(@RequestBody(required = false) IdBean idBean, HttpServletRequest request) {
@@ -65,11 +78,12 @@ public class TongXunLuController {
         // 如果token不为空,说明用户已经登录,并且前端的token必须和我session的token相同
 //        if (token != null && token.equals(idBean.getToken())) {
 //        System.out.println(idBean.getDangAnId());
-        Map<String, Object> map = tongXunLuService.selectHaoYou(1);
+        Map<String, Object> map = tongXunLuService.selectHaoYou(idBean.getDangAnId());
         returnMap.put("returncode", 200);
         returnMap.put("msg", "200,查询成功");
         returnMap.put("data", map);
-//        }
+//    } else { returnMap.put("returncode", -1);// 失败返回状态码-1
+//        returnMap.put("msg", "-1,登录超时，token验证失败"); // 提示失败}
 
         return returnMap;
     }

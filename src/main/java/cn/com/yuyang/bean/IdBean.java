@@ -5,7 +5,26 @@ public class IdBean {
 
     private int dangAnId; //登陆者的人员档案id
 
+    private String xingMing;   // 姓名
+    private String shouJiHaoMa; // 手机号码
+
     private String token; //登录者的token
+
+    public String getXingMing() {
+        return xingMing;
+    }
+
+    public void setXingMing(String xingMing) {
+        this.xingMing = xingMing;
+    }
+
+    public String getShouJiHaoMa() {
+        return shouJiHaoMa;
+    }
+
+    public void setShouJiHaoMa(String shouJiHaoMa) {
+        this.shouJiHaoMa = shouJiHaoMa;
+    }
 
     public int getId() {
         return id;
