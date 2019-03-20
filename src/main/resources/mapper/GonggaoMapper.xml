@@ -7,7 +7,7 @@
         join renyuandangan as r
         on (g.buMenId = #{buMenId}
         or g.buMenId = 0 or g.dangAnId = #{dangAnId})
-        and g.dangAnId = r.id
+        and g.dangAnId = r.id and g.zhuangTai = 1
         <if test="souSuo != null and souSuo != ''">
             and (g.gongGaoMingCheng like concat(concat('%',#{souSuo}),'%') or g.neiRong like
             concat(concat('%',#{souSuo}),'%') or r.xingMing like concat(concat('%',#{souSuo}),'%'))
@@ -59,16 +59,18 @@
                  join renyuandangan as ry on g.buMenId = bm.id and g.dangAnId = ry.id and g.id = #{id}
     </select>
     <resultMap id="getOneToOne" type="cn.com.yuyang.pojo.Gonggao">
-        <id property="id" column="id1"/>
-        <result property="dangAnId" column="dangAnId"/>
+        <id property="id" column="id"/>
         <result property="gongGaoMingCheng" column="gongGaoMingCheng"/>
         <result property="faBuShiJian" column="faBuShiJian"/>
         <result property="lanMu" column="lanMu"/>
         <result property="neiRong" column="neiRong"/>
         <result property="liuLanShu" column="liuLanShu"/>
-        <result property="buMenId" column="buMenId"/>
+        <association property="bumen" javaType="cn.com.yuyang.pojo.Bumen">
+            <id property="id" column="id1"/>
+            <result property="buMenMingCheng" column="buMenMingCheng"/>
+        </association>
         <association property="renyuandangan" javaType="cn.com.yuyang.pojo.Renyuandangan">
-            <id property="id" column="id"/>
+            <id property="id" column="id2"/>
             <result property="xingMing" column="xingMing"/>
         </association>
     </resultMap>

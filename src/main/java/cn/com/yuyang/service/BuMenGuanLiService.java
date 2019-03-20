@@ -47,7 +47,7 @@ public class BuMenGuanLiService {
      */
     public List<Bumenbean> shouye() {
         System.out.println("Service--------method------shouye");
-        Bumen bumen = new Bumen();
+        Bumenbean bumen = new Bumenbean();
 
         return renyuandanganMapper.selectCount(bumen);
     }
@@ -59,7 +59,7 @@ public class BuMenGuanLiService {
      */
     public List<Bumenbean> chaxun(Bumen bum) {
         System.out.println("Service--------method------shouye");
-        Bumen bumen = new Bumen();
+        Bumenbean bumen = new Bumenbean();
         String buMenMingCheng = bum.getBuMenMingCheng();
         if (buMenMingCheng != null && buMenMingCheng.trim().equals("")) {
             buMenMingCheng = "%" + buMenMingCheng + "%";
@@ -84,7 +84,7 @@ public class BuMenGuanLiService {
         Renyuandangan renyuandangan = renyuandanganMapper.selectGeRenChaXun(bum);
         String msg = "";
         if (renyuandangan.getId() != 0) {
-            Bumen bumen = new Bumen();
+            Bumenbean bumen = new Bumenbean();
             bumen.setBuMenMingCheng(buMenMingCheng);
             //通过部门名称查询部门是否存在，不存在时再新增部门
             Integer inte = bumenMapper.selectOne(bumen);
@@ -118,7 +118,7 @@ public class BuMenGuanLiService {
         Renyuandangan renyuandangan = renyuandanganMapper.selectGeRenChaXun(bum);
         String msg = "";
         if (renyuandangan.getId() != 0) {
-            Bumen bumen = new Bumen();
+            Bumenbean bumen = new Bumenbean();
             bumen.setId(id);
             bumen.setBuMenMingCheng(buMenMingCheng);
             //通过部门名称和部门id查询部门要修改的名称是否存在，不存在时再修改部门

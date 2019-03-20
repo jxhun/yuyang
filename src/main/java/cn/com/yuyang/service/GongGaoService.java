@@ -97,4 +97,13 @@ public class GongGaoService {
         gongGaoBean.setLiuLanShu(gongGaoBean.getLiuLanShu() + 1); // 拿到浏览数+1传入
         gonggaoMapper.xiuGaiLiuLanShu(gongGaoBean);  // 调用mapper浏览数修改方法
     }
+
+    /**
+     *公告详情查看
+     * @param gongGaoBean 公告bean对象，其中存储有公告的id
+     * @return 返回一个Gonggao对象
+     */
+    public Gonggao gongGaoXiangQing(GongGaoBean gongGaoBean){
+        return gonggaoMapper.gongGaoXiangQing(gongGaoBean);  // 调用查询公告详情方法
+    }
 }

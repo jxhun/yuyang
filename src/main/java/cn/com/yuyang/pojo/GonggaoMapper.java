@@ -34,4 +34,11 @@ public interface GonggaoMapper {
      * @param gongGaoBean 公告bean对象，存储的有前端传入的公告id和浏览数
      */
     void xiuGaiLiuLanShu(GongGaoBean gongGaoBean);
+
+    /**
+     * 公告详情查看，被service层同名方法调用
+     * @param gongGaoBean 公告bean对象，其中存储有公告的id
+     * @return  返回一个Gonggao对象
+     */
+    Gonggao gongGaoXiangQing(GongGaoBean gongGaoBean);
 }

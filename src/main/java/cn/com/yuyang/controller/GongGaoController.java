@@ -50,22 +50,22 @@ public class GongGaoController {
         Map<String, Object> returnMap = new HashMap<>();
         // 如果token不为空,说明用户已经登录,并且前端的token必须和我session的token相同
         if (gongGaoBean != null && token != null && token.equals(gongGaoBean.getToken())) {
-        int buMenId = (int) request.getSession().getAttribute(SessionKey.BUMENID); // 得到部门id
-        int dangAnId = (int) request.getSession().getAttribute(SessionKey.DANGANID); // 得到档案id
-        // 调用查询公告方法，传入登录人的档案id以及他的部门id，他能查看得到他自己发布的和他本部门能查看的公告
-        gongGaoBean.setBuMenId(buMenId);  // 登录人的部门id存入bean对象
-        gongGaoBean.setDangAnId(dangAnId);//登录人的档案id存入bean对象
-        List<Gonggao> list = gongGaoService.selectGongGao(gongGaoBean);  // 调用查询公告方法传入 公告bean对象
-        returnMap.put("yiFaBuTiaoShu", gongGaoService.selectGongGaoFaBu(dangAnId, 1));  // 得到已发布的条数,并且存入map
-        returnMap.put("weiFaBuTiaoShu", gongGaoService.selectGongGaoFaBu(dangAnId, 0));  // 得到未发布的条数,并且存入map
-        returnMap.put("returncode", 200);   // 成功状态码200
-        returnMap.put("msg", "成功,注意里面的id是每条公告的id，需要隐藏存储在前端每条公告里面，如果用户点击公告需传入这个id和浏览数来修改浏览次数");     // 消息提示成功
-        int zongYeShu = list.size() / 3 + 1; // 数据库中查到公告的总条数除以每页条数 + 1 为总页数
-        if (list.size() % 3 == 0) {         //  如果总条数刚好是3的倍数
-            zongYeShu = list.size() / 3;   // 总页数就是总条数 / 37
-        }
-        returnMap.put("ZongYeShu", zongYeShu);
-        returnMap.put("data", list);   // data数据中将list封装进去
+            int buMenId = (int) request.getSession().getAttribute(SessionKey.BUMENID); // 得到部门id
+            int dangAnId = (int) request.getSession().getAttribute(SessionKey.DANGANID); // 得到档案id
+            // 调用查询公告方法，传入登录人的档案id以及他的部门id，他能查看得到他自己发布的和他本部门能查看的公告
+            gongGaoBean.setBuMenId(buMenId);  // 登录人的部门id存入bean对象
+            gongGaoBean.setDangAnId(dangAnId);//登录人的档案id存入bean对象
+            List<Gonggao> list = gongGaoService.selectGongGao(gongGaoBean);  // 调用查询公告方法传入 公告bean对象
+            returnMap.put("yiFaBuTiaoShu", gongGaoService.selectGongGaoFaBu(dangAnId, 1));  // 得到已发布的条数,并且存入map
+            returnMap.put("weiFaBuTiaoShu", gongGaoService.selectGongGaoFaBu(dangAnId, 0));  // 得到未发布的条数,并且存入map
+            returnMap.put("returncode", 200);   // 成功状态码200
+            returnMap.put("msg", "成功,注意里面的id是每条公告的id，需要隐藏存储在前端每条公告里面，如果用户点击公告需传入这个id和浏览数来修改浏览次数");     // 消息提示成功
+            int zongYeShu = list.size() / 3 + 1; // 数据库中查到公告的总条数除以每页条数 + 1 为总页数
+            if (list.size() % 3 == 0) {         //  如果总条数刚好是3的倍数
+                zongYeShu = list.size() / 3;   // 总页数就是总条数 / 37
+            }
+            returnMap.put("ZongYeShu", zongYeShu);
+            returnMap.put("data", list);   // data数据中将list封装进去
         } else {
             returnMap.put("returncode", -1);   // 成功状态码-1
             returnMap.put("msg", "登录状态已超时或者前端未传数据");     // 消息提示如果比对不成功，那么说明要么登录超时，session已到时
@@ -107,20 +107,42 @@ public class GongGaoController {
         return returnMap;
     }
 
+    /**
+     * 这个方法用来修改浏览条数，用户每次点击公告进行查看，那么前端就调用该接口传入公告的id进行浏览条数新增
+     *
+     * @param gongGaoBean 公告bean，用来接收前端传入的参数
+     * @param request
+     * @return
+     */
     @RequestMapping(value = {"/xiuGaiLiuLanShu"})
     @ResponseBody
     public Map<String, Object> xiuGaiLiuLanShu(@RequestBody(required = false) GongGaoBean gongGaoBean, HttpServletRequest request) {
         String token = (String) request.getSession().getAttribute(SessionKey.TOKEN);    // 得到token
         Map<String, Object> returnMap = new HashMap<>();
         // 如果token不为空,说明用户已经登录,并且前端的token必须和我session的token相同,并且这个用户有发布修改公告的权限
-        if (gongGaoBean != null && token != null && token.equals(gongGaoBean.getToken())){
-        gongGaoBean = new GongGaoBean();
-        gongGaoBean.setLiuLanShu(1);
-        gongGaoBean.setId(1);
-        gongGaoService.xiuGaiLiuLanShu(gongGaoBean); // 调用修改浏览数方法
+        if (gongGaoBean != null && token != null && token.equals(gongGaoBean.getToken())) {
+            gongGaoService.xiuGaiLiuLanShu(gongGaoBean); // 调用修改浏览数方法
+            returnMap.put("returncode", 200);   // 成功状态码200
+            returnMap.put("msg", "修改成功");     // 消息提示上传成功
+        } else {
+            returnMap.put("returncode", -1);   // 成功状态码-1
+            returnMap.put("msg", "登录状态已超时或者前端未传数据");     // 消息提示如果比对不成功，那么说明要么登录超时，session已到时
+        }
+        return returnMap;
+    }
+
+    @RequestMapping(value = {"/gongGaoXiangQing"})
+    @ResponseBody
+    public Map<String, Object> gongGaoXiangQing(@RequestBody(required = false) GongGaoBean gongGaoBean, HttpServletRequest request) {
+        String token = (String) request.getSession().getAttribute(SessionKey.TOKEN);    // 得到token
+        Map<String, Object> returnMap = new HashMap<>();
+//         如果token不为空,说明用户已经登录,并且前端的token必须和我session的token相同,并且这个用户有发布修改公告的权限
+        if (gongGaoBean != null && token != null && token.equals(gongGaoBean.getToken())) {
+        Gonggao gonggao = gongGaoService.gongGaoXiangQing(gongGaoBean); // 调用查询方法，传入公告bean
         returnMap.put("returncode", 200);   // 成功状态码200
-        returnMap.put("msg", "修改成功");     // 消息提示上传成功
-        }else {
+        returnMap.put("msg", "查询成功");     // 消息提示上传成功
+        returnMap.put("data", gonggao);    // 查询结果存入data
+        } else {
             returnMap.put("returncode", -1);   // 成功状态码-1
             returnMap.put("msg", "登录状态已超时或者前端未传数据");     // 消息提示如果比对不成功，那么说明要么登录超时，session已到时
         }

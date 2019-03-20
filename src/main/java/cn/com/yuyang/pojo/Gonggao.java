@@ -15,6 +15,16 @@ public class Gonggao {
     private long zhuangTai;
     private Renyuandangan renyuandangan;   // 人事员档案对象
 
+    private Bumen bumen;
+
+    public Bumen getBumen() {
+        return bumen;
+    }
+
+    public void setBumen(Bumen bumen) {
+        this.bumen = bumen;
+    }
+
     public Renyuandangan getRenyuandangan() {
         return renyuandangan;
     }
