@@ -55,7 +55,7 @@ public class GongGaoController {
             returnMap.put("yiFaBuTiaoShu", gongGaoService.selectGongGaoFaBu(dangAnId, 1));  // 得到已发布的条数,并且存入map
             returnMap.put("weiFaBuTiaoShu", gongGaoService.selectGongGaoFaBu(dangAnId, 0));  // 得到未发布的条数,并且存入map
             returnMap.put("returncode", 200);   // 成功状态码200
-            returnMap.put("msg", "成功");     // 消息提示成功
+            returnMap.put("msg", "200成功");     // 消息提示成功
             int zongYeShu = list.size() / 3 + 1; // 数据库中查到公告的总条数除以每页条数 + 1 为总页数
             if (list.size() % 3 == 0) {         //  如果总条数刚好是3的倍数
                 zongYeShu = list.size() / 3;   // 总页数就是总条数 / 37
@@ -64,7 +64,7 @@ public class GongGaoController {
             returnMap.put("data", list);   // data数据中将list封装进去
         } else {
             returnMap.put("returncode", -1);   // 成功状态码-1
-            returnMap.put("msg", "登录状态已超时，请从新登录");     // 消息提示如果比对不成功，那么说明要么登录超时，session已到时
+            returnMap.put("msg", "-1登录状态已超时，请从新登录");     // 消息提示如果比对不成功，那么说明要么登录超时，session已到时
         }
         return returnMap;
     }
@@ -91,10 +91,10 @@ public class GongGaoController {
             gongGaoBean.setBuMenId(gongGaoService.selectBuMenId(gongGaoBean));  // 调用查询部门id方法，得到部门id并存入gongGaoBean对象
             gongGaoService.newInsertGongGao(gongGaoBean);  // 调用新增方法
             returnMap.put("returncode", 200);   // 成功状态码200
-            returnMap.put("msg", "上传成功");     // 消息提示上传成功
+            returnMap.put("msg", "200上传成功");     // 消息提示上传成功
         } else {
             returnMap.put("returncode", -1);   // 成功状态码-1
-            returnMap.put("msg", "登录状态已超时，请从新登录");     // 消息提示如果比对不成功，那么说明要么登录超时，session已到时
+            returnMap.put("msg", "-1登录状态已超时，请从新登录");     // 消息提示如果比对不成功，那么说明要么登录超时，session已到时
         }
         return returnMap;
     }
