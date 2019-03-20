@@ -48,7 +48,7 @@ public class KaoQinGuanLiController {
             map.put("qingJiaZhuangTai",kaoqin.getQingJiaZhuangTai());
             arrayList.add(map);
         }
-        System.out.println("kaoQin");
+
         Map<String,Object> kaoQinGuanLiMap = new HashMap<>();
         kaoQinGuanLiMap.put("RETURNCODE",200);
         kaoQinGuanLiMap.put("MSG","msg");
