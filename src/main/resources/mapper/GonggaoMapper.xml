@@ -2,15 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.com.yuyang.pojo.GonggaoMapper">
     <select id="selectGongGao" resultMap="getOneToOneMao">
-        select g.gongGaoMingCheng,g.faBuShiJian,g.lanMu,g.neiRong,g.liuLanShu,r.xingMing
+        select g.gongGaoMingCheng,g.faBuShiJian,g.lanMu,g.neiRong,g.liuLanShu,r.xingMing,g.id as id1
         from gonggao as g
-                 join renyuandangan as r
-                      on (g.buMenId = #{id}
-                          or g.buMenId is null or g.dangAnId = #{dangAnId})
-                          and g.dangAnId = r.id;
+        join renyuandangan as r
+        on (g.buMenId = #{buMenId}
+        or g.buMenId = 0 or g.dangAnId = #{dangAnId})
+        and g.dangAnId = r.id
+        <if test="souSuo != null and souSuo != ''">
+            and (g.gongGaoMingCheng like concat(concat('%',#{souSuo}),'%') or g.neiRong like
+            concat(concat('%',#{souSuo}),'%') or r.xingMing like concat(concat('%',#{souSuo}),'%'))
+        </if>
     </select>
     <resultMap id="getOneToOneMao" type="cn.com.yuyang.pojo.Gonggao">
-        <id property="dangAnId" column="dangAnId"/>
+        <id property="id" column="id1"/>
+        <result property="dangAnId" column="dangAnId"/>
         <result property="gongGaoMingCheng" column="gongGaoMingCheng"/>
         <result property="faBuShiJian" column="faBuShiJian"/>
         <result property="lanMu" column="lanMu"/>
@@ -34,4 +39,37 @@
         insert into gonggao(dangAnId, gongGaoMingCheng, faBuShiJian, lanMu, neiRong, fuJianDiZhi, buMenId)
         VALUES (#{dangAnId}, #{gongGaoMingCheng}, now(), #{lanMu}, #{neiRong}, #{fuJianDiZhi}, #{buMenId});
     </insert>
+    <update id="xiuGaiLiuLanShu">
+        update gonggao
+        set liuLanShu=#{liuLanShu}
+        where id = #{id};
+    </update>
+
+    <select id="gongGaoXiangQing" resultMap="getOneToOne">
+        select g.gongGaoMingCheng,
+               g.faBuShiJian,
+               g.lanMu,
+               g.neiRong,
+               g.liuLanShu,
+               ry.xingMing,
+               g.id,
+               bm.buMenMingCheng
+        from gonggao as g
+                 join bumen as bm
+                 join renyuandangan as ry on g.buMenId = bm.id and g.dangAnId = ry.id and g.id = #{id}
+    </select>
+    <resultMap id="getOneToOne" type="cn.com.yuyang.pojo.Gonggao">
+        <id property="id" column="id1"/>
+        <result property="dangAnId" column="dangAnId"/>
+        <result property="gongGaoMingCheng" column="gongGaoMingCheng"/>
+        <result property="faBuShiJian" column="faBuShiJian"/>
+        <result property="lanMu" column="lanMu"/>
+        <result property="neiRong" column="neiRong"/>
+        <result property="liuLanShu" column="liuLanShu"/>
+        <result property="buMenId" column="buMenId"/>
+        <association property="renyuandangan" javaType="cn.com.yuyang.pojo.Renyuandangan">
+            <id property="id" column="id"/>
+            <result property="xingMing" column="xingMing"/>
+        </association>
+    </resultMap>
 </mapper>

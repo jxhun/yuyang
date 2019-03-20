@@ -9,10 +9,9 @@ public interface DengluMapper {
     /**
      * 根据传入参数查询员工信息
      */
-    List<Denglu> selectChaXun(@Param("buMenId") Integer buMenId, @Param("gongHao") String gongHao,
-                              @Param("xingMing") String xingMing,
+    List<Denglu> selectChaXun(@Param("dangAnId") long dangAnId,@Param("buMenId") long buMenId,
+                              @Param("gongHao") String gongHao, @Param("xingMing") String xingMing,
                               @Param("startTime") String startTime, @Param("endTime") String endTime);
-
 
     //登录成功更新登录成功次数和登录成功时间
     void updateLogin(Denglu denglu);

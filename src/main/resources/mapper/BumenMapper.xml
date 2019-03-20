@@ -2,41 +2,46 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.com.yuyang.pojo.BumenMapper">
 
-  <select id="selectOne" resultType="java.lang.Integer" parameterType="cn.com.yuyang.pojo.Bumen">
-    select id from bumen
-    <where>
-      <if test="id!=0">
-        and id = #{id}
-      </if>
-      <if test="buMenMingCheng!=null">
-        and buMenMingCheng = #{buMenMingCheng}
-      </if>
-    </where>
-  </select>
-  <insert id="insertBuMen" parameterType="cn.com.yuyang.pojo.Bumen">
-    insert into bumen
-      buMenMingCheng,
-      buMenJianJie,
-      dangAnId;
-    chuangJianShiJian
-    value
-    (
-    #{buMenMingCheng},
-    #{buMenJianJie},
-    #{dangAnId},
-    #{chuangJianShiJian},
-    );
-  </insert>
-  <update id="updateBuMen" parameterType="cn.com.yuyang.pojo.Bumen">
-    update bumen
-    set
-      buMenMingCheng=#{buMenMingCheng},
-      buMenJianJie=#{buMenJianJie},
-      dangAnId=#{dangAnId},
-      chuangJianShiJian=#{chuangJianShiJian}
+    <select id="selectOne" resultType="java.lang.Integer" parameterType="cn.com.yuyang.bean.Bumenbean">
+        select id from bumen
+        <where>
+            <if test="id!=0">
+                id!=#{id}
+            </if>
+            <if test="buMenMingCheng!=null">
+                and buMenMingCheng=#{buMenMingCheng}
+            </if>
+        </where>
+    </select>
+    <insert id="insertBuMen" parameterType="cn.com.yuyang.bean.Bumenbean">
+        insert into bumen
+            buMenMingCheng,
+            buMenJianJie,
+            dangAnId;
+        chuangJianShiJian
+        value
+        (
+        #{buMenMingCheng},
+        #{buMenJianJie},
+        #{dangAnId},
+        #{chuangJianShiJian},
+        );
+    </insert>
+    <update id="updateBuMen" parameterType="cn.com.yuyang.bean.Bumenbean">
+        update bumen
+        set
+        buMenMingCheng=#{buMenMingCheng},
+        dangAnId=#{dangAnId},
+        <if test="buMenJianJie!=null and buMenJianJie!=''">
+            buMenJianJie=#{buMenJianJie},
+        </if>
+        chuangJianShiJian=#{chuangJianShiJian}
 
-  </update>
-  <delete id="deleteBuMen" parameterType="java.lang.Long">
-    delete from bumen where id=#{id}
-  </delete>
+
+    </update>
+    <delete id="deleteBuMen" parameterType="java.lang.Long">
+        delete
+        from bumen
+        where id = #{id}
+    </delete>
 </mapper>

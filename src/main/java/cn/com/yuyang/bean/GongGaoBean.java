@@ -11,6 +11,7 @@ import java.sql.Timestamp;
  */
 public class GongGaoBean {
 
+    private int id;  // 公告id
     private int dangAnId;   // 档案id
     private String token;   // 前端传入的token
     private String gongGaoMingCheng;  // 公告名称
@@ -21,6 +22,32 @@ public class GongGaoBean {
     private long zhuangTai;  // 状态
     private String buMenMingCheng;  // 部门名称
     private String fuJianDiZhi;  // 附件地址
+    private int liuLanShu; // 浏览数
+    private String souSuo; // 公告搜索内容
+
+    public String getSouSuo() {
+        return souSuo;
+    }
+
+    public void setSouSuo(String souSuo) {
+        this.souSuo = souSuo;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getLiuLanShu() {
+        return liuLanShu;
+    }
+
+    public void setLiuLanShu(int liuLanShu) {
+        this.liuLanShu = liuLanShu;
+    }
 
     public String getFuJianDiZhi() {
         return fuJianDiZhi;

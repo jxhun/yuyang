@@ -49,7 +49,7 @@ public class TongXunLuController {
 //        String token = (String) request.getSession().getAttribute(SessionKey.TOKEN);    // 得到token
         Map<String, Object> returnMap = new HashMap<>();
         // 如果token不为空,说明用户已经登录,并且前端的token必须和我session的token相同
-//        if (token != null && token.equals(idBean.getToken())) {
+//        if (idBean != null && token != null && token.equals(idBean.getToken())) {
 //        System.out.println(idBean.getDangAnId());
 //        idBean = new IdBean();
 //        idBean.setShouJiHaoMa("11122211111");
@@ -76,7 +76,7 @@ public class TongXunLuController {
 //        String token = (String) request.getSession().getAttribute(SessionKey.TOKEN);    // 得到token
         Map<String, Object> returnMap = new HashMap<>();
         // 如果token不为空,说明用户已经登录,并且前端的token必须和我session的token相同
-//        if (token != null && token.equals(idBean.getToken())) {
+//        if (idBean != null && token != null && token.equals(idBean.getToken())) {
 //        System.out.println(idBean.getDangAnId());
         Map<String, Object> map = tongXunLuService.selectHaoYou(idBean.getDangAnId());
         returnMap.put("returncode", 200);

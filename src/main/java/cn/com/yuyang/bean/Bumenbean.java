@@ -17,6 +17,15 @@ public class Bumenbean {
     private long dangAnId;
     private java.sql.Timestamp chuangJianShiJian;
     private int count;
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public String getFuZeRen() {
         return fuZeRen;
