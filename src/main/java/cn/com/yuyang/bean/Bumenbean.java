@@ -13,9 +13,18 @@ public class Bumenbean {
     private long id;
     private String buMenMingCheng;
     private String buMenJianJie;
+    private String fuZeRen;
     private long dangAnId;
     private java.sql.Timestamp chuangJianShiJian;
     private int count;
+
+    public String getFuZeRen() {
+        return fuZeRen;
+    }
+
+    public void setFuZeRen(String fuZeRen) {
+        this.fuZeRen = fuZeRen;
+    }
 
     public int getCount() {
         return count;
