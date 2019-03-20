@@ -9,6 +9,15 @@ public class Bumen {
   private long dangAnId;
   private java.sql.Timestamp chuangJianShiJian;
 
+  private Renyuandangan renyuandangan;
+
+  public Renyuandangan getRenyuandangan() {
+    return renyuandangan;
+  }
+
+  public void setRenyuandangan(Renyuandangan renyuandangan) {
+    this.renyuandangan = renyuandangan;
+  }
 
   public long getId() {
     return id;

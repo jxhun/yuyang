@@ -32,7 +32,8 @@
     </resultMap>
 
 
-    <select id="selectGeRenChaXun" parameterType="java.lang.String">
+    <select id="selectGeRenChaXun" resultType="cn.com.yuyang.pojo.Renyuandangan"
+            parameterType="cn.com.yuyang.bean.Bumenbean">
         select r.id,
                r.xingMing,
                r.ruZhiShiJian,
@@ -59,7 +60,8 @@
         where r.xingMing = #{xingMing}
     </select>
 
-    <select id="selectCount" parameterType="cn.com.yuyang.pojo.Bumen">
+    <select id="selectCount"  resultType="cn.com.yuyang.bean.Bumenbean"
+            parameterType="cn.com.yuyang.pojo.Bumen">
         select
         count(r.id),
         b.id,

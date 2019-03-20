@@ -16,13 +16,13 @@ public interface RenyuandanganMapper {
 
     /**
      * 查询这个人是否存在
-     * @param xingMing
+     * @param bum
      * @return
      */
-    Renyuandangan selectGeRenChaXun(String xingMing);
+    Renyuandangan selectGeRenChaXun(Bumenbean bum);
 
     /**
-     * 查询部门人数
+     * 查询部门人数,以及部门信息
      * @param bumen
      * @return
      */
