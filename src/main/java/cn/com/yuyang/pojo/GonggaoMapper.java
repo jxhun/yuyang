@@ -41,4 +41,11 @@ public interface GonggaoMapper {
      * @return  返回一个Gonggao对象
      */
     Gonggao gongGaoXiangQing(GongGaoBean gongGaoBean);
+
+
+    Integer shanChuGongGao(GongGaoBean gongGaoBean);
+
+    List<Gonggao> geRenGongGaoZhuangTai(GongGaoBean gongGaoBean);
+
+    Integer updateGongGao(GongGaoBean gongGaoBean);
 }
