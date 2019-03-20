@@ -90,8 +90,8 @@ public class GongGaoController {
             System.out.println(gongGaoService.selectBuMenId(gongGaoBean));
             gongGaoBean.setBuMenId(gongGaoService.selectBuMenId(gongGaoBean));  // 调用查询部门id方法，得到部门id并存入gongGaoBean对象
             gongGaoService.newInsertGongGao(gongGaoBean);  // 调用新增方法
-
-
+            returnMap.put("returncode", 200);   // 成功状态码200
+            returnMap.put("msg", "上传成功");     // 消息提示上传成功
         } else {
             returnMap.put("returncode", -1);   // 成功状态码-1
             returnMap.put("msg", "登录状态已超时，请从新登录");     // 消息提示如果比对不成功，那么说明要么登录超时，session已到时

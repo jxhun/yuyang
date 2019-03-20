@@ -4,12 +4,6 @@ package cn.com.yuyang.pojo;
 import java.util.List;
 
 public interface BumenMapper {
-    /**
-     * 查询所有部门
-     * @param bumen
-     * @return
-     */
-    List<Bumen> selectAll(Bumen bumen);
 
     /**
      * 查询部门是否存在
@@ -37,6 +31,6 @@ public interface BumenMapper {
      * @param id
      * @return
      */
-    Integer deleteBuMen(Integer id);
+    long deleteBuMen(long id);
 
 }

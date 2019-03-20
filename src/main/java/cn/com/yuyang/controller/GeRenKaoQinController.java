@@ -2,8 +2,8 @@ package cn.com.yuyang.controller;
 
 import cn.com.yuyang.bean.GeRenKaoQinBean;
 import cn.com.yuyang.pojo.Kaoqin;
-import cn.com.yuyang.service.GeRenKaoQinService;
 import cn.com.yuyang.service.KaoQinService;
+import cn.com.yuyang.util.SessionKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,7 +43,7 @@ public class GeRenKaoQinController {
         Map<String,Object> map = new HashMap<>();
         map.put("returnCode",-1);
         // 判断服务器session上存储的操作员档案id与请求个人考勤的目标档案id是否对应，避免恶意查看他人考勤
-//        if (request.getSession().getAttribute(SessionKey.DANGANID).equals(dangAnId)){
+        if (request.getSession().getAttribute(SessionKey.DANGANID).equals(geRenKaoQinBean.getDangAnId())){
             try {
                 List<Kaoqin> list = kaoQinService.selectUser(geRenKaoQinBean);
                 List<Map<String,Object>> mapList = new ArrayList<>();
@@ -73,7 +73,7 @@ public class GeRenKaoQinController {
             }catch (Exception e){
                 e.printStackTrace();
             }
-//        }
+        }
         return map;
     }
 
@@ -84,7 +84,7 @@ public class GeRenKaoQinController {
         Map<String,Object> map = new HashMap<>();
         map.put("returnCode",-1);
         // 判断服务器session上存储的操作员档案id与请求个人考勤的目标档案id是否对应，避免恶意查看他人考勤
-//        if (request.getSession().getAttribute(SessionKey.DANGANID).equals(dangAnId)){
+        if (request.getSession().getAttribute(SessionKey.DANGANID).equals(geRenKaoQinBean.getDangAnId())){
         try {
             List<Kaoqin> list = kaoQinService.selectBing(geRenKaoQinBean);
             List<Map<String,Object>> mapList = new ArrayList<>();
@@ -102,7 +102,7 @@ public class GeRenKaoQinController {
         }catch (Exception e){
             e.printStackTrace();
         }
-//        }
+        }
         return map;
     }
 }
