@@ -50,8 +50,25 @@ public class TongXunLuController {
 //        System.out.println(idBean.getDangAnId());
         List<Map<String, Object>> list = tongXunLuService.chaXunTongXunLu(1);
         returnMap.put("returncode", 200);
-        returnMap.put("msg", "查询成功");
+        returnMap.put("msg", "200查询成功,注意id是好友的档案id，查看好友详情需要将这个id传给后台");
         returnMap.put("data", list);
+//        }
+
+        return returnMap;
+    }
+
+    @RequestMapping(value = {"/xiangQing"})
+    @ResponseBody
+    public Map<String, Object> xiangQing(@RequestBody(required = false) IdBean idBean, HttpServletRequest request) {
+//        String token = (String) request.getSession().getAttribute(SessionKey.TOKEN);    // 得到token
+        Map<String, Object> returnMap = new HashMap<>();
+        // 如果token不为空,说明用户已经登录,并且前端的token必须和我session的token相同
+//        if (token != null && token.equals(idBean.getToken())) {
+//        System.out.println(idBean.getDangAnId());
+        Map<String, Object> map = tongXunLuService.selectHaoYou(1);
+        returnMap.put("returncode", 200);
+        returnMap.put("msg", "200,查询成功");
+        returnMap.put("data", map);
 //        }
 
         return returnMap;
