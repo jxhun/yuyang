@@ -3,6 +3,7 @@ package cn.com.yuyang.service;
 import cn.com.yuyang.bean.IdBean;
 import cn.com.yuyang.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import java.util.Map;
  * Version: V1.0
  */
 @Service
+@Scope(value = "prototype")
 public class TongXunLuService {
 
     @Autowired
@@ -52,7 +54,7 @@ public class TongXunLuService {
         // 如果姓名或者手机号码不为空，那么说明用户点击了搜索并传入了数据,
         // 如果部门id不为0，那么说明用户点击了部门，那么就通过这个部门id查询部门下的人员
         // 这两个判断放一起的原因是因为，如果用户点击搜索那么就不会传入部门id，如果用户点击部门那么也不会传入手机号码或者姓名
-        if (idBean.getXingMing() != null || idBean.getShouJiHaoMa() != null || idBean.getBuMenId() != 0) {
+        if (idBean != null && (idBean.getXingMing() != null || idBean.getShouJiHaoMa() != null || idBean.getBuMenId() != 0)) {
             Bumen bumen = bumenMapper.selectRenYuan(idBean);  // 调用查询人员方法,一对多
             List<Renyuandangan> renyuandanganList = bumen.getRenyuandanganList(); // 得到人员list
             for (Renyuandangan ry : renyuandanganList) {
@@ -65,7 +67,7 @@ public class TongXunLuService {
                 map.put("id", ry.getId()); // 得到好友的id
                 mapList.add(map);  // 存入值得map存入list
             }
-        } else if (idBean.getBuMenId() == 0) {  // 如果部门id为0，那么说明用户是点击通讯录进入通讯录，这个时候只能看到的是部门
+        } else if (idBean != null && idBean.getBuMenId() == 0) {  // 如果部门id为0，那么说明用户是点击通讯录进入通讯录，这个时候只能看到的是部门
             List<Bumen> bumenList = bumenMapper.selectBuMen();
             for (Bumen bm : bumenList) {  //循环取出查询结果
                 Map<String, Object> bmMap = new HashMap<>();  // 用一个map来组装查询得到的结果

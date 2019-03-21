@@ -3,6 +3,7 @@ package cn.com.yuyang.controller;
 import cn.com.yuyang.bean.IdBean;
 import cn.com.yuyang.service.TongXunLuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/TongXunLu")
+@Scope(value = "prototype")
 public class TongXunLuController {
 
     @Autowired

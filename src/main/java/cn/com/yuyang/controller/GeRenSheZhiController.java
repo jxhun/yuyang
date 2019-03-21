@@ -6,6 +6,7 @@ import cn.com.yuyang.pojo.Renyuandangan;
 import cn.com.yuyang.pojo.RenyuandanganMapper;
 import cn.com.yuyang.service.GeRenSheZhiService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/geren")
+@Scope(value = "prototype")
 public class GeRenSheZhiController {
 
     @Autowired
@@ -42,6 +44,8 @@ public class GeRenSheZhiController {
         Map<String, Object> returnMap = new HashMap<>();
         // 如果token不为空,说明用户已经登录,并且前端的token必须和我session的token相同
 //        if (idBean != null && token != null && token.equals(idBean.getToken())) {
+//        yuanGongBean = new YuanGongBean();
+//        yuanGongBean.setDangAnId(1);
         Renyuandangan renyuandangan = geRenSheZhiService.xinxiChaXun(yuanGongBean);
         returnMap.put("returncode", 200);
         returnMap.put("msg", "200,查询成功,注意为0的和为null的数据都是未查询的数据");
