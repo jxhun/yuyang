@@ -183,7 +183,11 @@
                ry.xingBie,
                ry.touXiang,
                dl.shouJiHaoMa,
-               dl.gongHao
+               dl.gongHao,
+               ry.ruZhiShiJian,
+               ry.xueLi,
+               ry.id,
+               ry.nianLing
         from renyuandangan as ry
                  join zhiwubiao as zw
                  join denglu as dl
@@ -198,6 +202,9 @@
         <result property="youXiang" column="youXiang"/>
         <result property="xingBie" column="xingBie"/>
         <result property="touXiang" column="touXiang"/>
+        <result property="ruZhiShiJian" column="ruZhiShiJian"/>
+        <result property="xueLi" column="xueLi"/>
+        <result property="nianLing" column="nianLing"/>
         <association property="denglu" javaType="cn.com.yuyang.pojo.Denglu">
             <id property="id" column="id2"/>
             <result property="dangAnId" column="dangAnId"/>
@@ -213,4 +220,6 @@
             <result property="zhiWuMingCheng" column="zhiWuMingCheng"/>
         </association>
     </resultMap>
+
+
 </mapper>

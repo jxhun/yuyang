@@ -59,7 +59,14 @@ public interface RenyuandanganMapper {
      */
     Integer deleteRenyuandangan(YuanGongBean yuanGongBean);
 
-    Renyuandangan xinxiChaXun(YuanGongBean yuanGongBean);
-
     Renyuandangan selectHaoYou(IdBean idBean);
+
+    /**
+     * 重载这个方法，用于个人设置个人查询
+     * @param yuanGongBean
+     * @return
+     */
+    Renyuandangan selectHaoYou(YuanGongBean yuanGongBean);
+
+
 }

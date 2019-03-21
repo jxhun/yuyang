@@ -36,7 +36,7 @@ public class GeRenSheZhiService {
      * @return 返回Renyuandangan对象，封装有 登录人的个人信息
      */
     public Renyuandangan xinxiChaXun(YuanGongBean yuanGongBean){
-        return renyuandanganMapper.xinxiChaXun(yuanGongBean); // 调用查询方法
+        return renyuandanganMapper.selectHaoYou(yuanGongBean); // 调用查询方法
     }
     
 }

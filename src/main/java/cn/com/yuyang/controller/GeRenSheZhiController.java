@@ -2,6 +2,7 @@ package cn.com.yuyang.controller;
 
 import cn.com.yuyang.bean.IdBean;
 import cn.com.yuyang.bean.YuanGongBean;
+import cn.com.yuyang.pojo.Renyuandangan;
 import cn.com.yuyang.pojo.RenyuandanganMapper;
 import cn.com.yuyang.service.GeRenSheZhiService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,10 @@ public class GeRenSheZhiController {
         Map<String, Object> returnMap = new HashMap<>();
         // 如果token不为空,说明用户已经登录,并且前端的token必须和我session的token相同
 //        if (idBean != null && token != null && token.equals(idBean.getToken())) {
+        Renyuandangan renyuandangan = geRenSheZhiService.xinxiChaXun(yuanGongBean);
+        returnMap.put("returncode", 200);
+        returnMap.put("msg", "200,查询成功,注意为0的和为null的数据都是未查询的数据");
+        returnMap.put("data", renyuandangan);
         return returnMap;
     }
 }
