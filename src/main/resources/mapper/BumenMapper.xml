@@ -13,6 +13,49 @@
             </if>
         </where>
     </select>
+
+    <select id="selectBuMen" resultType="cn.com.yuyang.pojo.Bumen">
+        select id,buMenMingCheng
+        from bumen
+    </select>
+
+    <select id="selectRenYuan" resultMap="getOneToOneMao">
+        select bm.buMenMingCheng,ry.xingMing,dl.shouJiHaoMa,ry.jinJiLianXiDianHua,zw.zhiWuMingCheng,bm.id as id1,ry.id
+        from bumen as bm
+        join renyuandangan as ry
+        join zhiwubiao as zw
+        join denglu as dl on bm.id = ry.buMenId and ry.id = dl.dangAnId and ry.zhiWuId = zw.id
+        <if test="buMenId != 0">
+            and bm.id = #{buMenId}
+        </if>
+        <if test="xingMing != null and xingMing != ''">
+          and ry.xingMing like concat(concat('%',#{xingMing}),'%')
+        </if>
+        <if test="shouJiHaoMa != null and shouJiHaoMa != ''">
+            and ry.shouJiHaoMa like concat(concat('%',#{shouJiHaoMa}),'%')
+        </if>
+    </select>
+
+    <resultMap id="getOneToOneMao" type="cn.com.yuyang.pojo.Bumen">
+        <id property="id" column="id1"/>
+        <result property="buMenMingCheng" column="buMenMingCheng"/>
+        <collection property="renyuandanganList" ofType="cn.com.yuyang.pojo.Renyuandangan">
+            <id property="id" column="id"/>
+            <result property="jinJiLianXiDianHua" column="jinJiLianXiDianHua"/>
+            <result property="xingMing" column="xingMing"/>
+            <association property="zhiwubiao" javaType="cn.com.yuyang.pojo.Zhiwubiao">
+                <id property="id" column="id4"/>
+                <result property="zhiWuMingCheng" column="zhiWuMingCheng"/>
+            </association>
+            <association property="denglu" javaType="cn.com.yuyang.pojo.Denglu">
+                <id property="id" column="id2"/>
+                <result property="dangAnId" column="dangAnId"/>
+                <result property="shouJiHaoMa" column="shouJiHaoMa"/>
+            </association>
+        </collection>
+    </resultMap>
+
+
     <insert id="insertBuMen" parameterType="cn.com.yuyang.bean.Bumenbean">
         insert into bumen
             buMenMingCheng,

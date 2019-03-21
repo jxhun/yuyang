@@ -52,7 +52,7 @@ public class TongXunLuController {
 //        if (idBean != null && token != null && token.equals(idBean.getToken())) {
 //        System.out.println(idBean.getDangAnId());
 //        idBean = new IdBean();
-//        idBean.setShouJiHaoMa("11122211111");
+//        idBean.setXingMing("先生");
         List<Map<String, Object>> list = tongXunLuService.chaXunTongXunLu(idBean);
         returnMap.put("returncode", 200);
         returnMap.put("msg", "200查询成功,注意id是好友的档案id，查看好友详情需要将这个id传给后台");
@@ -77,8 +77,10 @@ public class TongXunLuController {
         Map<String, Object> returnMap = new HashMap<>();
         // 如果token不为空,说明用户已经登录,并且前端的token必须和我session的token相同
 //        if (idBean != null && token != null && token.equals(idBean.getToken())) {
-//        System.out.println(idBean.getDangAnId());
-        Map<String, Object> map = tongXunLuService.selectHaoYou(idBean.getDangAnId());
+        idBean = new IdBean();
+        idBean.setDangAnId(1);
+        System.out.println("---idBean-----" + idBean.getDangAnId());
+        Map<String, Object> map = tongXunLuService.selectHaoYou(idBean);
         returnMap.put("returncode", 200);
         returnMap.put("msg", "200,查询成功");
         returnMap.put("data", map);

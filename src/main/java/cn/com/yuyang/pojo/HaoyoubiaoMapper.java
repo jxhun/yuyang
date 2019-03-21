@@ -18,10 +18,10 @@ public interface HaoyoubiaoMapper {
     /**
      * 这个方法查看单个好友的具体信息
      *
-     * @param id
+     * @param idBean
      * @return
      */
-    Haoyoubiao selectHaoYou(Integer id);
+    Haoyoubiao selectHaoYou(IdBean idBean);
 
     /**
      * 这个方法用来搜索好友

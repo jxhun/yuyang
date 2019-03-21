@@ -2,20 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.com.yuyang.pojo.HaoyoubiaoMapper">
     <select id="chaXunTongXunLu" resultMap="getOneToOneMao">
-        select dl.shouJiHaoMa,ry.jinJiLianXiDianHua,ry.xingMing,bm.buMenMingCheng,ry.id,zw.zhiWuMingCheng
-        from denglu as dl
-                 join renyuandangan as ry
-                 join bumen as bm
-                 join zhiwubiao as zw on
-                    dl.dangAnId = ry.id and
-                    ry.buMenId = bm.id and
-                    ry.zhiWuId = zw.id and
-                    dl.shouJiHaoMa in (select shouJiHaoMa
-                                       from denglu as dl
-                                       where dangAnId in
-                                             (select hy.haoYouId
-                                              from haoyoubiao as hy
-                                                       join denglu as dl on hy.benRenId = dl.dangAnId and dl.dangAnId = #{dangAnId}));
+        select bm.buMenMingCheng,ry.xingMing,dl.shouJiHaoMa,ry.jinJiLianXiDianHua,zw.zhiWuMingCheng,bm.id as id3
+        from renyuandangan as ry
+        join bumen as bm
+        join denglu as dl
+        join zhiwubiao as zw on
+        ry.id=dl.dangAnId and ry.zhiWuId = zw.id and ry.buMenId = bm.id
+        <if test="buMenId != 0">
+            and bm.id = #{buMenId}
+        </if>
     </select>
     <resultMap id="getOneToOneMao" type="cn.com.yuyang.pojo.Haoyoubiao">
         <id property="id" column="id1"/>
@@ -55,7 +50,7 @@
         from renyuandangan as ry
                  join zhiwubiao as zw
                  join denglu as dl
-                 join bumen as bm on ry.buMenId = bm.id and ry.zhiWuId = zw.id and ry.id = dl.dangAnId and ry.id = #{id}
+                 join bumen as bm on ry.buMenId = bm.id and ry.zhiWuId = zw.id and ry.id = dl.dangAnId and ry.id = #{dangAnId}
     </select>
 
     <resultMap id="getOneToOne" type="cn.com.yuyang.pojo.Haoyoubiao">

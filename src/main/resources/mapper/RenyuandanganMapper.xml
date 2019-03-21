@@ -167,7 +167,50 @@
     </update>
     <update id="deleteRenyuandangan" parameterType="cn.com.yuyang.bean.YuanGongBean">
         update renyuandangan
-        set zaiZhiZhuangTai=2,zhiWuId=0,buMenId=0
+        set zaiZhiZhuangTai=2,
+            zhiWuId=0,
+            buMenId=0
         where dangAnId = #{dangAnId}
     </update>
+
+    <select id="selectHaoYou" resultMap="getOneToOne">
+        select bm.buMenMingCheng,
+               ry.xingMing,
+               ry.jinJiLianXiDianHua,
+               zw.zhiWuMingCheng,
+               ry.beiZhu,
+               ry.youXiang,
+               ry.xingBie,
+               ry.touXiang,
+               dl.shouJiHaoMa,
+               dl.gongHao
+        from renyuandangan as ry
+                 join zhiwubiao as zw
+                 join denglu as dl
+                 join bumen as bm on ry.buMenId = bm.id and ry.zhiWuId = zw.id and ry.id = dl.dangAnId and ry.id = #{dangAnId}
+    </select>
+
+    <resultMap id="getOneToOne" type="cn.com.yuyang.pojo.Renyuandangan">
+        <id property="id" column="id"/>
+        <result property="jinJiLianXiDianHua" column="jinJiLianXiDianHua"/>
+        <result property="xingMing" column="xingMing"/>
+        <result property="beiZhu" column="beiZhu"/>
+        <result property="youXiang" column="youXiang"/>
+        <result property="xingBie" column="xingBie"/>
+        <result property="touXiang" column="touXiang"/>
+        <association property="denglu" javaType="cn.com.yuyang.pojo.Denglu">
+            <id property="id" column="id2"/>
+            <result property="dangAnId" column="dangAnId"/>
+            <result property="shouJiHaoMa" column="shouJiHaoMa"/>
+            <result property="gongHao" column="gongHao"/>
+        </association>
+        <association property="bumen" javaType="cn.com.yuyang.pojo.Bumen">
+            <id property="id" column="id3"/>
+            <result property="buMenMingCheng" column="buMenMingCheng"/>
+        </association>
+        <association property="zhiwubiao" javaType="cn.com.yuyang.pojo.Zhiwubiao">
+            <id property="id" column="id4"/>
+            <result property="zhiWuMingCheng" column="zhiWuMingCheng"/>
+        </association>
+    </resultMap>
 </mapper>

@@ -5,10 +5,19 @@ public class IdBean {
 
     private int dangAnId; //登陆者的人员档案id
 
+    private int buMenId; // 部门的id
     private String xingMing;   // 姓名
     private String shouJiHaoMa; // 手机号码
 
     private String token; //登录者的token
+
+    public int getBuMenId() {
+        return buMenId;
+    }
+
+    public void setBuMenId(int buMenId) {
+        this.buMenId = buMenId;
+    }
 
     public String getXingMing() {
         return xingMing;
