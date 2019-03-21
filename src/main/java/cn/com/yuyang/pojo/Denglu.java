@@ -1,7 +1,6 @@
 package cn.com.yuyang.pojo;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 public class Denglu {
 

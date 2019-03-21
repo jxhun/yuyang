@@ -28,7 +28,7 @@ public class DengLuService {
         dengluMapper.updateLogin(denglu);
     }
     //此方法是根据ID查询人员档案，跟职务信息
-    public  Denglu selectChaXun(Denglu denglu){
+    public  Denglu selectChaXun1(Denglu denglu){
         return  dengluMapper.selectChaXun1(denglu);
     }
 

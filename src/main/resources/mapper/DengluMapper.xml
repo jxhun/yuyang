@@ -130,7 +130,16 @@
         </association>
     </resultMap>
     <select id="loginByShoujiHaoMa" resultType="cn.com.yuyang.pojo.Denglu">
-        select * from denglu where shouJiHaoMa=${shouJiHaoMa} or gongHao=${gongHao};
+        select * from denglu
+        <where>
+            <if test="shouJiHaoMa!=null and shouJiHaoMa!=''">
+                shouJiHaoMa=${shouJiHaoMa}
+            </if>
+            <if test="gongHao!=null and gongHao!=''">
+                or gongHao=${gongHao}
+            </if>
+        </where>
+
     </select>
 
     <update id="updateLogin" parameterType="cn.com.yuyang.pojo.Denglu">
