@@ -6,6 +6,7 @@ import cn.com.yuyang.pojo.Denglu;
 import cn.com.yuyang.service.YuanGongGuanLiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,7 +23,8 @@ import java.util.Map;
  * Description:
  * Version: V1.0
  */
-@Controller("/renshi")
+@Controller
+@RequestMapping("/renshi")
 public class YuanGongGuanLiController {
 
 
@@ -31,7 +33,7 @@ public class YuanGongGuanLiController {
 
     @ResponseBody
     @RequestMapping(value = {"/quanchaxun"}, method = RequestMethod.POST)
-    public Map<String, Object> quanchaxun(YuanGongBean yuanGongBean, HttpServletRequest request){
+    public Map<String, Object> quanchaxun(@RequestBody(required = false)YuanGongBean yuanGongBean, HttpServletRequest request){
         List<Denglu> list = yuanGongGuanLiService.quanCha();
         Map<String,Object> map = new HashMap<>();
         map.put("Returncode",200);
@@ -44,24 +46,25 @@ public class YuanGongGuanLiController {
 
     @ResponseBody
     @RequestMapping(value = {"/tiaojiaochaxun"}, method = RequestMethod.POST)
-    public Map<String, Object> tiaojianchaxun(YuanGongBean yuanGongBean,HttpServletRequest request){
+    public Map<String, Object> tiaojianchaxun(@RequestBody(required = false)YuanGongBean yuanGongBean,HttpServletRequest request){
         List<Denglu> list = yuanGongGuanLiService.tiaoJainCha(yuanGongBean);
         Map<String,Object> map = new HashMap<>();
         map.put("Returncode",200);
         map.put("msg","成功");
         map.put("data",list);
-        map.put("token",yuanGongBean.getToken());
         return map;
     }
     @ResponseBody
-    @RequestMapping(value = {"/mingxi"}, method = RequestMethod.POST)
-    public Map<String, Object> mingxi(YuanGongBean yuanGongBean,HttpServletRequest request){
+    @RequestMapping(value = {"/mingxi"})
+    public Map<String, Object> mingxi(@RequestBody(required = false)YuanGongBean yuanGongBean, HttpServletRequest request){
+        System.out.println("~~~~~~mingxi~~~~~~~~~~~");
+        System.out.println(yuanGongBean.getDangAnId());
         List<Denglu> list = yuanGongGuanLiService.tiaoJainCha(yuanGongBean);
         Map<String,Object> map = new HashMap<>();
         map.put("Returncode",200);
         map.put("msg","成功");
         map.put("data",list);
-        map.put("token",yuanGongBean.getToken());
+//        map.put("token",yuanGongBean.getToken());
         return map;
     }
 
@@ -73,30 +76,27 @@ public class YuanGongGuanLiController {
         map.put("Returncode",200);
         map.put("msg",msg);
         map.put("data","");
-        map.put("token",yuanGongBean.getToken());
         return map;
     }
 
     @ResponseBody
     @RequestMapping(value = {"/delete"}, method = RequestMethod.POST)
-    public Map<String, Object> delete(YuanGongBean yuanGongBean,HttpServletRequest request){
+    public Map<String, Object> delete(@RequestBody(required = false)YuanGongBean yuanGongBean,HttpServletRequest request){
         String msg = yuanGongGuanLiService.shanchu(yuanGongBean);
         Map<String,Object> map = new HashMap<>();
         map.put("Returncode",200);
         map.put("msg",msg);
         map.put("data","");
-        map.put("token",yuanGongBean.getToken());
         return map;
     }
     @ResponseBody
     @RequestMapping(value = {"/xinzeng"}, method = RequestMethod.POST)
-    public Map<String, Object> xinzeng(YuanGongBean yuanGongBean,HttpServletRequest request){
+    public Map<String, Object> xinzeng(@RequestBody(required = false)YuanGongBean yuanGongBean,HttpServletRequest request){
         String msg = yuanGongGuanLiService.xinzeng(yuanGongBean);
         Map<String,Object> map = new HashMap<>();
         map.put("Returncode",200);
         map.put("msg",msg);
         map.put("data","");
-        map.put("token",yuanGongBean.getToken());
         return map;
     }
 

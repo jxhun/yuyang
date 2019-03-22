@@ -27,14 +27,13 @@ public class BuMenGuanLiController {
     private BuMenGuanLiService buMenGuanLiService;
 
     @ResponseBody
-    @RequestMapping(value = {"/shouye"}, method = RequestMethod.POST)
-    public Map<String, Object> shouye(@RequestBody Bumenbean bumen,HttpServletRequest request){
+    @RequestMapping(value = {"/shouye"})
+    public Map<String, Object> shouye(@RequestBody(required = false) Bumenbean bumen,HttpServletRequest request){
         List<Bumenbean> list = buMenGuanLiService.shouye();
         Map<String,Object> map = new HashMap<>();
         map.put("Returncode",200);
         map.put("msg","成功");
         map.put("data",list);
-        map.put("token",bumen.getToken());
         return map;
     }
 
@@ -48,7 +47,6 @@ public class BuMenGuanLiController {
         map.put("Returncode",200);
         map.put("msg","成功");
         map.put("data",list);
-        map.put("token",bumen.getToken());
         return map;
     }
 
@@ -61,7 +59,6 @@ public class BuMenGuanLiController {
         map.put("Returncode",200);
         map.put("msg",msg);
         map.put("data","");
-        map.put("token",bumen.getToken());
         return map;
     }
 
@@ -73,7 +70,6 @@ public class BuMenGuanLiController {
         map.put("Returncode",200);
         map.put("msg",msg);
         map.put("data","");
-        map.put("token",bumen.getToken());
         return map;
     }
 
@@ -86,7 +82,6 @@ public class BuMenGuanLiController {
         map.put("Returncode",200);
         map.put("msg",msg);
         map.put("data","");
-        map.put("token",bumen.getToken());
         return map;
     }
 
