@@ -1,6 +1,5 @@
 package cn.com.yuyang.controller;
 
-import cn.com.yuyang.bean.Bumenbean;
 import cn.com.yuyang.bean.YuanGongBean;
 import cn.com.yuyang.pojo.Denglu;
 import cn.com.yuyang.service.YuanGongGuanLiService;
