@@ -47,49 +47,44 @@ public class BuMenGuanLiService {
      */
     public List<Bumenbean> shouye() {
         System.out.println("Service--------method------shouye");
-        Bumen bumen = new Bumen();
-
+        Bumenbean bumen = new Bumenbean();
         return renyuandanganMapper.selectCount(bumen);
     }
 
     /** 条件查询指定部门信息
      *
-     * @param bum
+     * @param bumen
      * @return
      */
-    public List<Bumenbean> chaxun(Bumen bum) {
+    public List<Bumenbean> chaxun(Bumenbean bumen) {
         System.out.println("Service--------method------shouye");
-        Bumen bumen = new Bumen();
-        String buMenMingCheng = bum.getBuMenMingCheng();
+        String buMenMingCheng = bumen.getBuMenMingCheng();
         if (buMenMingCheng != null && buMenMingCheng.trim().equals("")) {
             buMenMingCheng = "%" + buMenMingCheng + "%";
             bumen.setBuMenMingCheng(buMenMingCheng);
         }
-
+        else{
+            bumen.setBuMenMingCheng(null);
+        }
         return renyuandanganMapper.selectCount(bumen);
     }
 
     /** 新增部门
      *
-     * @param bum
+     * @param bumen
      * @return
      */
 
-    public String xinzeng(Bumenbean bum) {
+    public String xinzeng(Bumenbean bumen) {
         System.out.println("Service--------method-----xinzeng");
 
-        String buMenMingCheng = bum.getBuMenMingCheng();
-        String buMenJianJie = bum.getBuMenJianJie();
         //查询负责人的信息，如果getId方法不能取到值，则该员工不存在
-        Renyuandangan renyuandangan = renyuandanganMapper.selectGeRenChaXun(bum);
+        Renyuandangan renyuandangan = renyuandanganMapper.selectGeRenChaXun(bumen);
         String msg = "";
         if (renyuandangan.getId() != 0) {
-            Bumen bumen = new Bumen();
-            bumen.setBuMenMingCheng(buMenMingCheng);
             //通过部门名称查询部门是否存在，不存在时再新增部门
             Integer inte = bumenMapper.selectOne(bumen);
             if (inte != 0) {
-                bumen.setBuMenJianJie(buMenJianJie);
                 bumen.setDangAnId(renyuandangan.getId());
                 bumen.setChuangJianShiJian(new Timestamp(System.currentTimeMillis()));
                 Integer i = bumenMapper.insertBuMen(bumen);
@@ -109,22 +104,15 @@ public class BuMenGuanLiService {
     }
 
 
-    public String bianji(Bumenbean bum) {
+    public String bianji(Bumenbean bumen) {
         System.out.println("Service--------method-----xinzeng");
-        long id = bum.getId();
-        String buMenMingCheng = bum.getBuMenMingCheng();
-        String buMenJianJie = bum.getBuMenJianJie();
         //查询负责人的信息，如果getId方法不能取到值，则该员工不存在
-        Renyuandangan renyuandangan = renyuandanganMapper.selectGeRenChaXun(bum);
+        Renyuandangan renyuandangan = renyuandanganMapper.selectGeRenChaXun(bumen);
         String msg = "";
         if (renyuandangan.getId() != 0) {
-            Bumen bumen = new Bumen();
-            bumen.setId(id);
-            bumen.setBuMenMingCheng(buMenMingCheng);
             //通过部门名称和部门id查询部门要修改的名称是否存在，不存在时再修改部门
             Integer inte = bumenMapper.selectOne(bumen);
             if (inte != 0) {
-                bumen.setBuMenJianJie(buMenJianJie);
                 bumen.setDangAnId(renyuandangan.getId());
                 bumen.setChuangJianShiJian(new Timestamp(System.currentTimeMillis()));
                 Integer i = bumenMapper.updateBuMen(bumen);

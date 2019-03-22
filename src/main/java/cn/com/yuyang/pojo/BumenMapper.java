@@ -1,30 +1,32 @@
 package cn.com.yuyang.pojo;
 
 
+import cn.com.yuyang.bean.Bumenbean;
+
 import java.util.List;
 
 public interface BumenMapper {
 
     /**
      * 查询部门是否存在
-     * @param bumen
+     * @param bumenbean
      * @return
      */
-    Integer selectOne(Bumen bumen);
+    Integer selectOne(Bumenbean bumenbean);
 
     /**
      * 插入新增部门
-     * @param bumen
+     * @param bumenbean
      * @return
      */
-    Integer insertBuMen(Bumen bumen);
+    Integer insertBuMen(Bumenbean bumenbean);
 
     /**
      * 修改部门
-     * @param bumen
+     * @param bumenbean
      * @return
      */
-    Integer updateBuMen(Bumen bumen);
+    Integer updateBuMen(Bumenbean bumenbean);
 
     /**
      * 删除部门

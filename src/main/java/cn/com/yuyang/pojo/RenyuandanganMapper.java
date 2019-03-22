@@ -2,6 +2,7 @@ package cn.com.yuyang.pojo;
 
 
 import cn.com.yuyang.bean.Bumenbean;
+import cn.com.yuyang.bean.YuanGongBean;
 
 import java.util.List;
 
@@ -23,8 +24,59 @@ public interface RenyuandanganMapper {
 
     /**
      * 查询部门人数,以及部门信息
-     * @param bumen
+     * @param bum
      * @return
      */
-    List<Bumenbean> selectCount(Bumen bumen);
+    List<Bumenbean> selectCount(Bumenbean bum);
+
+    /** 修改员工信息
+     *
+     * @param yuanGongBean
+     * @return
+     */
+    Integer updateYuanGong(YuanGongBean yuanGongBean);
+
+    /** 修改员工登录密码
+     *
+     * @param yuanGongBean
+     * @return
+     */
+    Integer updateDenglu(YuanGongBean yuanGongBean);
+
+    /** 停用员工登录
+     *
+     * @param yuanGongBean
+     * @return
+     */
+    Integer deleteDenglu(YuanGongBean yuanGongBean);
+
+
+    /** 删除员工信息
+     *
+     * @param yuanGongBean
+     * @return
+     */
+    Integer deleteRenyuandangan(YuanGongBean yuanGongBean);
+
+    /** 添加员工档案
+     *
+     * @param yuanGongBean
+     * @return
+     */
+    Integer insertRenyuandangan(YuanGongBean yuanGongBean);
+
+    /** 添加员工登录信息
+     *
+     * @param yuanGongBean
+     * @return
+     */
+    Integer insertDenglu(YuanGongBean yuanGongBean);
+
+    /**查找员工的档案ID
+     *
+     * @param yuanGongBean
+     * @return
+     */
+    long selectId(YuanGongBean yuanGongBean);
+
 }

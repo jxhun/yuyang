@@ -60,19 +60,194 @@
         where r.xingMing = #{xingMing}
     </select>
 
-    <select id="selectCount"  resultType="cn.com.yuyang.bean.Bumenbean"
+    <select id="selectCount" resultType="cn.com.yuyang.bean.Bumenbean"
             parameterType="cn.com.yuyang.pojo.Bumen">
         select
         count(r.id),
+        r.xingMing,
         b.id,
         b.dangAnId,
         b.buMenMingCheng,
         b.buMenJianJie,
         b.chuangJianShiJian
         from renyuandangan as r join bumen as b where r.buMenId = b.id
+        <if test="id!=0">
+            and b.id=#{id}
+        </if>
         <if test="buMenMingCheng!=null and buMenMingCheng!=''">
             and b.buMenMingCheng like #{buMenMingCheng}
         </if>
         group by buMenId
+    </select>
+
+
+    <update id="updateYuanGong" parameterType="cn.com.yuyang.bean.YuanGongBean">
+        update renyuandangan
+        <set>
+            <if test="xingMing!=null and xingMing!=''">
+                xingMing=#{xingMing},
+            </if>
+            <if test="jiGuan!=null and jiGuan!=''">
+                jiGuan=#{jiGuan},
+            </if>
+            <if test="minZu!=null and minZu!=''">
+                minZu=#{minZu},
+            </if>
+            <if test="shenFenZheng!=null and shenFenZheng!=''">
+                shenFenZheng=#{shenFenZheng},
+            </if>
+            <if test="youXiang!=null and youXiang!=''">
+                youXiang=#{youXiang},
+            </if>
+            <if test="xianZhuZhi!=null and xianZhuZhi!=''">
+                xianZhuZhi=#{xianZhuZhi},
+            </if>
+            <if test="biYeYuanXiao!=null and biYeYuanXiao!=''">
+                biYeYuanXiao=#{biYeYuanXiao},
+            </if>
+            <if test="zaiZhiZhuangTai!=0">
+                zaiZhiZhuangTai=#{zaiZhiZhuangTai},
+            </if>
+            <if test="nianLing!=0">
+                nianLing=#{nianLing},
+            </if>
+            <if test="xueLi!=null and xueLi!=''">
+                xueLi=#{xueLi},
+            </if>
+            <if test="zhengZhiMianMao!=null and zhengZhiMianMao!=''">
+                zhengZhiMianMao=#{zhengZhiMianMao},
+            </if>
+            <if test="ruZhiShiJian!=null and ruZhiShiJian!=''">
+                ruZhiShiJian=#{ruZhiShiJian},
+            </if>
+            <if test="shengRi!=null and shengRi!=''">
+                shengRi=#{shengRi},
+            </if>
+            <if test="xingBie!=null and xingBie!=''">
+                xingBie=#{xingBie},
+            </if>
+            <if test="hunYin!=null and hunYin!=''">
+                hunYin=#{hunYin},
+            </if>
+            <if test="heTongDaoQiShiJian!=null and heTongDaoQiShiJian!=''">
+                heTongDaoQiShiJian=#{heTongDaoQiShiJian},
+            </if>
+            <if test="jinJiLianXiDianHua!=null and jinJiLianXiDianHua!=''">
+                jinJiLianXiDianHua=#{jinJiLianXiDianHua},
+            </if>
+            <if test="beiZhu!=null and beiZhu!=''">
+                beiZhu=#{beiZhu},
+            </if>
+            <if test="touXiang!=null and touXiang!=''">
+                touXiang=#{touXiang},
+            </if>
+            <if test="zhiWuId!=null and zhiWuId!=''">
+                zhiWuId=#{zhiWuId},
+            </if>
+            <if test="buMenId!=null and buMenId!=''">
+                buMenId=#{buMenId},
+            </if>
+        </set>
+        where id=#{dangAnId}
+    </update>
+
+    <update id="updateDenglu" parameterType="cn.com.yuyang.bean.YuanGongBean">
+        update denglu
+        <set>
+            <if test="shouJiHaoMa!=null and shouJiHaoMa!=''">
+                shouJiHaoMa=#{shouJiHaoMa},
+            </if>
+            <if test="miMa!=null and miMa!=''">
+                miMa=#{miMa}
+            </if>
+            <if test="zhuangTai!=0'">
+                zhuangTai=#{zhuangTai}
+            </if>
+        </set>
+        where dangAnId=#{dangAnId}
+    </update>
+    <update id="deleteDenglu" parameterType="cn.com.yuyang.bean.YuanGongBean">
+        update denglu
+        set zhuangTai= -1
+        where dangAnId = #{dangAnId}
+    </update>
+    <update id="deleteRenyuandangan" parameterType="cn.com.yuyang.bean.YuanGongBean">
+        update renyuandangan
+        set zaiZhiZhuangTai=2,
+            zhiWuId=0,
+            buMenId=0
+        where dangAnId = #{dangAnId}
+    </update>
+    <insert id="insertRenyuandangan" parameterType="cn.com.yuyang.bean.YuanGongBean">
+        insert into renyuandangan
+        (xingMing,
+         ruZhiShiJian,
+         heTongDaoQiShiJian,
+         xingBie,
+         shengRi,
+         jinJiLianXiDianHua,
+         xianZhuZhi,
+         xueLi,
+         youXiang,
+         biYeYuanXiao,
+         zaiZhiZhuangTai,
+         minZu,
+         jiGuan,
+         shenFenZheng,
+         zhengZhiMianMao,
+         hunYin,
+         nianLing,
+         beiZhu,
+         zhiWuId,
+         buMenId,
+         touXiang)
+        VALUES (#{xingMing},
+                #{ruZhiShiJian},
+                #{heTongDaoQiShiJian},
+                #{xingBie},
+                #{shengRi},
+                #{jinJiLianXiDianHua},
+                #{xianZhuZhi},
+                #{xueLi},
+                #{youXiang},
+                #{biYeYuanXiao},
+                #{zaiZhiZhuangTai},
+                #{minZu},
+                #{jiGuan},
+                #{shenFenZheng},
+                #{zhengZhiMianMao},
+                #{hunYin},
+                #{nianLing},
+                #{beiZhu},
+                #{zhiWuId},
+                #{buMenId},
+                #{touXiang})
+    </insert>
+    <insert id="insertDenglu" parameterType="cn.com.yuyang.bean.YuanGongBean">
+        insert into denglu
+        (dangAnId,
+         miMa,
+         dengLuCiShu,
+         zuiHouYiCiDengLuShiJian,
+         cuoWuCiShu,
+         dongJieShiJian,
+         zhuangTai,
+         gongHao,
+         shouJiHaoMa)
+        VALUES (#{dangAnId},
+                #{miMa},
+                #{dengLuCiShu},
+                #{zuiHouYiCiDengLuShiJian},
+                #{cuoWuCiShu},
+                #{dongJieShiJian},
+                #{zhuangTai},
+                #{gongHao},
+                #{shouJiHaoMa})
+    </insert>
+    <select id="selectId" resultType="java.lang.Long"
+            parameterType="cn.com.yuyang.bean.YuanGongBean">
+        select id
+        from renyuandangan
+        where shenFenZheng = #{shengFenZheng}
     </select>
 </mapper>

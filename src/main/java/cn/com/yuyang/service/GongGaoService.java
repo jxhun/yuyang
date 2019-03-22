@@ -1,5 +1,6 @@
 package cn.com.yuyang.service;
 
+import cn.com.yuyang.bean.Bumenbean;
 import cn.com.yuyang.bean.GongGaoBean;
 import cn.com.yuyang.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,7 +78,7 @@ public class GongGaoService {
      * @return
      */
     public Integer selectBuMenId(GongGaoBean gongGaoBean) {
-        Bumen bumen = new Bumen(); // 这个对象是为了调用部门mapper中的 部门查询方法，由于该模块只有一个需要用到部门对象的地方，不考虑直接注入
+        Bumenbean bumen = new Bumenbean(); // 这个对象是为了调用部门mapper中的 部门查询方法，由于该模块只有一个需要用到部门对象的地方，不考虑直接注入
         bumen.setBuMenMingCheng(gongGaoBean.getBuMenMingCheng());  // 存入部门名称到bumen对象
 //        bumen.setBuMenMingCheng("科技部");
         return bumenMapper.selectOne(bumen);                  // 调用查询方法查询部门id

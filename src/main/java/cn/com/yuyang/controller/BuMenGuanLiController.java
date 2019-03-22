@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,61 +27,73 @@ public class BuMenGuanLiController {
     private BuMenGuanLiService buMenGuanLiService;
 
     @ResponseBody
-    @RequestMapping(value = {"/shouye"}, method = {RequestMethod.GET,RequestMethod.POST})
-    public Map<String, Object> shouye(){
+    @RequestMapping(value = {"/shouye"}, method = RequestMethod.POST)
+    public Map<String, Object> shouye(@RequestBody Bumenbean bumen,HttpServletRequest request){
         List<Bumenbean> list = buMenGuanLiService.shouye();
         Map<String,Object> map = new HashMap<>();
         map.put("Returncode",200);
         map.put("msg","成功");
         map.put("data",list);
+        map.put("token",bumen.getToken());
         return map;
     }
 
 
     @ResponseBody
-    @RequestMapping(value = {"/chaxun"}, method = {RequestMethod.GET,RequestMethod.POST})
-    public Map<String, Object> chaxun(@RequestBody Bumen bumen){
+    @RequestMapping(value = {"/chaxun"}, method = RequestMethod.POST)
+    public Map<String, Object> chaxun(@RequestBody Bumenbean bumen,HttpServletRequest request){
+
         List<Bumenbean> list = buMenGuanLiService.chaxun(bumen);
         Map<String,Object> map = new HashMap<>();
         map.put("Returncode",200);
         map.put("msg","成功");
         map.put("data",list);
+        map.put("token",bumen.getToken());
         return map;
     }
 
 
     @ResponseBody
-    @RequestMapping(value = {"/xinzeng"}, method = {RequestMethod.GET,RequestMethod.POST})
-    public Map<String, Object> xinzeng(@RequestBody Bumenbean bum){
-        String msg = buMenGuanLiService.xinzeng(bum);
+    @RequestMapping(value = {"/xinzeng"}, method = RequestMethod.POST)
+    public Map<String, Object> xinzeng(@RequestBody Bumenbean bumen,HttpServletRequest request){
+        String msg = buMenGuanLiService.xinzeng(bumen);
         Map<String,Object> map = new HashMap<>();
         map.put("Returncode",200);
         map.put("msg",msg);
         map.put("data","");
+        map.put("token",bumen.getToken());
         return map;
     }
 
     @ResponseBody
-    @RequestMapping(value = {"/bianji"}, method = {RequestMethod.GET,RequestMethod.POST})
-    public Map<String, Object> bianji(@RequestBody Bumenbean bum){
-        String msg = buMenGuanLiService.bianji(bum);
+    @RequestMapping(value = {"/bianji"}, method = RequestMethod.POST)
+    public Map<String, Object> bianji(@RequestBody Bumenbean bumen,HttpServletRequest request){
+        String msg = buMenGuanLiService.bianji(bumen);
         Map<String,Object> map = new HashMap<>();
         map.put("Returncode",200);
         map.put("msg",msg);
         map.put("data","");
+        map.put("token",bumen.getToken());
         return map;
     }
 
 
     @ResponseBody
-    @RequestMapping(value = {"/shanchu"}, method = {RequestMethod.GET,RequestMethod.POST})
-    public Map<String, Object> shanchu(@RequestBody Bumenbean bum){
-        String msg = buMenGuanLiService.shanchu(bum);
+    @RequestMapping(value = {"/shanchu"}, method = RequestMethod.POST)
+    public Map<String, Object> shanchu(@RequestBody Bumenbean bumen,HttpServletRequest request){
+        String msg = buMenGuanLiService.shanchu(bumen);
         Map<String,Object> map = new HashMap<>();
         map.put("Returncode",200);
         map.put("msg",msg);
         map.put("data","");
+        map.put("token",bumen.getToken());
         return map;
     }
 
+
+
+    public int quanxian(String quanxian,HttpServletRequest request){
+        int i = (Integer) request.getSession().getAttribute(quanxian);
+        return i;
+    }
 }
