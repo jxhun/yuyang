@@ -2,6 +2,7 @@ package cn.com.yuyang.pojo;
 
 
 import cn.com.yuyang.bean.Bumenbean;
+import cn.com.yuyang.bean.IdBean;
 import cn.com.yuyang.bean.YuanGongBean;
 
 import java.util.List;
@@ -58,25 +59,14 @@ public interface RenyuandanganMapper {
      */
     Integer deleteRenyuandangan(YuanGongBean yuanGongBean);
 
-    /** 添加员工档案
-     *
-     * @param yuanGongBean
-     * @return
-     */
-    Integer insertRenyuandangan(YuanGongBean yuanGongBean);
+    Renyuandangan selectHaoYou(IdBean idBean);
 
-    /** 添加员工登录信息
-     *
+    /**
+     * 重载这个方法，用于个人设置个人查询
      * @param yuanGongBean
      * @return
      */
-    Integer insertDenglu(YuanGongBean yuanGongBean);
+    Renyuandangan selectHaoYou(YuanGongBean yuanGongBean);
 
-    /**查找员工的档案ID
-     *
-     * @param yuanGongBean
-     * @return
-     */
-    long selectId(YuanGongBean yuanGongBean);
 
 }

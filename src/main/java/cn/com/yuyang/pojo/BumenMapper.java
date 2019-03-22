@@ -2,6 +2,7 @@ package cn.com.yuyang.pojo;
 
 
 import cn.com.yuyang.bean.Bumenbean;
+import cn.com.yuyang.bean.IdBean;
 
 import java.util.List;
 
@@ -35,4 +36,7 @@ public interface BumenMapper {
      */
     long deleteBuMen(long id);
 
+    List<Bumen> selectBuMen();
+
+    Bumen selectRenYuan(IdBean idBean);
 }

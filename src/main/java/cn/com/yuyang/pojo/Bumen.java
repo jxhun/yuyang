@@ -1,6 +1,8 @@
 package cn.com.yuyang.pojo;
 
 
+import java.util.List;
+
 public class Bumen {
 
   private long id;
@@ -8,6 +10,16 @@ public class Bumen {
   private String buMenJianJie;
   private long dangAnId;
   private java.sql.Timestamp chuangJianShiJian;
+
+  private List<Renyuandangan> renyuandanganList;
+
+  public List<Renyuandangan> getRenyuandanganList() {
+    return renyuandanganList;
+  }
+
+  public void setRenyuandanganList(List<Renyuandangan> renyuandanganList) {
+    this.renyuandanganList = renyuandanganList;
+  }
 
   private Renyuandangan renyuandangan;
 

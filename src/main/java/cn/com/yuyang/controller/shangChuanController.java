@@ -41,7 +41,8 @@ public class shangChuanController {
         request.getSession().setAttribute(SessionKey.FUJIANDIZHI,"/img/" + luJingHouZui);  // 传入工程内路径到session
         if (originalFilename != null && (originalFilename.endsWith(".doc") || originalFilename.endsWith(".docx") ||
                 originalFilename.endsWith(".xls") || originalFilename.endsWith(".xlsx"))) {
-            luJingQianZui = "F:/ideaProject/yuyang/src/main/webapp/office/";  // office文件上传路径前缀
+            luJingQianZui = "F:/ideaProject/yuyang/src/" +
+                    "main/webapp/office/";  // office文件上传路径前缀
             request.getSession().setAttribute(SessionKey.FUJIANDIZHI,"/office/" + luJingHouZui);  // 传入工程内路径到session
         }
 

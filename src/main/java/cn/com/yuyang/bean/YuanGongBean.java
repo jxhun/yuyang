@@ -12,10 +12,10 @@ import java.sql.Date;
 public class YuanGongBean {
     private long dangAnId;
     private String xingMing;
-    private java.sql.Date ruZhiShiJian;
-    private java.sql.Date heTongDaoQiShiJian;
+    private Date ruZhiShiJian;
+    private Date heTongDaoQiShiJian;
     private String xingBie;
-    private java.sql.Date shengRi;
+    private Date shengRi;
     private String jinJiLianXiDianHua;
     private String xianZhuZhi;
     private String xueLi;

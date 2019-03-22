@@ -31,7 +31,6 @@
         </association>
     </resultMap>
 
-
     <select id="selectGeRenChaXun" resultType="cn.com.yuyang.pojo.Renyuandangan"
             parameterType="cn.com.yuyang.bean.Bumenbean">
         select r.id,
@@ -64,22 +63,17 @@
             parameterType="cn.com.yuyang.pojo.Bumen">
         select
         count(r.id),
-        r.xingMing,
         b.id,
         b.dangAnId,
         b.buMenMingCheng,
         b.buMenJianJie,
         b.chuangJianShiJian
         from renyuandangan as r join bumen as b where r.buMenId = b.id
-        <if test="id!=0">
-            and b.id=#{id}
-        </if>
         <if test="buMenMingCheng!=null and buMenMingCheng!=''">
             and b.buMenMingCheng like #{buMenMingCheng}
         </if>
         group by buMenId
     </select>
-
 
     <update id="updateYuanGong" parameterType="cn.com.yuyang.bean.YuanGongBean">
         update renyuandangan
@@ -178,76 +172,54 @@
             buMenId=0
         where dangAnId = #{dangAnId}
     </update>
-    <insert id="insertRenyuandangan" parameterType="cn.com.yuyang.bean.YuanGongBean">
-        insert into renyuandangan
-        (xingMing,
-         ruZhiShiJian,
-         heTongDaoQiShiJian,
-         xingBie,
-         shengRi,
-         jinJiLianXiDianHua,
-         xianZhuZhi,
-         xueLi,
-         youXiang,
-         biYeYuanXiao,
-         zaiZhiZhuangTai,
-         minZu,
-         jiGuan,
-         shenFenZheng,
-         zhengZhiMianMao,
-         hunYin,
-         nianLing,
-         beiZhu,
-         zhiWuId,
-         buMenId,
-         touXiang)
-        VALUES (#{xingMing},
-                #{ruZhiShiJian},
-                #{heTongDaoQiShiJian},
-                #{xingBie},
-                #{shengRi},
-                #{jinJiLianXiDianHua},
-                #{xianZhuZhi},
-                #{xueLi},
-                #{youXiang},
-                #{biYeYuanXiao},
-                #{zaiZhiZhuangTai},
-                #{minZu},
-                #{jiGuan},
-                #{shenFenZheng},
-                #{zhengZhiMianMao},
-                #{hunYin},
-                #{nianLing},
-                #{beiZhu},
-                #{zhiWuId},
-                #{buMenId},
-                #{touXiang})
-    </insert>
-    <insert id="insertDenglu" parameterType="cn.com.yuyang.bean.YuanGongBean">
-        insert into denglu
-        (dangAnId,
-         miMa,
-         dengLuCiShu,
-         zuiHouYiCiDengLuShiJian,
-         cuoWuCiShu,
-         dongJieShiJian,
-         zhuangTai,
-         gongHao,
-         shouJiHaoMa)
-        VALUES (#{dangAnId},
-                #{miMa},
-                #{dengLuCiShu},
-                #{zuiHouYiCiDengLuShiJian},
-                #{cuoWuCiShu},
-                #{dongJieShiJian},
-                #{zhuangTai},
-                #{gongHao},
-                #{shouJiHaoMa})
-    </insert>
-    <select id="selectId" resultType="java.lang.Long"
-            parameterType="cn.com.yuyang.bean.YuanGongBean">
-        select id
-        from renyuandangan
-        where shenFenZheng = #{shengFenZheng}
+
+    <select id="selectHaoYou" resultMap="getOneToOne">
+        select bm.buMenMingCheng,
+               ry.xingMing,
+               ry.jinJiLianXiDianHua,
+               zw.zhiWuMingCheng,
+               ry.beiZhu,
+               ry.youXiang,
+               ry.xingBie,
+               ry.touXiang,
+               dl.shouJiHaoMa,
+               dl.gongHao,
+               ry.ruZhiShiJian,
+               ry.xueLi,
+               ry.id,
+               ry.nianLing
+        from renyuandangan as ry
+                 join zhiwubiao as zw
+                 join denglu as dl
+                 join bumen as bm on ry.buMenId = bm.id and ry.zhiWuId = zw.id and ry.id = dl.dangAnId and ry.id = #{dangAnId}
     </select>
+
+    <resultMap id="getOneToOne" type="cn.com.yuyang.pojo.Renyuandangan">
+        <id property="id" column="id"/>
+        <result property="jinJiLianXiDianHua" column="jinJiLianXiDianHua"/>
+        <result property="xingMing" column="xingMing"/>
+        <result property="beiZhu" column="beiZhu"/>
+        <result property="youXiang" column="youXiang"/>
+        <result property="xingBie" column="xingBie"/>
+        <result property="touXiang" column="touXiang"/>
+        <result property="ruZhiShiJian" column="ruZhiShiJian"/>
+        <result property="xueLi" column="xueLi"/>
+        <result property="nianLing" column="nianLing"/>
+        <association property="denglu" javaType="cn.com.yuyang.pojo.Denglu">
+            <id property="id" column="id2"/>
+            <result property="dangAnId" column="dangAnId"/>
+            <result property="shouJiHaoMa" column="shouJiHaoMa"/>
+            <result property="gongHao" column="gongHao"/>
+        </association>
+        <association property="bumen" javaType="cn.com.yuyang.pojo.Bumen">
+            <id property="id" column="id3"/>
+            <result property="buMenMingCheng" column="buMenMingCheng"/>
+        </association>
+        <association property="zhiwubiao" javaType="cn.com.yuyang.pojo.Zhiwubiao">
+            <id property="id" column="id4"/>
+            <result property="zhiWuMingCheng" column="zhiWuMingCheng"/>
+        </association>
+    </resultMap>
+
+
 </mapper>

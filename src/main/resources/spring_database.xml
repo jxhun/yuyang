@@ -16,9 +16,9 @@
     <!--1. 配置数据源:阿里数据源  -->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/oadb" />
+        <property name="url" value="jdbc:mysql://120.79.192.122:3306/oadb" />
         <property name="username" value="root" />
-        <property name="password" value="1234" />
+        <property name="password" value="root" />
     </bean>
 
     <!--2. 配置mybatis的SqlSession的工厂: SqlSessionFactoryBean dataSource:引用数据源 -->

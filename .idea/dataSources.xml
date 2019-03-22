@@ -15,11 +15,11 @@
         <property name="yearIsDateType" value="false" />
       </driver-properties>
     </data-source>
-    <data-source source="LOCAL" name="oadb@localhost [2]" uuid="16c56e02-75d7-4d8a-a89b-a2f06dd3ac54">
+    <data-source source="LOCAL" name="oadb@120.79.192.122" uuid="09c65a0c-e90d-4b17-b9a1-dbc2dd403b26">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/oadb</jdbc-url>
+      <jdbc-url>jdbc:mysql://120.79.192.122:3306/oadb</jdbc-url>
       <driver-properties>
         <property name="autoReconnect" value="true" />
         <property name="zeroDateTimeBehavior" value="convertToNull" />

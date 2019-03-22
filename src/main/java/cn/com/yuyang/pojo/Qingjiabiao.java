@@ -5,7 +5,7 @@ public class Qingjiabiao {
 
   private long id;
   private long shenQingRen;
-  private String _LeiXing;
+  private String LeiXing;
   private java.sql.Date qiShiShiJian;
   private java.sql.Date zhongZhiShiJian;
   private String qingJiaShiYou;
@@ -33,12 +33,12 @@ public class Qingjiabiao {
   }
 
 
-  public String get_LeiXing() {
-    return _LeiXing;
+  public String getLeiXing() {
+    return LeiXing;
   }
 
-  public void set_LeiXing(String _LeiXing) {
-    this._LeiXing = _LeiXing;
+  public void setLeiXing(String LeiXing) {
+    this.LeiXing = LeiXing;
   }
 
 

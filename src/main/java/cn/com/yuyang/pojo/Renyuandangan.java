@@ -26,8 +26,16 @@ public class Renyuandangan {
     private long buMenId;
     private String touXiang;
     private Zhiwubiao zhiwubiao;
+    private Denglu denglu;
 
 
+    public Denglu getDenglu() {
+        return denglu;
+    }
+
+    public void setDenglu(Denglu denglu) {
+        this.denglu = denglu;
+    }
 
     private Bumen bumen;
 

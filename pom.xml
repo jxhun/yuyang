@@ -149,6 +149,20 @@
       <version>2.4</version>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.5.6</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/dom4j/dom4j -->
+    <dependency>
+      <groupId>dom4j</groupId>
+      <artifactId>dom4j</artifactId>
+      <version>1.6.1</version>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -225,5 +239,19 @@
 
       </plugins>
     </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.tomcat.maven</groupId>
+        <artifactId>tomcat7-maven-plugin</artifactId>
+        <configuration>
+          <url>http://localhost:8080/manager/text</url>
+          <server>tomcat</server>
+          <username>tomcat</username>
+          <password>tomcat</password>
+          <path>/${programName}</path>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 </project>
