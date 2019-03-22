@@ -221,5 +221,7 @@
         </association>
     </resultMap>
 
-
+    <select id="chaXunBuMenId" resultType="java.lang.Integer">
+        select buMenId from oadb.renyuandangan where id=#{dangAnId};
+    </select>
 </mapper>

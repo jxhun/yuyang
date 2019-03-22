@@ -1,6 +1,7 @@
 package cn.com.yuyang.pojo;
 
 
+import cn.com.yuyang.bean.YanZhengMaBean;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -16,8 +17,8 @@ public interface DengluMapper {
     //登录成功更新登录成功次数和登录成功时间
     void updateLogin(Denglu denglu);
 
-    //判断手机号码或者工号是否存在
-    Denglu loginByShoujiHaoMa(Denglu denglu);
+    //判断手机号码或者工号是否存在loginByShoujiHaoMa
+    Denglu loginByShoujiHaoMa(YanZhengMaBean yanZhengMaBean);
 
     //根据ID查询登录表，人员档案表，职务表里面的信息
     Denglu selectChaXun1(Denglu denglu);
@@ -33,4 +34,7 @@ public interface DengluMapper {
 
     //根据ID更新解冻状态
     void updateJieDong(Denglu denglu);
+
+    //根据手机号码查询对应的验证码
+    Denglu selectByYanZhengMa(YanZhengMaBean yanZhengMaBean);
 }

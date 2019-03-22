@@ -2,6 +2,7 @@ package cn.com.yuyang.pojo;
 
 
 import cn.com.yuyang.bean.Bumenbean;
+import cn.com.yuyang.bean.GongGaoBean;
 import cn.com.yuyang.bean.IdBean;
 import cn.com.yuyang.bean.YuanGongBean;
 
@@ -68,5 +69,5 @@ public interface RenyuandanganMapper {
      */
     Renyuandangan selectHaoYou(YuanGongBean yuanGongBean);
 
-
+    Integer chaXunBuMenId(GongGaoBean gongGaoBean);
 }

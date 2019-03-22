@@ -29,15 +29,19 @@ public class GongGaoService {
     @Autowired
     private final BumenMapper bumenMapper;  // 用于新增公告里面通过部门名称查询部门id
 
+    @Autowired
+    private final RenyuandanganMapper renyuandanganMapper;  // 用于通过档案id查询得到部门id
+
     /**
      * 构造方法注入gonggaoMapper,bumenMapper对象
      *
      * @param gonggaoMapper 公告mapper
      * @param bumenMapper   部门mapper
      */
-    public GongGaoService(GonggaoMapper gonggaoMapper, BumenMapper bumenMapper) {
+    public GongGaoService(GonggaoMapper gonggaoMapper, BumenMapper bumenMapper, RenyuandanganMapper renyuandanganMapper) {
         this.gonggaoMapper = gonggaoMapper;
         this.bumenMapper = bumenMapper;
+        this.renyuandanganMapper = renyuandanganMapper;
         System.out.println("-----GongGaoService()------");
     }
 
@@ -76,9 +80,9 @@ public class GongGaoService {
     public Integer selectBuMenId(GongGaoBean gongGaoBean) {
         Bumenbean bumen = new Bumenbean(); // 这个对象是为了调用部门mapper中的 部门查询方法，由于该模块只有一个需要用到部门对象的地方，不考虑直接注入
         bumen.setBuMenMingCheng(gongGaoBean.getBuMenMingCheng());  // 存入部门名称到bumen对象
-        try{  // 如果数据库中有两个相同的部门，那么得到的结果就不是一条，会抛出MyBatisSystemException异常，现捕获
+        try {  // 如果数据库中有两个相同的部门，那么得到的结果就不是一条，会抛出MyBatisSystemException异常，现捕获
             return bumenMapper.selectOne(bumen); // 如果查询结果无异常，那么直接返回
-        }catch (MyBatisSystemException e){
+        } catch (MyBatisSystemException e) {
             return -1;                  // 查询失败
         }
 
@@ -117,6 +121,7 @@ public class GongGaoService {
 
     /**
      * 公告 删除方法
+     *
      * @param gongGaoBean 存入公告id和登录人员档案id的公告bean
      * @return 成功返回1 失败返回0
      */
@@ -126,19 +131,31 @@ public class GongGaoService {
 
     /**
      * 查询个人已发布或者未发布的公告方法，或者通过条件查询公告
+     *
      * @param gongGaoBean 存入有公告id，公告状态或者souSuo内容
      * @return Gonggao类集合list
      */
-    public List<Gonggao> geRenGongGaoZhuangTai(GongGaoBean gongGaoBean){
+    public List<Gonggao> geRenGongGaoZhuangTai(GongGaoBean gongGaoBean) {
         return gonggaoMapper.geRenGongGaoZhuangTai(gongGaoBean); // 调用发布公告方法
     }
 
     /**
      * 修改公告方法
+     *
      * @param gongGaoBean 存入了前段传入的参数
      * @return 成功返回1
      */
-    public Integer updateGongGao(GongGaoBean gongGaoBean){
+    public Integer updateGongGao(GongGaoBean gongGaoBean) {
         return gonggaoMapper.updateGongGao(gongGaoBean);
+    }
+
+    /**
+     * 通过档案id查询部门id方法
+     *
+     * @param gongGaoBean 存入了前段传入的参数
+     * @return 成功返回部门id
+     */
+    public Integer chaXunBuMenId(GongGaoBean gongGaoBean) {
+        return renyuandanganMapper.chaXunBuMenId(gongGaoBean);
     }
 }

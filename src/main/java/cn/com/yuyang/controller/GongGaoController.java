@@ -49,15 +49,18 @@ public class GongGaoController {
 //        request.getSession().setAttribute(SessionKey.DANGANID, 1);
         Map<String, Object> returnMap = new HashMap<>();
         // 如果token不为空,说明用户已经登录,并且前端的token必须和我session的token相同
-        if (gongGaoBean != null && token != null && token.equals(gongGaoBean.getToken())) {
-            int buMenId = (int) request.getSession().getAttribute(SessionKey.BUMENID); // 得到部门id
-            int dangAnId = (int) request.getSession().getAttribute(SessionKey.DANGANID); // 得到档案id
-            // 调用查询公告方法，传入登录人的档案id以及他的部门id，他能查看得到他自己发布的和他本部门能查看的公告
+//        if (gongGaoBean != null && token != null && token.equals(gongGaoBean.getToken())) {
+//            int buMenId = (int) request.getSession().getAttribute(SessionKey.BUMENID); // 得到部门id
+//            int dangAnId = (int) request.getSession().getAttribute(SessionKey.DANGANID); // 得到档案id
+        // 调用查询公告方法，传入登录人的档案id以及他的部门id，他能查看得到他自己发布的和他本部门能查看的公告
+        System.out.println("---DANGANID---" + gongGaoBean.getDangAnId());
+        Integer buMenId = gongGaoService.chaXunBuMenId(gongGaoBean);
+        if (buMenId != 0) {
             gongGaoBean.setBuMenId(buMenId);  // 登录人的部门id存入bean对象
-            gongGaoBean.setDangAnId(dangAnId);//登录人的档案id存入bean对象
+//            gongGaoBean.setDangAnId();//登录人的档案id存入bean对象
             List<Gonggao> list = gongGaoService.selectGongGao(gongGaoBean);  // 调用查询公告方法传入 公告bean对象
-            returnMap.put("yiFaBuTiaoShu", gongGaoService.selectGongGaoFaBu(dangAnId, 1));  // 得到已发布的条数,并且存入map
-            returnMap.put("weiFaBuTiaoShu", gongGaoService.selectGongGaoFaBu(dangAnId, 0));  // 得到未发布的条数,并且存入map
+            returnMap.put("yiFaBuTiaoShu", gongGaoService.selectGongGaoFaBu(gongGaoBean.getDangAnId(), 1));  // 得到已发布的条数,并且存入map
+            returnMap.put("weiFaBuTiaoShu", gongGaoService.selectGongGaoFaBu(gongGaoBean.getDangAnId(), 0));  // 得到未发布的条数,并且存入map
             returnMap.put("returncode", 200);   // 成功状态码200
             returnMap.put("msg", "成功,注意里面的id是每条公告的id，需要隐藏存储在前端每条公告里面，如果用户点击公告需传入这个id和浏览数来修改浏览次数");     // 消息提示成功
             int zongYeShu = list.size() / 3 + 1; // 数据库中查到公告的总条数除以每页条数 + 1 为总页数
@@ -67,9 +70,14 @@ public class GongGaoController {
             returnMap.put("ZongYeShu", zongYeShu);
             returnMap.put("data", list);   // data数据中将list封装进去
         } else {
-            returnMap.put("returncode", -1);   // 成功状态码-1
-            returnMap.put("msg", "登录状态已超时或者前端未传数据");     // 消息提示如果比对不成功，那么说明要么登录超时，session已到时
+            returnMap.put("returncode", -2);   // 成功状态码200
+            returnMap.put("msg", "登录人没有部门，请检查该人员是否入职");     // 消息提示成功
         }
+
+//        } else {
+//            returnMap.put("returncode", -1);   // 成功状态码-1
+//            returnMap.put("msg", "登录状态已超时或者前端未传数据");     // 消息提示如果比对不成功，那么说明要么登录超时，session已到时
+//        }
         return returnMap;
     }
 
@@ -239,23 +247,23 @@ public class GongGaoController {
         if (gongGaoBean != null && token != null && token.equals(gongGaoBean.getToken()) &&
                 (Integer) request.getSession().getAttribute(SessionKey.FABUXIUGAIGONGGAO) == 1) {
             int dangAnId = (int) request.getSession().getAttribute(SessionKey.DANGANID); // 得到档案id
-        if (!gongGaoBean.getBuMenMingCheng().equals("全体员工")) {  // 如果前端传入的部门名称不为全体员工，那么就调用查询部门id方法得到部门id
-            Integer buMenId = gongGaoService.selectBuMenId(gongGaoBean);
-            if (buMenId != -1) {  // 如果查询结果不为-1，那么说明查询成功
-                gongGaoBean.setBuMenId(buMenId);  // 调用查询部门id方法，得到部门id并存入gongGaoBean对象
-            } else {  // 如果查询结果为-1，那么直接返回状态码-100提醒前端数据库出错
-                returnMap.put("returncode", -100);   // 成功状态码200
-                returnMap.put("msg", "数据库异常，数据库存在多个相同的部门名称");     // 消息提示上传成功
-                return returnMap;
+            if (!gongGaoBean.getBuMenMingCheng().equals("全体员工")) {  // 如果前端传入的部门名称不为全体员工，那么就调用查询部门id方法得到部门id
+                Integer buMenId = gongGaoService.selectBuMenId(gongGaoBean);
+                if (buMenId != -1) {  // 如果查询结果不为-1，那么说明查询成功
+                    gongGaoBean.setBuMenId(buMenId);  // 调用查询部门id方法，得到部门id并存入gongGaoBean对象
+                } else {  // 如果查询结果为-1，那么直接返回状态码-100提醒前端数据库出错
+                    returnMap.put("returncode", -100);   // 成功状态码200
+                    returnMap.put("msg", "数据库异常，数据库存在多个相同的部门名称");     // 消息提示上传成功
+                    return returnMap;
+                }
             }
-        }
-        if (gongGaoService.updateGongGao(gongGaoBean) == 1) { // 调用修改方法并判断，如果结果为1那么就代表修改成功
-            returnMap.put("returncode", 200);   // 成功状态码200
-            returnMap.put("msg", "200修改成功");     // 消息提示上传成功
-        } else {
-            returnMap.put("returncode", 0);   // 成功状态码200
-            returnMap.put("msg", "0修改失败，登录人的id和发布人多的id不匹配");     // 消息提示上传成功
-        }
+            if (gongGaoService.updateGongGao(gongGaoBean) == 1) { // 调用修改方法并判断，如果结果为1那么就代表修改成功
+                returnMap.put("returncode", 200);   // 成功状态码200
+                returnMap.put("msg", "200修改成功");     // 消息提示上传成功
+            } else {
+                returnMap.put("returncode", 0);   // 成功状态码200
+                returnMap.put("msg", "0修改失败，登录人的id和发布人多的id不匹配");     // 消息提示上传成功
+            }
         } else {
             returnMap.put("returncode", -1);   // 成功状态码-1
             returnMap.put("msg", "登录状态已超时或者前端未传数据");     // 消息提示如果比对不成功，那么说明要么登录超时，session已到时

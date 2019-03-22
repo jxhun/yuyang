@@ -1,16 +1,23 @@
 package cn.com.yuyang.service;
 
 
+import cn.com.yuyang.bean.YanZhengMaBean;
 import cn.com.yuyang.pojo.Denglu;
 import cn.com.yuyang.pojo.DengluMapper;
+import cn.com.yuyang.util.SessionKey;
+import cn.com.yuyang.util.ToKen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DengLuService {
     private final DengluMapper dengluMapper;
+
 
 
     @Autowired
@@ -20,8 +27,8 @@ public class DengLuService {
     }
 
     //此方法根据手机号码或者工号查询用户是否存在,true代表存在，false不存在
-    public Denglu loginByShoujiHaoMa(Denglu denglu ){
-        return dengluMapper.loginByShoujiHaoMa(denglu);
+    public Denglu loginByShoujiHaoMa(YanZhengMaBean yanZhengMaBean ){
+        return dengluMapper.loginByShoujiHaoMa(yanZhengMaBean);
     }
     //此方法是为了判断用户登录成功之后登录次数与登录时间更新是否成功
     public void updateLogin(Denglu denglu){
@@ -42,17 +49,44 @@ public class DengLuService {
         dengluMapper.updateDongJie(denglu);
     }
 
-    public  Denglu selectByDongJiShiJiaan(Denglu denglu){
-        return  dengluMapper.selectByDongJiShiJiaan(denglu);
+    //解冻此方法 ，参数为登录表
+    public  void  updateJieDong(Denglu denglu){
+        dengluMapper.updateJieDong(denglu);
+
     }
 
-    public  void  updateJieDong(Denglu denglu){
-        System.out.println("000000000000============"+denglu.getZhuangTai());
-        dengluMapper.updateJieDong(denglu);
+    //根据手机号码查询对应的验证码
+    public  Denglu selectByYanZhengMa(YanZhengMaBean yanZhengMaBean){
+
+        return  dengluMapper.selectByYanZhengMa(yanZhengMaBean);
+    }
+
+
+    //此方法为登录成功，在session中设置权限
+    public Map<String, Object> setQuanXian(Denglu denglu1, HttpServletRequest request){
+        Map<String ,Object> map = new HashMap<>();
+        request.getSession().setAttribute(SessionKey.DENGLUID, denglu1.getId());
+        request.getSession().setAttribute(SessionKey.DANGANID, denglu1.getDangAnId());// 登录成功后传入session的登录id
+        request.getSession().setAttribute(SessionKey.CHAKANKAOQIN, denglu1.getRenyuandangan().getZhiwubiao().getChaKanKaoQin());
+        request.getSession().setAttribute(SessionKey.QINGJIASHENPI, denglu1.getRenyuandangan().getZhiwubiao().getQinJiaShenPi());
+        request.getSession().setAttribute(SessionKey.QUANXIANGUANLI, denglu1.getRenyuandangan().getZhiwubiao().getQuanXianGuanLi());
+        request.getSession().setAttribute(SessionKey.CHAKANYUANGONG, denglu1.getRenyuandangan().getZhiwubiao().getChaKanYuanGong());
+        request.getSession().setAttribute(SessionKey.CAOZUOYUANGONG, denglu1.getRenyuandangan().getZhiwubiao().getCaoZuoYuanGong());
+        request.getSession().setAttribute(SessionKey.FABUXIUGAIGONGGAO, denglu1.getRenyuandangan().getZhiwubiao().getFaBuXiuGaiGongGao());
+        request.getSession().setAttribute(SessionKey.DAIBANSHIXIANG, denglu1.getRenyuandangan().getZhiwubiao().getDaiBanShiXiang());
+        request.getSession().setAttribute(SessionKey.TOKEN, ToKen.toKen());
+        request.getSession().setAttribute(SessionKey.XINGMING, denglu1.getRenyuandangan().getXingMing());
+        request.getSession().setAttribute(SessionKey.BUMENID, denglu1.getRenyuandangan().getBuMenId());
+        map.put("returncode", "200");
+        map.put("msg", "登录成功");
+        map.put("data", denglu1);
+        map.put("toKen", ToKen.toKen());
+        return map;
 
     }
 
     public DengluMapper getDengluMapper() {
         return dengluMapper;
     }
+
 }
