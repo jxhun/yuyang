@@ -31,7 +31,7 @@ public class YuanGongGuanLiController {
     private YuanGongGuanLiService yuanGongGuanLiService;
 
     @ResponseBody
-    @RequestMapping(value = {"/quanchaxun"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/quanchaxun"})
     public Map<String, Object> quanchaxun(@RequestBody(required = false)YuanGongBean yuanGongBean, HttpServletRequest request){
         List<Denglu> list = yuanGongGuanLiService.quanCha();
         Map<String,Object> map = new HashMap<>();
