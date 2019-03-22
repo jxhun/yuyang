@@ -5,6 +5,7 @@ import cn.com.yuyang.bean.GeRenKaoQinBean;
 import cn.com.yuyang.bean.KaoQinGuanLiBean;
 
 import java.util.List;
+import java.util.Map;
 
 public interface KaoqinMapper {
 
@@ -23,5 +24,7 @@ public interface KaoqinMapper {
     List<Kaoqin> selectBing(GeRenKaoQinBean geRenKaoQinBean);
 
     List<Kaoqin> selectKaoQinGuanLi(KaoQinGuanLiBean kaoQinGuanLiBean);
+
+    Map<String,Integer> selectCount(String dangAnId);
 
 }

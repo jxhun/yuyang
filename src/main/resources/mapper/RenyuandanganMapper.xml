@@ -224,4 +224,84 @@
     <select id="chaXunBuMenId" resultType="java.lang.Integer">
         select buMenId from oadb.renyuandangan where id=#{dangAnId};
     </select>
+
+    <insert id="insertRenyuandangan" parameterType="cn.com.yuyang.bean.YuanGongBean">
+        insert into renyuandangan
+        (xingMing,
+         ruZhiShiJian,
+         heTongDaoQiShiJian,
+         xingBie,
+         shengRi,
+         jinJiLianXiDianHua,
+         xianZhuZhi,
+         xueLi,
+         youXiang,
+         biYeYuanXiao,
+         zaiZhiZhuangTai,
+         minZu,
+         jiGuan,
+         shenFenZheng,
+         zhengZhiMianMao,
+         hunYin,
+         nianLing,
+         beiZhu,
+         zhiWuId,
+         buMenId,
+         touXiang)
+        values (#{xingMing},
+                #{ruZhiShiJian},
+                #{heTongDaoQiShiJian},
+                #{xingBie},
+                #{shengRi},
+                #{jinJiLianXiDianHua},
+                #{xianZhuZhi},
+                #{xueLi},
+                #{youXiang},
+                #{biYeYuanXiao},
+                #{zaiZhiZhuangTai},
+                #{minZu},
+                #{jiGuan},
+                #{shenFenZheng},
+                #{zhengZhiMianMao},
+                #{hunYin},
+                #{nianLing},
+                #{beiZhu},
+                #{zhiWuId},
+                #{buMenId},
+                #{touXiang});
+    </insert>
+    <select id="selectId" resultType="java.lang.Long"
+            parameterType="cn.com.yuyang.bean.YuanGongBean">
+        select id
+        from renyuandangan
+        where shenFenZheng = #{shenFenZheng};
+    </select>
+    <insert id="insertDenglu" parameterType="cn.com.yuyang.bean.YuanGongBean">
+        insert into denglu
+        (dangAnId,
+         miMa,
+         dengLuCiShu,
+         zuiHouYiCiDengLuShiJian,
+         cuoWuCiShu;
+        dongJieShiJian
+        ,
+        zhuangTai,
+        gongHao,
+        shouJiHaoMa,
+        token
+        )
+        values
+        (
+        #{dangAnId},
+        #{miMa},
+        #{dengLuCiShu},
+        #{zuiHouYiCiDengLuShiJian},
+        #{cuoWuCiShu};
+        #{dongJieShiJian},
+        #{zhuangTai},
+        #{gongHao},
+        #{shouJiHaoMa},
+        #{token}
+        )
+    </insert>
 </mapper>

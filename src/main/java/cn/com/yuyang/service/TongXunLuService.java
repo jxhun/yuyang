@@ -51,10 +51,11 @@ public class TongXunLuService {
      */
     public List<Map<String, Object>> chaXunTongXunLu(IdBean idBean) {
         List<Map<String, Object>> mapList = new ArrayList<>();  // 这个list用来封装取出结果的map
-        // 如果姓名或者手机号码不为空，那么说明用户点击了搜索并传入了数据,
+        // 如果姓名或者手机号码不为空，也不为空字符串，那么说明用户点击了搜索并传入了数据,
         // 如果部门id不为0，那么说明用户点击了部门，那么就通过这个部门id查询部门下的人员
         // 这两个判断放一起的原因是因为，如果用户点击搜索那么就不会传入部门id，如果用户点击部门那么也不会传入手机号码或者姓名
-        if (idBean != null && (idBean.getXingMing() != null || idBean.getShouJiHaoMa() != null || idBean.getBuMenId() != 0)) {
+        if (idBean != null && (idBean.getXingMing() != null && !idBean.getXingMing().trim().equals("") ||
+                idBean.getShouJiHaoMa() != null && !idBean.getShouJiHaoMa().trim().equals("") || idBean.getBuMenId() != 0)) {
             Bumen bumen = bumenMapper.selectRenYuan(idBean);  // 调用查询人员方法,一对多
             List<Renyuandangan> renyuandanganList = bumen.getRenyuandanganList(); // 得到人员list
             for (Renyuandangan ry : renyuandanganList) {

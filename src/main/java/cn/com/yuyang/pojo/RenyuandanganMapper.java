@@ -70,4 +70,25 @@ public interface RenyuandanganMapper {
     Renyuandangan selectHaoYou(YuanGongBean yuanGongBean);
 
     Integer chaXunBuMenId(GongGaoBean gongGaoBean);
+
+    /** 将新增员工信息插入人员档案表
+     *
+     * @param yuanGongBean
+     * @return
+     */
+    Integer insertRenyuandangan(YuanGongBean yuanGongBean);
+
+    /** 通过身份证，查出员工的档案id
+     *
+     * @param yuanGongBean
+     * @return
+     */
+    long selectId(YuanGongBean yuanGongBean);
+
+    /** 将员工登录信息插入登录表
+     *
+     * @param yuanGongBean
+     * @return
+     */
+    Integer insertDenglu(YuanGongBean yuanGongBean);
 }

@@ -69,4 +69,18 @@
             and dangTianRiQi like concat(#{date},'%')
         </if>
     </select>
+    <resultMap id="countList" type="HashMap">
+        <result column="countChiDao" property="chiDao"/>
+        <result column="countZaoTui" property="zaoTui"/>
+        <result column="countQueQin" property="queQin"/>
+        <result column="countQingJia" property="qingJia"/>
+    </resultMap>
+    <select id="selectCount" resultMap="countList">
+        select s1.countChiDao,s2.countZaoTui,s3.countQueQin,s4.countQingJia
+        from
+            (select count(id) as countChiDao from kaoqin where zhuangTai=2 and dangAnId=#{dangAnId}) as s1,
+            (select count(id) as countZaoTui from kaoqin where zhuangTai=3 and dangAnId=#{dangAnId}) as s2,
+            (select count(id) as countQueQin from kaoqin where zhuangTai=0 and dangAnId=#{dangAnId}) as s3,
+            (select count(id) as countQingJia from kaoqin where qingJiaZhuangTai != '正常' and dangAnId=#{dangAnId}) as s4
+    </select>
 </mapper>

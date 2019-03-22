@@ -79,8 +79,8 @@ public class TongXunLuController {
         Map<String, Object> returnMap = new HashMap<>();
         // 如果token不为空,说明用户已经登录,并且前端的token必须和我session的token相同
 //        if (idBean != null && token != null && token.equals(idBean.getToken())) {
-        idBean = new IdBean();
-        idBean.setDangAnId(1);
+//        idBean = new IdBean();
+//        idBean.setDangAnId(1);
         System.out.println("---idBean-----" + idBean.getDangAnId());
         Map<String, Object> map = tongXunLuService.selectHaoYou(idBean);
         returnMap.put("returncode", 200);
