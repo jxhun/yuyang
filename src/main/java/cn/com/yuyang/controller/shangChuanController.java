@@ -1,7 +1,9 @@
 package cn.com.yuyang.controller;
 
+import cn.com.yuyang.bean.IdBean;
 import cn.com.yuyang.util.SessionKey;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,19 +36,20 @@ public class shangChuanController {
     //    2、执行上传操作
     @RequestMapping(value = {"/executeImport"}, method = RequestMethod.POST)
     @ResponseBody
-    public String executeImport(MultipartFile articleFile, HttpServletRequest request) throws Exception {
+    public String executeImport(@RequestBody MultipartFile articleFile, HttpServletRequest request) throws Exception {
         String originalFilename = articleFile.getOriginalFilename();
         String luJingHouZui = System.currentTimeMillis() + originalFilename.substring(originalFilename.indexOf("."));// 文件存储路径后缀
-        String luJingQianZui = "F:/ideaProject/yuyang/src/main/webapp/img/";  // 图片上传路径前缀
-        request.getSession().setAttribute(SessionKey.FUJIANDIZHI,"/img/" + luJingHouZui);  // 传入工程内路径到session
+        String jueDuiLuJing = request.getSession().getServletContext().getRealPath(File.separator) + File.separator;
+        String luJingQianZui = "img" + File.separator;  // 图片上传路径前缀
+//        System.out.println(luJingQianZui);
+        request.getSession().setAttribute(SessionKey.FUJIANDIZHI, "/img/" + luJingHouZui);  // 传入工程内路径到session
         if (originalFilename != null && (originalFilename.endsWith(".doc") || originalFilename.endsWith(".docx") ||
                 originalFilename.endsWith(".xls") || originalFilename.endsWith(".xlsx"))) {
-            luJingQianZui = "F:/ideaProject/yuyang/src/" +
-                    "main/webapp/office/";  // office文件上传路径前缀
-            request.getSession().setAttribute(SessionKey.FUJIANDIZHI,"/office/" + luJingHouZui);  // 传入工程内路径到session
+            luJingQianZui = "office" + File.separator;  // office文件上传路径前缀
+            request.getSession().setAttribute(SessionKey.FUJIANDIZHI, "/office/" + luJingHouZui);  // 传入工程内路径到session
         }
-
-        File file = new File(luJingQianZui + luJingHouZui);
+        File file = new File(jueDuiLuJing + luJingQianZui + luJingHouZui);
+//        System.out.println(luJingHouZui);
         try {
             articleFile.transferTo(file);
             return "true";

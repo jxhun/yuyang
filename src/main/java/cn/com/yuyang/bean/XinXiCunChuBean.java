@@ -3,6 +3,7 @@ package cn.com.yuyang.bean;
 import java.sql.Timestamp;
 
 public class XinXiCunChuBean {
+    private int id;             //信息的id
     private int faXinId;        //发信人id
     private int shouXinId;      //收信人id
     private String xinXiBiaoTi; //信息标题
@@ -14,6 +15,14 @@ public class XinXiCunChuBean {
     private int shouJianRenShouCangZhuangTai;   //收件人收藏状态
     private int faJianRenShouCangZhuangTai;     //发件人收藏状态
     private int yiDuZhuangTai;              //已读状态
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getFaXinId() {
         return faXinId;

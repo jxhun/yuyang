@@ -24,7 +24,7 @@ public class MessageController {
         this.messageService = messageService;
     }
     //调用此接口，获取用户收件箱所有未删除信息
-    @RequestMapping(value = {"/dingshihuoqu"})
+    @RequestMapping(value = {"/dingshihuoqu"},produces ="application/json;charset=UTF-8")
     @ResponseBody
     public Map<String, Object> dingShiHuoQu(String method,@RequestBody IdBean idBean, HttpServletRequest request) {
         Integer did=(Integer) request.getSession().getAttribute(SessionKey.DANGANID);  //从session中获取登陆者的id
@@ -49,7 +49,7 @@ public class MessageController {
     }
 
     //调用此接口，返回用户收件箱满足搜索条件的未删除信息
-    @RequestMapping(value = {"/sousuo"})
+    @RequestMapping(value = {"/sousuo"},produces ="application/json;charset=UTF-8")
     @ResponseBody
     public Map<String, Object> souSuo(@RequestBody XinXiSouSuoBean xinXiSouSuoBean, HttpServletRequest request) {
         Integer did=(Integer) request.getSession().getAttribute(SessionKey.DANGANID);  //从session中获取登陆者的id
@@ -71,7 +71,7 @@ public class MessageController {
         return map;
     }
     //调用此接口，获取该条信息的详细情况
-    @RequestMapping(value = {"/xiangxixinxi"})
+    @RequestMapping(value = {"/xiangxixinxi"},produces ="application/json;charset=UTF-8")
     @ResponseBody
     public Map<String, Object> xiangXiXinXi(@RequestBody XiangXiXinXiBean xiangXiXinXiBean, HttpServletRequest request) {
         Integer did=(Integer) request.getSession().getAttribute(SessionKey.DANGANID);  //从session中获取登陆者的id
@@ -81,7 +81,7 @@ public class MessageController {
         map.put("returncode", 200);
         map.put("msg","正常请求");
         XinXiBean xinXiBean = messageService.selectXiangQing(xiangXiXinXiBean);//获取该条信息的所有信息
-        Map map1 = new HashMap();
+        Map<String, Object> map1 = new HashMap<>();
         map1.put("id",xinXiBean.getId());
         map1.put("faXinId",xinXiBean.getFaXinId());
         map1.put("faJianRenXingMing",xinXiBean.getFaJianRenXingMing());
@@ -105,7 +105,7 @@ public class MessageController {
     }
 
     //调用此接口，从用户收件箱或者发件箱批量或者单独删除信息
-    @RequestMapping(value = {"/shanchu"})
+    @RequestMapping(value = {"/shanchu"},produces ="application/json;charset=UTF-8")
     @ResponseBody
     public Map<String, Object> shanChu(@RequestBody XinXiShanChuBean xinXiShanChuBean, HttpServletRequest request) {
         Integer did=(Integer) request.getSession().getAttribute(SessionKey.DANGANID);  //从session中获取登陆者的id
@@ -125,7 +125,7 @@ public class MessageController {
         return map;
     }
     //调用此接口，收藏或者取消收藏此条信息
-    @RequestMapping(value = {"/shoucang"})
+    @RequestMapping(value = {"/shoucang"},produces ="application/json;charset=UTF-8")
     @ResponseBody
     public Map<String, Object> shouCang(@RequestBody XinXiShouCangBean xinXiShouCangBean, HttpServletRequest request) {
         Integer did=(Integer) request.getSession().getAttribute(SessionKey.DANGANID);  //从session中获取登陆者的id
@@ -145,14 +145,18 @@ public class MessageController {
 
         return map;
     }
-    //调用此接口，回复信息
-    @RequestMapping(value = {"/huifu"})
+
+
+
+
+    //调用此接口，回复信息,或者发送信息，并将发送的信息存入数据库
+    @RequestMapping(value = {"/huifu","/fasongxinxi"},produces ="application/json;charset=UTF-8")
     @ResponseBody
     public Map<String, Object> huiFu(@RequestBody XinXiFaSongBean xinXiFaSongBean, HttpServletRequest request) {
         Integer did=(Integer) request.getSession().getAttribute(SessionKey.DANGANID);  //从session中获取登陆者的id
-        Map map=new HashMap();
+        Map<String, Object> map=new HashMap<>();
 //        if(id==did){          //如果档案id和前台传过来的id相同，调用信息发送方法，并如下组装map
-        messageService.faSongXinXi(xinXiFaSongBean,request.getSession());
+        messageService.faSongXinXi(xinXiFaSongBean,request.getSession());   //
         map.put("returncode", 200);
         map.put("msg","正常请求");
 
@@ -166,7 +170,7 @@ public class MessageController {
     }
 
     //调用此接口，获取用户所有已发送的未删除信息
-    @RequestMapping(value = {"/yifaxinxi"})
+    @RequestMapping(value = {"/yifaxinxi"},produces ="application/json;charset=UTF-8")
     @ResponseBody
     public Map<String, Object> yiFaXinXi(@RequestBody IdBean idBean, HttpServletRequest request) {
         Integer did=(Integer) request.getSession().getAttribute(SessionKey.DANGANID);  //从session中获取登陆者的id
@@ -187,7 +191,7 @@ public class MessageController {
     }
 
     //访问此接口，返回满足搜索条件的所有已发的未删除信息
-    @RequestMapping(value = {"/yifaxinxisousuo"})
+    @RequestMapping(value = {"/yifaxinxisousuo"},produces ="application/json;charset=UTF-8")
     @ResponseBody
     public Map<String, Object> yiFaXinXiSouSuo(@RequestBody XinXiSouSuoBean xinXiSouSuoBean, HttpServletRequest request) {
         Integer did=(Integer) request.getSession().getAttribute(SessionKey.DANGANID);  //从session中获取登陆者的id
@@ -207,7 +211,7 @@ public class MessageController {
         return map;
     }
     //调用此接口，返回该用户所有收藏的未删除信息
-    @RequestMapping(value = {"/xinxishoucang"})
+    @RequestMapping(value = {"/xinxishoucang"},produces ="application/json;charset=UTF-8")
     @ResponseBody
     public Map<String, Object> xinXiShouCang(@RequestBody IdBean idBean, HttpServletRequest request) {
         Integer did=(Integer) request.getSession().getAttribute(SessionKey.DANGANID);  //从session中获取登陆者的id
@@ -228,7 +232,7 @@ public class MessageController {
     }
 
     //调用此接口，按条件搜索该用户收藏的未删除信息，并返回
-    @RequestMapping(value = {"/xinxishoucangsousuo"})
+    @RequestMapping(value = {"/xinxishoucangsousuo"},produces ="application/json;charset=UTF-8")
     @ResponseBody
     public Map<String, Object> xinXiShouCangSouSuo(@RequestBody XinXiSouSuoBean xinXiSouSuoBean, HttpServletRequest request) {
         Integer did=(Integer) request.getSession().getAttribute(SessionKey.DANGANID);  //从session中获取登陆者的id
@@ -248,7 +252,7 @@ public class MessageController {
         return map;
     }
     //调用此接口，返回该用户所有草稿箱信息
-    @RequestMapping(value = {"/xinxicaogaoxiang"})
+    @RequestMapping(value = {"/xinxicaogaoxiang"},produces ="application/json;charset=UTF-8")
     @ResponseBody
     public Map<String, Object> xinXiCaoGaoXiang(@RequestBody IdBean idBean, HttpServletRequest request) {
         Integer did=(Integer) request.getSession().getAttribute(SessionKey.DANGANID);  //从session中获取登陆者的id
@@ -267,8 +271,8 @@ public class MessageController {
 
         return map;
     }
-    //调用此方法，删除草稿箱的信件
-    @RequestMapping(value = {"/caogaoxiangshanchu"})
+    //调用此接口，删除草稿箱的信件
+    @RequestMapping(value = {"/caogaoxiangshanchu"},produces ="application/json;charset=UTF-8")
     @ResponseBody
     public Map<String, Object> caoGaoXiangShanChu(@RequestBody XinXiShanChuBean xinXiShanChuBean, HttpServletRequest request) {
         Integer did=(Integer) request.getSession().getAttribute(SessionKey.DANGANID);  //从session中获取登陆者的id
@@ -286,8 +290,8 @@ public class MessageController {
         return map;
     }
 
-    //调用此方法，按条件搜索草稿箱内容
-    @RequestMapping(value = {"/xinxicaogaoxiangsousuo"})
+    //调用此接口，按条件搜索草稿箱内容
+    @RequestMapping(value = {"/xinxicaogaoxiangsousuo"},produces ="application/json;charset=UTF-8")
     @ResponseBody
     public Map<String, Object> xinXiCaoGaoXiangSouSuo(@RequestBody XinXiSouSuoBean xinXiSouSuoBean, HttpServletRequest request) {
         Integer did=(Integer) request.getSession().getAttribute(SessionKey.DANGANID);  //从session中获取登陆者的id
@@ -307,6 +311,73 @@ public class MessageController {
         return map;
     }
 
+    //调用此接口，将信件放入草稿箱
+    @RequestMapping(value = {"/caogao"},produces ="application/json;charset=UTF-8")
+    @ResponseBody
+    public Map<String, Object> caoGao(@RequestBody XinXiFaSongBean xinXiFaSongBean, HttpServletRequest request) {
+        Integer did=(Integer) request.getSession().getAttribute(SessionKey.DANGANID);  //从session中获取登陆者的id
+        Map<String, Object> map=new HashMap<>();
+//        if(id==did){          //如果档案id和前台传过来的id相同，调用信息发送方法，并如下组装map
+        messageService.cunRuCaoGao(xinXiFaSongBean);
+        map.put("returncode", 200);
+        map.put("msg","正常请求");
+
+//        }
+//        else {                        //如果该用户档案id和前台传来的id不同，则返回错误信息；
+//            map.put("returncode", -1);
+//            map.put("msg","访问超时，请重新登陆");
+//        }
+
+        return map;
+    }
+
+    //获取公司所有人的姓名，工号，档案id
+    @RequestMapping(value = {"/shoujianren"},produces ="application/json;charset=UTF-8")
+    @ResponseBody
+    public Map<String, Object> shouJianRen(@RequestBody IdBean idBean, HttpServletRequest request) {
+        Integer did=(Integer) request.getSession().getAttribute(SessionKey.DANGANID);  //从session中获取登陆者的id
+        Map<String, Object> map=new HashMap<>();
+//        if(id==did){          //如果档案id和前台传过来的id相同，调用信息发送方法，并如下组装map
+        List<ShouJianRenBean> list = messageService.selectShouJianRen(idBean);  //以bean对象形式返回所有收件人的姓名，工号，档案id
+        map.put("returncode", 200);
+        map.put("msg","正常请求");
+        map.put("data",list);
+
+//        }
+//        else {                        //如果该用户档案id和前台传来的id不同，则返回错误信息；
+//            map.put("returncode", -1);
+//            map.put("msg","访问超时，请重新登陆");
+//        }
+
+        return map;
+    }
+
+
+
+
+    @RequestMapping(value = {"caogaoxiangfasong"},produces ="application/json;charset=UTF-8")
+    @ResponseBody
+    public Map<String, Object> caoGaoXiangFaSong(@RequestBody CaoGaoFaSongBean caoGaoFaSongBean, HttpServletRequest request) {
+        Integer did=(Integer) request.getSession().getAttribute(SessionKey.DANGANID);  //从session中获取登陆者的id
+        Map<String, Object> map=new HashMap<>();
+//        if(id==did){          //如果档案id和前台传过来的id相同，调用信息发送方法，并如下组装map
+        messageService.faSongCaoGao(caoGaoFaSongBean,request.getSession());   //
+        map.put("returncode", 200);
+        map.put("msg","正常请求");
+
+//        }
+//        else {                        //如果该用户档案id和前台传来的id不同，则返回错误信息；
+//            map.put("returncode", -1);
+//            map.put("msg","访问超时，请重新登陆");
+//        }
+
+        return map;
+    }
+
+
+
+
+
 
 
 
@@ -319,7 +390,7 @@ public class MessageController {
     public String executeImport(MultipartFile articleFile,HttpServletRequest request) throws Exception {
         String originalFilename = articleFile.getOriginalFilename();
         System.out.println("name      ="+originalFilename);
-        String luJing = "C:/Users/macan/IdeaProjects/yuyang/src/main/webapp/img/";  // 图片上传路径
+        String luJing = "C:/";  // 图片上传路径
         if (originalFilename != null || originalFilename.endsWith(".doc") || originalFilename.endsWith(".docx") ||
                 originalFilename.endsWith(".xls") || originalFilename.endsWith(".xlsx")) {
             luJing = "C:/Users/macan/IdeaProjects/yuyang/src/main/webapp/office/";  // office文件上传路径
@@ -343,7 +414,7 @@ public class MessageController {
         if (uri.equals("/msg/dingshihuoqu") ||uri.equals("/msg/sousuo")){
             for (XinXiBean xinXiBean:list
             ) {
-                Map map = new HashMap();
+                Map<String, Object> map = new HashMap<>();
                 map.put("id",xinXiBean.getId());
                 map.put("faXinId",xinXiBean.getFaXinId());
                 map.put("shouXinId",xinXiBean.getShouXinId());
@@ -359,11 +430,11 @@ public class MessageController {
                 arrayList.add(map);
             }
         }
-        else if (uri.equals("/msg/yifaxinxi")||uri.equals("yifaxinxisousuo")){
+        else if (uri.equals("/msg/yifaxinxi")||uri.equals("/msg/yifaxinxisousuo")){
             for (XinXiBean xinXiBean:list
             ) {
 
-                Map map = new HashMap();
+                Map<String, Object> map = new HashMap<>();
                 map.put("id",xinXiBean.getId());
                 map.put("faXinId",xinXiBean.getFaXinId());
                 map.put("xinXiBiaoTi",xinXiBean.getXinXiBiaoTi());
@@ -381,7 +452,7 @@ public class MessageController {
             for (XinXiBean xinXiBean:list
             ) {
 
-                Map map = new HashMap();
+                Map<String, Object> map = new HashMap<>();
                 map.put("id",xinXiBean.getId());
                 map.put("faXinId",xinXiBean.getFaXinId());
                 map.put("shouXinId",xinXiBean.getShouXinId());
@@ -403,13 +474,12 @@ public class MessageController {
             for (XinXiBean xinXiBean:list
             ) {
 
-                Map map = new HashMap();
+                Map<String, Object> map = new HashMap<>();
                 map.put("id",xinXiBean.getId());
                 map.put("faXinId",xinXiBean.getFaXinId());
                 map.put("shouXinId",xinXiBean.getShouXinId());
                 map.put("xinXiBiaoTi",xinXiBean.getXinXiBiaoTi());
                 map.put("xinXiNeiRong",xinXiBean.getXinXiNeiRong());
-                map.put("xinXiShiJian",xinXiBean.getXinXiShiJian().toString());
                 map.put("fuJianDiZhi",xinXiBean.getFuJianDiZhi());
                 map.put("shouCangZhuangTai",xinXiBean.getFaJianRenShouCangZhuangTai());
                 map.put("faJianRenXingMing",xinXiBean.getFaJianRenXingMing());

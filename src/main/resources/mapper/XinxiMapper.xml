@@ -7,7 +7,7 @@
                x.shouXinId, (select renyuandangan.xingMing from renyuandangan where
             x.shouXinId =renyuandangan.id) as shouJianRenXingMing, x.xinXiNeiRong,x.yiDuZhuangTai,
                x.xinXiShiJian,x.fuJianDiZhi,x.id,x.shouJianRenShouCangZhuangTai,x.faJianRenShouCangZhuangTai from xinxi x where x.shouXinId =#{id}
-                                                                                                                            and (x.zhuangTai =0 or x.zhuangTai= 1) and x.faSongZhuangTai=1;
+      and (x.zhuangTai =0 or x.zhuangTai= 1) and x.faSongZhuangTai=1;
     </select>
 
 
@@ -30,30 +30,33 @@
     <select id="selecetXiangQing" parameterType="cn.com.yuyang.bean.XiangXiXinXiBean"
             resultType="cn.com.yuyang.bean.XinXiBean">
         select  x.faXinId,(SELECT renyuandangan.xingMing from renyuandangan where
-            x.faXinId=renyuandangan.id)as faJianRenXingMing,x.xinXiBiaoTi,x.faSongZhuangTai,
-                x.shouXinId, (select renyuandangan.xingMing from renyuandangan where
-            x.shouXinId =renyuandangan.id) as shouJianRenXingMing, x.xinXiNeiRong,x.yiDuZhuangTai,
-                x.xinXiShiJian,x.fuJianDiZhi,x.id,x.shouJianRenShouCangZhuangTai,x.faJianRenShouCangZhuangTai
+        x.faXinId=renyuandangan.id)as faJianRenXingMing,x.xinXiBiaoTi,x.faSongZhuangTai,
+        x.shouXinId, (select renyuandangan.xingMing from renyuandangan where
+        x.shouXinId =renyuandangan.id) as shouJianRenXingMing, x.xinXiNeiRong,x.yiDuZhuangTai,
+        x.xinXiShiJian,x.fuJianDiZhi,x.id,x.shouJianRenShouCangZhuangTai,x.faJianRenShouCangZhuangTai
         from xinxi x where ((x.shouXinId =#{id} and (x.zhuangTai =0 or x.zhuangTai =1) and x.faSongZhuangTai =1)
-            or (x.faXinId =#{id} and (x.zhuangTai=0 or x.zhuangTai=2)))
-                       and x.id=#{xinXiId};
+        or (x.faXinId =#{id} and (x.zhuangTai=0 or x.zhuangTai=2)))
+        and x.id=#{xinXiId};
     </select>
     <update id="yiDu" parameterType="cn.com.yuyang.bean.XiangXiXinXiBean">
         update xinxi set yiDuZhuangTai =1 where id =#{xinXiId} and shouXinId = #{id}
     </update>
+
+
+
     <insert id="faSongXinXi" >
         insert into xinxi(faXinId, shouXinId, xinXiBiaoTi, xinXiNeiRong, zhuangTai, xinXiShiJian, fuJianDiZhi, faSongZhuangTai, shouJianRenShouCangZhuangTai, faJianRenShouCangZhuangTai, yiDuZhuangTai)
-            values (#{faXinId},
-                    #{shouXinId},
-                    #{xinXiBiaoTi},
-                    #{xinXiNeiRong},
-                    #{zhuangTai},
-                    #{xinXiShiJian},
-                    #{fuJianDiZhi},
-                    #{faSongZhuangTai},
-                    #{shouJianRenShouCangZhuangTai},
-                    #{faJianRenShouCangZhuangTai},
-                    #{yiDuZhuangTai})
+                           values (#{faXinId},
+                                   #{shouXinId},
+                                   #{xinXiBiaoTi},
+                                   #{xinXiNeiRong},
+                                   #{zhuangTai},
+                                   #{xinXiShiJian},
+                                   #{fuJianDiZhi},
+                                   #{faSongZhuangTai},
+                                   #{shouJianRenShouCangZhuangTai},
+                                   #{faJianRenShouCangZhuangTai},
+                                   #{yiDuZhuangTai})
     </insert>
 
     <select id="chaXun" parameterType="java.lang.Integer" resultType="cn.com.yuyang.bean.XinXiShanChuChaXunBean">
@@ -61,76 +64,76 @@
     </select>
 
     <update id="delectXinXi" >
-        update xinxi set zhuangTai =#{param3} where id =#{param2}
-                                                and (shouXinId = #{param1} or faXinId = #{param1})
+      update xinxi set zhuangTai =#{param3} where id =#{param2}
+      and (shouXinId = #{param1} or faXinId = #{param1})
     </update>
     <select id="xinXiShouCangChaXun" parameterType="java.lang.Integer" resultType="cn.com.yuyang.bean.XinXiShouCangChaXunBean">
         select xinxi.faXinId,xinxi.shouXinId from xinxi where id = #{param1}
     </select>
     <update id="shouXinRenShouCangXinXi" parameterType="cn.com.yuyang.bean.XinXiShouCangBean">
         update xinxi set xinxi.shouJianRenShouCangZhuangTai = (1-#{shouCangZhuangTai}) where xinxi.id=#{xinXiId}
-                                                                                         and xinxi.shouXinId =#{id}
+        and xinxi.shouXinId =#{id}
     </update>
 
     <update id="faXinRenShouCangXinXi" parameterType="cn.com.yuyang.bean.XinXiShouCangBean">
         update xinxi set xinxi.faJianRenShouCangZhuangTai = (1-#{shouCangZhuangTai}) where xinxi.id=#{xinXiId}
-                                                                                       and xinxi.faXinId=#{id}
+         and xinxi.faXinId=#{id}
     </update>
 
 
     <select id="selectYiFaXinXi" parameterType="cn.com.yuyang.bean.IdBean" resultType="cn.com.yuyang.bean.XinXiBean">
         select x.faXinId,(SELECT renyuandangan.xingMing from renyuandangan where
-            x.faXinId=renyuandangan.id)as faJianRenXingMing,x.xinXiBiaoTi,x.faSongZhuangTai,
-               x.shouXinId, (select renyuandangan.xingMing from renyuandangan where
-            x.shouXinId =renyuandangan.id) as shouJianRenXingMing, x.xinXiNeiRong,x.yiDuZhuangTai,
-               x.xinXiShiJian,x.fuJianDiZhi,x.id,x.shouJianRenShouCangZhuangTai,x.faJianRenShouCangZhuangTai from xinxi x where x.faXinId =#{id}
-                                                                                                                            and (x.zhuangTai =0 or x.zhuangTai =2) and x.faSongZhuangTai=1;
-    </select>
-
-    <select id="yiFaXinXiSouSuo" parameterType="cn.com.yuyang.bean.XinXiSouSuoBean" resultType="cn.com.yuyang.bean.XinXiBean">
-        select x.faXinId,(SELECT renyuandangan.xingMing from renyuandangan where
         x.faXinId=renyuandangan.id)as faJianRenXingMing,x.xinXiBiaoTi,x.faSongZhuangTai,
         x.shouXinId, (select renyuandangan.xingMing from renyuandangan where
         x.shouXinId =renyuandangan.id) as shouJianRenXingMing, x.xinXiNeiRong,x.yiDuZhuangTai,
         x.xinXiShiJian,x.fuJianDiZhi,x.id,x.shouJianRenShouCangZhuangTai,x.faJianRenShouCangZhuangTai from xinxi x where x.faXinId =#{id}
-        and (x.zhuangTai =0 or x.zhuangTai =2) and x.faSongZhuangTai=1
-        <if test="riQi != null and riQi != ''">
-            and x.xinXiShiJian like concat(concat('%',#{riQi},'%'),'%')
-        </if>
-        <if test="guanJianCi != null and guanJianCi!='' ">
-            and (x.xinXiBiaoTi like concat(concat('%',#{guanJianCi},'%'),'%') or
-            x.xinXiNeiRong like concat(concat('%',#{guanJianCi},'%'),'%'))
-        </if>
+        and (x.zhuangTai =0 or x.zhuangTai =2) and x.faSongZhuangTai=1;
+    </select>
+
+    <select id="yiFaXinXiSouSuo" parameterType="cn.com.yuyang.bean.XinXiSouSuoBean" resultType="cn.com.yuyang.bean.XinXiBean">
+        select x.faXinId,(SELECT renyuandangan.xingMing from renyuandangan where
+            x.faXinId=renyuandangan.id)as faJianRenXingMing,x.xinXiBiaoTi,x.faSongZhuangTai,
+               x.shouXinId, (select renyuandangan.xingMing from renyuandangan where
+            x.shouXinId =renyuandangan.id) as shouJianRenXingMing, x.xinXiNeiRong,x.yiDuZhuangTai,
+               x.xinXiShiJian,x.fuJianDiZhi,x.id,x.shouJianRenShouCangZhuangTai,x.faJianRenShouCangZhuangTai from xinxi x where x.faXinId =#{id}
+            and (x.zhuangTai =0 or x.zhuangTai =2) and x.faSongZhuangTai=1
+            <if test="riQi != null and riQi != ''">
+                and x.xinXiShiJian like concat(concat('%',#{riQi},'%'),'%')
+            </if>
+            <if test="guanJianCi != null and guanJianCi!='' ">
+              and (x.xinXiBiaoTi like concat(concat('%',#{guanJianCi},'%'),'%') or
+              x.xinXiNeiRong like concat(concat('%',#{guanJianCi},'%'),'%'))
+            </if>
     </select>
 
     <select id="selectXinXiShouCang" parameterType="cn.com.yuyang.bean.IdBean" resultType="cn.com.yuyang.bean.XinXiBean">
         select x.faXinId,(SELECT renyuandangan.xingMing from renyuandangan where
             x.faXinId=renyuandangan.id)as faJianRenXingMing,x.xinXiBiaoTi,x.faSongZhuangTai,
-               x.shouXinId, (select renyuandangan.xingMing from renyuandangan where
+            x.shouXinId, (select renyuandangan.xingMing from renyuandangan where
             x.shouXinId =renyuandangan.id) as shouJianRenXingMing, x.xinXiNeiRong,x.yiDuZhuangTai,
-               x.xinXiShiJian,x.fuJianDiZhi,x.id,x.shouJianRenShouCangZhuangTai,x.faJianRenShouCangZhuangTai from xinxi x where
+            x.xinXiShiJian,x.fuJianDiZhi,x.id,x.shouJianRenShouCangZhuangTai,x.faJianRenShouCangZhuangTai from xinxi x where
             ((x.faXinId =#{id} and (x.zhuangTai =0 or x.zhuangTai =2) and x.shouJianRenShouCangZhuangTai=1) or
-             (x.shouXinId =#{id} and (x.zhuangTai =0 or x.zhuangTai =1) and x.shouJianRenShouCangZhuangTai=1))
-                                                                                                                            and x.faSongZhuangTai=1
+            (x.shouXinId =#{id} and (x.zhuangTai =0 or x.zhuangTai =1) and x.shouJianRenShouCangZhuangTai=1))
+            and x.faSongZhuangTai=1
 
     </select>
 
     <select id="xinXiShouCangSouSuo" parameterType="cn.com.yuyang.bean.XinXiSouSuoBean" resultType="cn.com.yuyang.bean.XinXiBean">
         select x.faXinId,(SELECT renyuandangan.xingMing from renyuandangan where
-        x.faXinId=renyuandangan.id)as faJianRenXingMing,x.xinXiBiaoTi,x.faSongZhuangTai,
-        x.shouXinId, (select renyuandangan.xingMing from renyuandangan where
-        x.shouXinId =renyuandangan.id) as shouJianRenXingMing, x.xinXiNeiRong,x.yiDuZhuangTai,
-        x.xinXiShiJian,x.fuJianDiZhi,x.id,x.shouJianRenShouCangZhuangTai ,x.faJianRenShouCangZhuangTai from xinxi x where
-        ((x.faXinId =#{id} and (x.zhuangTai =0 or x.zhuangTai =2) and x.shouJianRenShouCangZhuangTai=1) or
-        (x.shouXinId =#{id} and (x.zhuangTai =0 or x.zhuangTai =1) and x.shouJianRenShouCangZhuangTai=1)) and x.faSongZhuangTai=1
-        and x.shouJianRenShouCangZhuangTai=1
-        <if test="riQi != null and riQi != ''">
-            and x.xinXiShiJian like concat(concat('%',#{riQi},'%'),'%')
-        </if>
-        <if test="guanJianCi != null and guanJianCi!='' ">
-            and (x.xinXiBiaoTi like concat(concat('%',#{guanJianCi},'%'),'%') or
-            x.xinXiNeiRong like concat(concat('%',#{guanJianCi},'%'),'%'))
-        </if>
+            x.faXinId=renyuandangan.id)as faJianRenXingMing,x.xinXiBiaoTi,x.faSongZhuangTai,
+            x.shouXinId, (select renyuandangan.xingMing from renyuandangan where
+            x.shouXinId =renyuandangan.id) as shouJianRenXingMing, x.xinXiNeiRong,x.yiDuZhuangTai,
+            x.xinXiShiJian,x.fuJianDiZhi,x.id,x.shouJianRenShouCangZhuangTai ,x.faJianRenShouCangZhuangTai from xinxi x where
+            ((x.faXinId =#{id} and (x.zhuangTai =0 or x.zhuangTai =2) and x.shouJianRenShouCangZhuangTai=1) or
+            (x.shouXinId =#{id} and (x.zhuangTai =0 or x.zhuangTai =1) and x.shouJianRenShouCangZhuangTai=1)) and x.faSongZhuangTai=1
+            and x.shouJianRenShouCangZhuangTai=1
+            <if test="riQi != null and riQi != ''">
+                and x.xinXiShiJian like concat(concat('%',#{riQi},'%'),'%')
+            </if>
+            <if test="guanJianCi != null and guanJianCi!='' ">
+                and (x.xinXiBiaoTi like concat(concat('%',#{guanJianCi},'%'),'%') or
+                x.xinXiNeiRong like concat(concat('%',#{guanJianCi},'%'),'%'))
+            </if>
     </select>
 
     <select id="xinXiCaoGaoXiang" parameterType="cn.com.yuyang.bean.IdBean" resultType="cn.com.yuyang.bean.XinXiBean">
@@ -165,4 +168,37 @@
             x.xinXiNeiRong like concat(concat('%',#{guanJianCi},'%'),'%'))
         </if>
     </select>
+
+
+
+    <insert id="cunRuCaoGao" >
+        insert into xinxi(faXinId, shouXinId, xinXiBiaoTi, xinXiNeiRong, zhuangTai, faSongZhuangTai, shouJianRenShouCangZhuangTai, faJianRenShouCangZhuangTai, yiDuZhuangTai)
+        values (#{faXinId},
+                #{shouXinId},
+                #{xinXiBiaoTi},
+                #{xinXiNeiRong},
+                #{zhuangTai},
+                #{faSongZhuangTai},
+                #{shouJianRenShouCangZhuangTai},
+                #{faJianRenShouCangZhuangTai},
+                #{yiDuZhuangTai})
+    </insert>
+
+    <select id="selectShouJianRen" parameterType="cn.com.yuyang.bean.IdBean" resultType="cn.com.yuyang.bean.ShouJianRenBean">
+        select r.xingMing,r.id,d.gongHao from renyuandangan r,denglu d where d.dangAnId =r.id
+        and r.id != #{id}
+    </select>
+
+    <update id="faSongCaoGao" parameterType="cn.com.yuyang.bean.XinXiCunChuBean">
+        update xinxi set xinxi.faXinId =#{faXinId},
+                         shouXinId=#{shouXinId},
+                         xinXiBiaoTi=#{xinXiBiaoTi},
+                         xinXiNeiRong=#{xinXiNeiRong},
+                         xinXiShiJian=#{xinXiShiJian},
+                         fuJianDiZhi=#{fuJianDiZhi},
+                         faSongZhuangTai=#{faSongZhuangTai}
+          where xinxi.id=#{id}
+    </update>
+
+
 </mapper>

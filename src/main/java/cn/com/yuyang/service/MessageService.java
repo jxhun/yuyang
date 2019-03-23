@@ -6,6 +6,7 @@ import cn.com.yuyang.pojo.XinxiMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.util.List;
@@ -111,18 +112,25 @@ public class MessageService {
         List<XinXiBean> list = xinxiMapper.xinXiCaoGaoXiangSouSuo(xinXiSouSuoBean);
         return  list;
     }
-
+    //当登陆者点击信息进入详情页面，修改信息的已读状态为已读
     public void yiDu(XiangXiXinXiBean xiangXiXinXiBean){
         xinxiMapper.yiDu(xiangXiXinXiBean);
     }
+    //调用此方法，将登陆者要发送的信息存入数据库。
 
+
+    //调用此方法，将要发送的信息存入数据库
     public void faSongXinXi(XinXiFaSongBean xinXiFaSongBean, HttpSession session){
         String luJing =(String) session.getAttribute("luJing");
         XinXiCunChuBean xinXiCunChuBean = new XinXiCunChuBean();
         xinXiCunChuBean.setFaXinId(xinXiFaSongBean.getId());
         xinXiCunChuBean.setShouXinId(xinXiFaSongBean.getShouJianId());
-        xinXiCunChuBean.setXinXiBiaoTi(xinXiFaSongBean.getXinXiZhuTi());
-        xinXiCunChuBean.setXinXiNeiRong(xinXiFaSongBean.getXinXiNeiRong());
+        if(xinXiFaSongBean.getXinXiZhuTi()!=null&&!xinXiFaSongBean.getXinXiZhuTi().equals("")){
+            xinXiCunChuBean.setXinXiBiaoTi(xinXiFaSongBean.getXinXiZhuTi());
+        }
+        if (xinXiFaSongBean.getXinXiNeiRong()!=null&&!xinXiFaSongBean.getXinXiNeiRong().equals("")){
+            xinXiCunChuBean.setXinXiNeiRong(xinXiFaSongBean.getXinXiNeiRong());
+        }
         xinXiCunChuBean.setZhuangTai(0);
         xinXiCunChuBean.setXinXiShiJian(new Timestamp(System.currentTimeMillis()));
 
@@ -138,6 +146,56 @@ public class MessageService {
         xinXiCunChuBean.setFaJianRenShouCangZhuangTai(0);
         xinXiCunChuBean.setYiDuZhuangTai(0);
         xinxiMapper.faSongXinXi(xinXiCunChuBean);
+    }
+
+    //调用此方法，将信件存入草稿箱
+    public void cunRuCaoGao(XinXiFaSongBean xinXiFaSongBean){
+        XinXiCunChuBean xinXiCunChuBean = new XinXiCunChuBean();
+        xinXiCunChuBean.setFaXinId(xinXiFaSongBean.getId());
+        xinXiCunChuBean.setShouXinId(xinXiFaSongBean.getShouJianId());
+        if(xinXiFaSongBean.getXinXiZhuTi()!=null&&!xinXiFaSongBean.getXinXiZhuTi().equals("")){
+            xinXiCunChuBean.setXinXiBiaoTi(xinXiFaSongBean.getXinXiZhuTi());
+        }
+        if (xinXiFaSongBean.getXinXiNeiRong()!=null &&!xinXiFaSongBean.getXinXiNeiRong().equals("")){
+            xinXiCunChuBean.setXinXiNeiRong(xinXiFaSongBean.getXinXiNeiRong());
+        }
+        xinXiCunChuBean.setZhuangTai(0);
+        xinXiCunChuBean.setFaSongZhuangTai(0);
+        xinXiCunChuBean.setShouJianRenShouCangZhuangTai(0);
+        xinXiCunChuBean.setFaJianRenShouCangZhuangTai(0);
+        xinXiCunChuBean.setYiDuZhuangTai(0);
+        xinxiMapper.cunRuCaoGao(xinXiCunChuBean);
+    }
+
+    //查询并返回所有收件人的姓名，工号，档案id
+    public List<ShouJianRenBean> selectShouJianRen(IdBean idBean){
+        List<ShouJianRenBean> list = xinxiMapper.selectShouJianRen(idBean);
+        return list;
+    }
+
+    //调用此方法，修改信息发送时间，发送状态，更新信件内容，标题等
+    public void faSongCaoGao(CaoGaoFaSongBean caoGaoFaSongBean, HttpSession session){
+        String luJing =(String) session.getAttribute("luJing");
+        XinXiCunChuBean xinXiCunChuBean = new XinXiCunChuBean();
+        xinXiCunChuBean.setId(caoGaoFaSongBean.getXinXiId());
+        xinXiCunChuBean.setFaXinId(caoGaoFaSongBean.getId());
+        xinXiCunChuBean.setShouXinId(caoGaoFaSongBean.getShouJianRenId());
+        if(caoGaoFaSongBean.getZhuTi()!=null&&!caoGaoFaSongBean.getZhuTi().equals("")){
+            xinXiCunChuBean.setXinXiBiaoTi(caoGaoFaSongBean.getZhuTi());
+        }
+        if (caoGaoFaSongBean.getNeiRong()!=null &&caoGaoFaSongBean.getNeiRong()!=""){
+            xinXiCunChuBean.setXinXiNeiRong(caoGaoFaSongBean.getNeiRong());
+        }
+        xinXiCunChuBean.setXinXiShiJian(new Timestamp(System.currentTimeMillis()));
+        if (luJing!=null && !luJing.equals("")){
+            xinXiCunChuBean.setFuJianDiZhi(luJing);
+            session.removeAttribute("luJing");
+        }
+        else{
+            xinXiCunChuBean.setFuJianDiZhi(null);
+        }
+        xinXiCunChuBean.setFaSongZhuangTai(1);
+        xinxiMapper.faSongCaoGao(xinXiCunChuBean);
     }
 
 }

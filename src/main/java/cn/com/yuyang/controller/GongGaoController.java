@@ -4,10 +4,12 @@ import cn.com.yuyang.bean.GongGaoBean;
 import cn.com.yuyang.pojo.Gonggao;
 import cn.com.yuyang.pojo.Zhiwubiao;
 import cn.com.yuyang.service.GongGaoService;
+import cn.com.yuyang.util.FileUpload;
 import cn.com.yuyang.util.SessionKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -93,7 +95,7 @@ public class GongGaoController {
      */
     @RequestMapping(value = {"/newInsert"})
     @ResponseBody
-    public Map<String, Object> newInsert(@RequestBody(required = false) GongGaoBean gongGaoBean, HttpServletRequest request) {
+    public Map<String, Object> newInsert(@RequestBody(required = false) MultipartFile articleFile, GongGaoBean gongGaoBean, HttpServletRequest request) {
 //        String token = (String) request.getSession().getAttribute(SessionKey.TOKEN);    // 得到token
 //        gongGaoBean = new GongGaoBean();
         Map<String, Object> returnMap = new HashMap<>();
@@ -102,6 +104,7 @@ public class GongGaoController {
 //                (Integer) request.getSession().getAttribute(SessionKey.FABUXIUGAIGONGGAO) == 1) {
 //            int dangAnId = (int) request.getSession().getAttribute(SessionKey.DANGANID); // 得到档案id
 //            gongGaoBean.setDangAnId(dangAnId);  // 档案id存入公告bean对象
+        gongGaoBean.setFuJianDiZhi(FileUpload.executeImport(articleFile, request));   // 传入文件地址
         if (!gongGaoBean.getBuMenMingCheng().equals("全体员工")) {  // 如果前端传入的部门名称不为全体员工，那么就调用查询部门id方法得到部门id
             Integer buMenId = gongGaoService.selectBuMenId(gongGaoBean);
             if (buMenId != -1) {  // 如果查询结果不为-1，那么说明查询成功
