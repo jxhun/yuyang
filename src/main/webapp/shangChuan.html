@@ -21,15 +21,21 @@
         $("button").attr("disabled", "disabled");
         var formData = new FormData();
         formData.append("articleFile", $("#articleFile")[0].files[0]);
+        formData.append("dangAnId", 1);
+        formData.append("lanMu", "公告");
+        formData.append("buMenMingCheng", "人事部");
+        formData.append("gongGaoMingCheng", "我的公告");
+        formData.append("neiRong", "这是一条公告");
+        formData.append("zhuangTai", 1);
         $.ajax({
-            url: '/user/executeImport',
+            url: '/GongGao/newInsert',
             type: 'post',
             data: formData,
             contentType: false,
             processData: false,
             cache: false,
             success: function (data) {
-                window.location.href = '/user/importArticle';
+                // window.location.href = '/user/importArticle';
                 alert(JSON.stringify(data))
             }
         });
