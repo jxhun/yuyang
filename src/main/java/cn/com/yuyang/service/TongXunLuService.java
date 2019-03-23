@@ -24,10 +24,8 @@ import java.util.Map;
 @Scope(value = "prototype")
 public class TongXunLuService {
 
-    @Autowired
     private final BumenMapper bumenMapper;
 
-    @Autowired
     private final RenyuandanganMapper renyuandanganMapper;
 
     /**
@@ -36,6 +34,7 @@ public class TongXunLuService {
      * @param bumenMapper         bumenMapper对象
      * @param renyuandanganMapper renyuandanganMapper对象
      */
+    @Autowired
     public TongXunLuService(BumenMapper bumenMapper, RenyuandanganMapper renyuandanganMapper) {
         this.bumenMapper = bumenMapper;
         this.renyuandanganMapper = renyuandanganMapper;

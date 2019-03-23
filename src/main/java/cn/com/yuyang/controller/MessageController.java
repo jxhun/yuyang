@@ -24,7 +24,7 @@ public class MessageController {
         this.messageService = messageService;
     }
     //调用此接口，获取用户收件箱所有未删除信息
-    @RequestMapping(value = {"/dingshihuoqu"},produces ="application/json;charset=UTF-8")
+    @RequestMapping(value = {"/dingshihuoqu"})
     @ResponseBody
     public Map<String, Object> dingShiHuoQu(String method,@RequestBody IdBean idBean, HttpServletRequest request) {
         Integer did=(Integer) request.getSession().getAttribute(SessionKey.DANGANID);  //从session中获取登陆者的id
@@ -49,7 +49,7 @@ public class MessageController {
     }
 
     //调用此接口，返回用户收件箱满足搜索条件的未删除信息
-    @RequestMapping(value = {"/sousuo"},produces ="application/json;charset=UTF-8")
+    @RequestMapping(value = {"/sousuo"})
     @ResponseBody
     public Map<String, Object> souSuo(@RequestBody XinXiSouSuoBean xinXiSouSuoBean, HttpServletRequest request) {
         Integer did=(Integer) request.getSession().getAttribute(SessionKey.DANGANID);  //从session中获取登陆者的id
@@ -71,7 +71,7 @@ public class MessageController {
         return map;
     }
     //调用此接口，获取该条信息的详细情况
-    @RequestMapping(value = {"/xiangxixinxi"},produces ="application/json;charset=UTF-8")
+    @RequestMapping(value = {"/xiangxixinxi"})
     @ResponseBody
     public Map<String, Object> xiangXiXinXi(@RequestBody XiangXiXinXiBean xiangXiXinXiBean, HttpServletRequest request) {
         Integer did=(Integer) request.getSession().getAttribute(SessionKey.DANGANID);  //从session中获取登陆者的id
@@ -105,7 +105,7 @@ public class MessageController {
     }
 
     //调用此接口，从用户收件箱或者发件箱批量或者单独删除信息
-    @RequestMapping(value = {"/shanchu"},produces ="application/json;charset=UTF-8")
+    @RequestMapping(value = {"/shanchu"})
     @ResponseBody
     public Map<String, Object> shanChu(@RequestBody XinXiShanChuBean xinXiShanChuBean, HttpServletRequest request) {
         Integer did=(Integer) request.getSession().getAttribute(SessionKey.DANGANID);  //从session中获取登陆者的id
@@ -125,7 +125,7 @@ public class MessageController {
         return map;
     }
     //调用此接口，收藏或者取消收藏此条信息
-    @RequestMapping(value = {"/shoucang"},produces ="application/json;charset=UTF-8")
+    @RequestMapping(value = {"/shoucang"})
     @ResponseBody
     public Map<String, Object> shouCang(@RequestBody XinXiShouCangBean xinXiShouCangBean, HttpServletRequest request) {
         Integer did=(Integer) request.getSession().getAttribute(SessionKey.DANGANID);  //从session中获取登陆者的id
@@ -146,7 +146,7 @@ public class MessageController {
         return map;
     }
     //调用此接口，回复信息
-    @RequestMapping(value = {"/huifu"},produces ="application/json;charset=UTF-8")
+    @RequestMapping(value = {"/huifu"})
     @ResponseBody
     public Map<String, Object> huiFu(@RequestBody XinXiFaSongBean xinXiFaSongBean, HttpServletRequest request) {
         Integer did=(Integer) request.getSession().getAttribute(SessionKey.DANGANID);  //从session中获取登陆者的id
@@ -166,7 +166,7 @@ public class MessageController {
     }
 
     //调用此接口，获取用户所有已发送的未删除信息
-    @RequestMapping(value = {"/yifaxinxi"},produces ="application/json;charset=UTF-8")
+    @RequestMapping(value = {"/yifaxinxi"})
     @ResponseBody
     public Map<String, Object> yiFaXinXi(@RequestBody IdBean idBean, HttpServletRequest request) {
         Integer did=(Integer) request.getSession().getAttribute(SessionKey.DANGANID);  //从session中获取登陆者的id
@@ -187,7 +187,7 @@ public class MessageController {
     }
 
     //访问此接口，返回满足搜索条件的所有已发的未删除信息
-    @RequestMapping(value = {"/yifaxinxisousuo"},produces ="application/json;charset=UTF-8")
+    @RequestMapping(value = {"/yifaxinxisousuo"})
     @ResponseBody
     public Map<String, Object> yiFaXinXiSouSuo(@RequestBody XinXiSouSuoBean xinXiSouSuoBean, HttpServletRequest request) {
         Integer did=(Integer) request.getSession().getAttribute(SessionKey.DANGANID);  //从session中获取登陆者的id
@@ -207,7 +207,7 @@ public class MessageController {
         return map;
     }
     //调用此接口，返回该用户所有收藏的未删除信息
-    @RequestMapping(value = {"/xinxishoucang"},produces ="application/json;charset=UTF-8")
+    @RequestMapping(value = {"/xinxishoucang"})
     @ResponseBody
     public Map<String, Object> xinXiShouCang(@RequestBody IdBean idBean, HttpServletRequest request) {
         Integer did=(Integer) request.getSession().getAttribute(SessionKey.DANGANID);  //从session中获取登陆者的id
@@ -228,7 +228,7 @@ public class MessageController {
     }
 
     //调用此接口，按条件搜索该用户收藏的未删除信息，并返回
-    @RequestMapping(value = {"/xinxishoucangsousuo"},produces ="application/json;charset=UTF-8")
+    @RequestMapping(value = {"/xinxishoucangsousuo"})
     @ResponseBody
     public Map<String, Object> xinXiShouCangSouSuo(@RequestBody XinXiSouSuoBean xinXiSouSuoBean, HttpServletRequest request) {
         Integer did=(Integer) request.getSession().getAttribute(SessionKey.DANGANID);  //从session中获取登陆者的id
@@ -248,7 +248,7 @@ public class MessageController {
         return map;
     }
     //调用此接口，返回该用户所有草稿箱信息
-    @RequestMapping(value = {"/xinxicaogaoxiang"},produces ="application/json;charset=UTF-8")
+    @RequestMapping(value = {"/xinxicaogaoxiang"})
     @ResponseBody
     public Map<String, Object> xinXiCaoGaoXiang(@RequestBody IdBean idBean, HttpServletRequest request) {
         Integer did=(Integer) request.getSession().getAttribute(SessionKey.DANGANID);  //从session中获取登陆者的id
@@ -268,7 +268,7 @@ public class MessageController {
         return map;
     }
     //调用此方法，删除草稿箱的信件
-    @RequestMapping(value = {"/caogaoxiangshanchu"},produces ="application/json;charset=UTF-8")
+    @RequestMapping(value = {"/caogaoxiangshanchu"})
     @ResponseBody
     public Map<String, Object> caoGaoXiangShanChu(@RequestBody XinXiShanChuBean xinXiShanChuBean, HttpServletRequest request) {
         Integer did=(Integer) request.getSession().getAttribute(SessionKey.DANGANID);  //从session中获取登陆者的id
@@ -287,7 +287,7 @@ public class MessageController {
     }
 
     //调用此方法，按条件搜索草稿箱内容
-    @RequestMapping(value = {"/xinxicaogaoxiangsousuo"},produces ="application/json;charset=UTF-8")
+    @RequestMapping(value = {"/xinxicaogaoxiangsousuo"})
     @ResponseBody
     public Map<String, Object> xinXiCaoGaoXiangSouSuo(@RequestBody XinXiSouSuoBean xinXiSouSuoBean, HttpServletRequest request) {
         Integer did=(Integer) request.getSession().getAttribute(SessionKey.DANGANID);  //从session中获取登陆者的id

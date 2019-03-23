@@ -23,13 +23,10 @@ import java.util.Map;
 public class GongGaoService {
 
 
-    @Autowired
     private final GonggaoMapper gonggaoMapper;  // 用于公告操作
 
-    @Autowired
     private final BumenMapper bumenMapper;  // 用于新增公告里面通过部门名称查询部门id
 
-    @Autowired
     private final RenyuandanganMapper renyuandanganMapper;  // 用于通过档案id查询得到部门id
 
     /**
@@ -38,6 +35,7 @@ public class GongGaoService {
      * @param gonggaoMapper 公告mapper
      * @param bumenMapper   部门mapper
      */
+    @Autowired
     public GongGaoService(GonggaoMapper gonggaoMapper, BumenMapper bumenMapper, RenyuandanganMapper renyuandanganMapper) {
         this.gonggaoMapper = gonggaoMapper;
         this.bumenMapper = bumenMapper;

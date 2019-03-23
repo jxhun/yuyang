@@ -18,7 +18,15 @@ public class Bumenbean {
     private java.sql.Timestamp chuangJianShiJian;
     private int count;
     private String token;
+    private long buMenJiBie;
 
+    public long getBuMenJiBie() {
+        return buMenJiBie;
+    }
+
+    public void setBuMenJiBie(long buMenJiBie) {
+        this.buMenJiBie = buMenJiBie;
+    }
     public String getToken() {
         return token;
     }

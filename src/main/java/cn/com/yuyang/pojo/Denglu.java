@@ -14,7 +14,7 @@ public class Denglu {
   private long zhuangTai;
   private String gongHao;
   private String shouJiHaoMa;
-  private String token;
+  private byte[] token;
   private Renyuandangan renyuandangan;
 
   public long getId() {
@@ -97,11 +97,11 @@ public class Denglu {
     this.shouJiHaoMa = shouJiHaoMa;
   }
 
-  public String getToken() {
+  public byte[] getToken() {
     return token;
   }
 
-  public void setToken(String token) {
+  public void setToken(byte[] token) {
     this.token = token;
   }
 

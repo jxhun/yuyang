@@ -26,7 +26,6 @@ import java.util.Map;
 @Scope(value = "prototype")
 public class TongXunLuController {
 
-    @Autowired
     private final TongXunLuService tongXunLuService;
 
     /**
@@ -34,6 +33,7 @@ public class TongXunLuController {
      *
      * @param tongXunLuService 通讯录service对象
      */
+    @Autowired
     public TongXunLuController(TongXunLuService tongXunLuService) {
         this.tongXunLuService = tongXunLuService;
         System.out.println("------TongXunLuController-------");
