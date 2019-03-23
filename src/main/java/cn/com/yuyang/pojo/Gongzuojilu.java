@@ -9,7 +9,15 @@ public class Gongzuojilu {
   private long dangAnId;
   private long zhuangTai;
   private long jieShouRenId;
+  private Rizhipinglun rizhipinglun;
 
+  public Rizhipinglun getRizhipinglun() {
+    return rizhipinglun;
+  }
+
+  public void setRizhipinglun(Rizhipinglun rizhipinglun) {
+    this.rizhipinglun = rizhipinglun;
+  }
 
   public long getId() {
     return id;
@@ -63,5 +71,6 @@ public class Gongzuojilu {
   public void setJieShouRenId(long jieShouRenId) {
     this.jieShouRenId = jieShouRenId;
   }
+
 
 }

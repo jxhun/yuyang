@@ -39,4 +39,15 @@ public interface BumenMapper {
     List<Bumen> selectBuMen();
 
     Bumen selectRenYuan(IdBean idBean);
+    /** 查询所有部门名称及ID
+     *
+     * @return
+     */
+    List<Bumen> selectBumen();
+    /**
+     * 查询部门人数,以及部门信息
+     * @param bum
+     * @return
+     */
+    List<Bumenbean> selectCount(Bumenbean bum);
 }

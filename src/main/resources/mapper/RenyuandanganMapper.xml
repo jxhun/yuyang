@@ -59,21 +59,6 @@
         where r.xingMing = #{xingMing}
     </select>
 
-    <select id="selectCount" resultType="cn.com.yuyang.bean.Bumenbean"
-            parameterType="cn.com.yuyang.pojo.Bumen">
-        select
-        count(r.id),
-        b.id,
-        b.dangAnId,
-        b.buMenMingCheng,
-        b.buMenJianJie,
-        b.chuangJianShiJian
-        from renyuandangan as r join bumen as b where r.buMenId = b.id
-        <if test="buMenMingCheng!=null and buMenMingCheng!=''">
-            and b.buMenMingCheng like #{buMenMingCheng}
-        </if>
-        group by buMenId
-    </select>
 
     <update id="updateYuanGong" parameterType="cn.com.yuyang.bean.YuanGongBean">
         update renyuandangan
@@ -260,6 +245,63 @@
         update  renyuandangan set touXiang=#{touXiang} where id=#{id};
 
     </update>
+    <insert id="insertRenyuandangan" parameterType="cn.com.yuyang.bean.YuanGongBean">
+        insert into renyuandangan
+        (xingMing,
+         ruZhiShiJian,
+         heTongDaoQiShiJian,
+         xingBie,
+         shengRi,
+         jinJiLianXiDianHua,
+         xianZhuZhi,
+         xueLi,
+         youXiang,
+         biYeYuanXiao,
+         zaiZhiZhuangTai,
+         minZu,
+         jiGuan,
+         shenFenZheng,
+         zhengZhiMianMao,
+         hunYin,
+         nianLing,
+         beiZhu,
+         zhiWuId,
+         buMenId,
+         touXiang)
+        values (#{xingMing},
+                #{ruZhiShiJian},
+                #{heTongDaoQiShiJian},
+                #{xingBie},
+                #{shengRi},
+                #{jinJiLianXiDianHua},
+                #{xianZhuZhi},
+                #{xueLi},
+                #{youXiang},
+                #{biYeYuanXiao},
+                #{zaiZhiZhuangTai},
+                #{minZu},
+                #{jiGuan},
+                #{shenFenZheng},
+                #{zhengZhiMianMao},
+                #{hunYin},
+                #{nianLing},
+                #{beiZhu},
+                #{zhiWuId},
+                #{buMenId},
+                #{touXiang});
+    </insert>
+    <select id="selectId" resultType="java.lang.Long"
+            parameterType="cn.com.yuyang.bean.YuanGongBean">
+        select id
+        from renyuandangan
+        where shenFenZheng = #{shenFenZheng};
+    </select>
 
+
+
+    <delete id="shanchuRenyuandangan" parameterType="cn.com.yuyang.bean.YuanGongBean">
+        delete from renyuandangan
+        where  shenFenZheng=#{shenFenZheng}
+    </delete>
 
 </mapper>

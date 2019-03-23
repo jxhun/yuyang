@@ -30,4 +30,10 @@ public interface ZhiwubiaoMapper {
     void insertZhiWu(Zhiwubiao zhiwubiao);
     // 更新职务
     void updateZhiWu(Zhiwubiao zhiwubiao);
+
+    /** 查询所有职务名称及ID
+     *
+     * @return
+     */
+    List<Zhiwubiao> selectZhiwu();
 }

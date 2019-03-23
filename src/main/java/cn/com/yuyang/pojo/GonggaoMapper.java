@@ -1,7 +1,6 @@
 package cn.com.yuyang.pojo;
 
 import cn.com.yuyang.bean.GongGaoBean;
-import cn.com.yuyang.bean.ShouYeBean;
 import cn.com.yuyang.pojo.Gonggao;
 
 import java.util.List;
@@ -51,16 +50,10 @@ public interface GonggaoMapper {
     Integer updateGongGao(GongGaoBean gongGaoBean);
 
     /**
-     * 此方法根据人员ID查询对应的公告信息
-     *
-     * @return
-     */
-    List<ShouYeBean> shouYeGongHao();
-
-    /**
      * 根据公告bean查询最新的已发布的公告条数
      * @param gongGaoBean
      * @return
      */
     int coutGongGao(GongGaoBean gongGaoBean);
+
 }

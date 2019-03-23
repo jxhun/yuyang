@@ -2,6 +2,7 @@ package cn.com.yuyang.pojo;
 
 
 import cn.com.yuyang.bean.YanZhengMaBean;
+import cn.com.yuyang.bean.YuanGongBean;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public interface DengluMapper {
     /**
      * 根据传入参数查询员工信息
      */
-    List<Denglu> selectChaXun(@Param("dangAnId") long dangAnId,@Param("buMenId") long buMenId,
+    List<Denglu> selectChaXun(@Param("dangAnId") long dangAnId, @Param("buMenId") long buMenId,
                               @Param("gongHao") String gongHao, @Param("xingMing") String xingMing,
                               @Param("startTime") String startTime, @Param("endTime") String endTime);
 
@@ -37,4 +38,11 @@ public interface DengluMapper {
 
     //根据手机号码查询对应的验证码
     Denglu selectByYanZhengMa(YanZhengMaBean yanZhengMaBean);
+
+    /** 将员工登录信息插入登录表
+     *
+     * @param yuanGongBean
+     * @return
+     */
+    Integer insertDenglu(YuanGongBean yuanGongBean);
 }

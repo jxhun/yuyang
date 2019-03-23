@@ -85,4 +85,7 @@
                          daiBanShiXiang = #{daiBanShiXiang},chuangJianShiJian = #{chuangJianShiJian}
     where id = #{id}
   </update>
+  <select id="selectZhiwu" resultType="cn.com.yuyang.pojo.Zhiwubiao">
+    select id,zhiWuMingCheng from zhiwubiao;
+  </select>
 </mapper>

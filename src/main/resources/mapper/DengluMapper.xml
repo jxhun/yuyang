@@ -264,5 +264,29 @@
     <select id="selectByYanZhengMa" resultType="cn.com.yuyang.pojo.Denglu">
         select * from denglu where shouJiHaoMa=${shouJiHaoMa};
     </select>
+    <insert id="insertDenglu" parameterType="cn.com.yuyang.bean.YuanGongBean">
+        insert into denglu
+        (dangAnId,
+         miMa,
+         dengLuCiShu,
+         zuiHouYiCiDengLuShiJian,
+         cuoWuCiShu,
+         dongJieShiJian,
+         zhuangTai,
+         gongHao,
+         shouJiHaoMa,
+         token)
+        values
+        (#{dangAnId},
+         #{miMa},
+         0,
+         0,
+         0,
+         null,
+         1,
+         #{gongHao},
+         #{shouJiHaoMa},
+         0)
+    </insert>
 
 </mapper>

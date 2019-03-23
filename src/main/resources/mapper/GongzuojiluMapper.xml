@@ -135,4 +135,22 @@
       jieShouRenId = #{jieshourenid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="shouYeRiZhi" resultMap="shouYeRiZhi">
+    select  g.id,g.neiRong,g.shiJian,r.xingMing  from  gongzuojilu as g,renyuandangan as r where g.dangAnId=r.id and (g.dangAnId=#{dangAnId} or g.jieShouRenId=#{dangAnId});
+  </select>
+  <resultMap id="shouYeRiZhi" type="cn.com.yuyang.pojo.Gongzuojilu">
+    <id property="id" column="id"/>
+    <result property="leiXing" column="leiXing"/>
+    <result property="neiRong" column="neiRong"/>
+    <result property="shiJian" column="shiJian"/>
+    <result property="xingMing" column="xingMing"/>
+  </resultMap>
+
+
+  <select id="countRiZhi" resultType="java.lang.Integer">
+
+    select  count(id) from gongzuojilu where dangAnId=#{dangAnId} and zhuangTai=0;
+  </select>
+
 </mapper>

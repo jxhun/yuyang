@@ -44,7 +44,7 @@ public class DengLuController {
                 long dongJieShiJian = denglu1.getDongJieShiJian().getTime();
                 //获取当前时间
                 long time = System.currentTimeMillis();
-                 t = time - dongJieShiJian;
+                t = time - dongJieShiJian;
             }
             //如果登录ID>0代表该手机号码存在
             if (denglu1 != null && denglu1.getId() > 0) {
@@ -55,7 +55,7 @@ public class DengLuController {
                         //每一次登录成功，登录成功次数加1
                         denglu1.setDengLuCiShu(denglu1.getDengLuCiShu() + 1);
                         //根据ID查询人员档案信息和职务信息
-                         denglu1 = dengLuService.selectChaXun1(denglu1);
+                        denglu1 = dengLuService.selectChaXun1(denglu1);
                         //设置权限在session中
                         map = dengLuService.setQuanXian(denglu1, request);
                         //根据ID，更新用户的登录次数和最后一次登录时间
@@ -69,7 +69,7 @@ public class DengLuController {
                 }
                 //状态不为-1代表状态可以为0 或者1  如果状态为0 冻结时间大于解冻时间则可以进行登录
                 else if (denglu1.getZhuangTai()!=-1 && ((denglu1.getCuoWuCiShu() % 3 == 0 && t >= (3 * 1000 * 60)) || (denglu1.getCuoWuCiShu() % 6 == 0 && t >= (6 * 1000 * 60)) || (denglu1.getCuoWuCiShu() % 9 == 0 && t >= (9 * 1000 * 60)))) {
-                   //如果状态为0 则进行解冻
+                    //如果状态为0 则进行解冻
                     if(denglu1.getZhuangTai() == 0 ) {
                         //根据ID解冻
                         denglu1.setZhuangTai(1);
@@ -96,7 +96,7 @@ public class DengLuController {
                         if (denglu1.getCuoWuCiShu() % 3 == 0 || denglu1.getCuoWuCiShu() % 6 == 0 || denglu1.getCuoWuCiShu() % 9 == 0) {
                             denglu1.setZhuangTai(0);
                             dengLuService.updateDongJie(denglu1);
-                                //冻结时间大于3分钟 6分钟 9分钟进行解冻
+                            //冻结时间大于3分钟 6分钟 9分钟进行解冻
                             if ((denglu1.getCuoWuCiShu() % 3 == 0 && t >= (3 * 1000 * 60)) || (denglu1.getCuoWuCiShu() % 6 == 0 && t >= (6 * 1000 * 60)) || (denglu1.getCuoWuCiShu() % 9 == 0 && t >= (9 * 1000 * 60))) {
                                 //根据ID解冻
                                 denglu1.setZhuangTai(1);
@@ -123,7 +123,7 @@ public class DengLuController {
                 map.put("msg","该手机号码不存在，请重新输入");
             }
         }
-            return map;
+        return map;
     }
 
     /**
@@ -139,15 +139,15 @@ public class DengLuController {
             Denglu denglu1 = dengLuService.selectByYanZhengMa(yanZhengMaBean);
             request.getSession().setAttribute(SessionKey.DENGLUID,denglu1.getId());
             //验证码存在，手机号存在，且验证码不为null
-           if(denglu1!=null&&denglu1.getId()>0){
-               String sendsms = SendSMS.sendsms(yanZhengMaBean.getShouJiHaoMa());
-               request.getSession().setAttribute("yanZhengMa",sendsms);
-               map.put("returncode","200");
-               map.put("msg","验证码发送成功");
-           }else{
-               map.put("returncode","-1");
-               map.put("msg","请输入正确的验证码");
-           }
+            if(denglu1!=null&&denglu1.getId()>0){
+                String sendsms = SendSMS.sendsms(yanZhengMaBean.getShouJiHaoMa());
+                request.getSession().setAttribute("yanZhengMa",sendsms);
+                map.put("returncode","200");
+                map.put("msg","验证码发送成功");
+            }else{
+                map.put("returncode","-1");
+                map.put("msg","请输入正确的验证码");
+            }
         }else{
             map.put("returncode","-1");
             map.put("msg","该手机号码不存在，请重新输入");

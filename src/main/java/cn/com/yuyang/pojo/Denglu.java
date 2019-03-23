@@ -8,9 +8,9 @@ public class Denglu {
   private long dangAnId;
   private String miMa;
   private long dengLuCiShu;
-  private java.sql.Timestamp zuiHouYiCiDengLuShiJian;
+  private Timestamp zuiHouYiCiDengLuShiJian;
   private long cuoWuCiShu;
-  private java.sql.Timestamp dongJieShiJian;
+  private Timestamp dongJieShiJian;
   private long zhuangTai;
   private String gongHao;
   private String shouJiHaoMa;
