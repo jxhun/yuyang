@@ -11,9 +11,20 @@ public class XinXiBean {
     private Timestamp xinXiShiJian;    //信息发送的时间
     private String fuJianDiZhi;     //信息附件地址
     private long faSongZhuangTai;   //信息发送状态，0为草稿箱，1为已发送
-    private long shouCangZhuangTai; //收藏状态，true为收藏，false为未收藏
+    private long shouJianRenShouCangZhuangTai; //收件人收藏状态，1为收藏，0为未收藏
     private String faJianRenXingMing;  //发件人姓名
     private String shouJianRenXingMing; //收件人姓名
+    private long faJianRenShouCangZhuangTai; //发件人收藏状态，1为收藏，0为未收藏
+    private long yiDuZhuangTai;                //收件人是否已读该信息，0为未读，1为已读
+
+
+    public long getYiDuZhuangTai() {
+        return yiDuZhuangTai;
+    }
+
+    public void setYiDuZhuangTai(long yiDuZhuangTai) {
+        this.yiDuZhuangTai = yiDuZhuangTai;
+    }
 
     public long getId() {
         return id;
@@ -81,12 +92,20 @@ public class XinXiBean {
         this.faSongZhuangTai = faSongZhuangTai;
     }
 
-    public long getShouCangZhuangTai() {
-        return shouCangZhuangTai;
+    public long getShouJianRenShouCangZhuangTai() {
+        return shouJianRenShouCangZhuangTai;
     }
 
-    public void setShouCangZhuangTai(long shouCangZhuangTai) {
-        this.shouCangZhuangTai = shouCangZhuangTai;
+    public void setShouJianRenShouCangZhuangTai(long shouJianRenShouCangZhuangTai) {
+        this.shouJianRenShouCangZhuangTai = shouJianRenShouCangZhuangTai;
+    }
+
+    public long getFaJianRenShouCangZhuangTai() {
+        return faJianRenShouCangZhuangTai;
+    }
+
+    public void setFaJianRenShouCangZhuangTai(long faJianRenShouCangZhuangTai) {
+        this.faJianRenShouCangZhuangTai = faJianRenShouCangZhuangTai;
     }
 
     public String getFaJianRenXingMing() {

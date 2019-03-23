@@ -1,9 +1,7 @@
 package cn.com.yuyang.controller;
 
 import cn.com.yuyang.bean.GeRenKaoQinBean;
-import cn.com.yuyang.pojo.Kaoqin;
 import cn.com.yuyang.service.KaoQinService;
-import cn.com.yuyang.util.SessionKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,73 +33,65 @@ public class GeRenKaoQinController {
         return kaoQinService;
     }
 
-    @RequestMapping(value = "select",method = {RequestMethod.GET,RequestMethod.POST})
+    /**
+     *  考勤模块的全部、正常、早退、迟到、旷工查询功能（支持总查询，时间区间查询，指定月份查询）
+     * @param geRenKaoQinBean 接收前端传入的json
+     * @param request 核实操作人员身份
+     * @return 返回查询后的结果
+     */
+    @RequestMapping(value = "select",method = {RequestMethod.POST})
     @ResponseBody
     public Map<String,Object> select(@RequestBody(required = false) GeRenKaoQinBean geRenKaoQinBean, HttpServletRequest request){
         // 先创建map并将returnCode为-1放入，一旦之后的代码报错直接return
         Map<String,Object> map = new HashMap<>();
         map.put("returnCode",-1);
-        // 判断服务器session上存储的操作员档案id与请求个人考勤的目标档案id是否对应，避免恶意查看他人考勤
-        if (request.getSession().getAttribute(SessionKey.DANGANID).equals(geRenKaoQinBean.getDangAnId())){
-            try {
-                List<Kaoqin> list = kaoQinService.selectUser(geRenKaoQinBean);
-                List<Map<String,Object>> mapList = new ArrayList<>();
-                for(Kaoqin kaoqin:list){
-                    Map<String,Object> map1 = new HashMap<>();
-                    map1.put("dangTianRiQi",kaoqin.getDangTianRiQi().toString());
-                    if (kaoqin.getShangWuShangBan() != null){
-                        map1.put("shangWuShangBan",kaoqin.getShangWuShangBan().toString());
-                    }
-                    else {
-                        map1.put("shangWuShangBan","/");
-                    }
-                    if (kaoqin.getXiaWuXiaBan() != null){
-                        map1.put("xiaWuXiaBan",kaoqin.getXiaWuXiaBan().toString());
-                    }
-                    else {
-                        map1.put("xiaWuXiaBan","/");
-                    }
-                    map1.put("zhuangTai",kaoqin.getZhuangTai());
-                    map1.put("qingJiaZhuangTai",kaoqin.getQingJiaZhuangTai());
-                    mapList.add(map1);
-                }
-                map.put("msg","正常考勤用id=1，迟到考勤用id=3，早退考勤用id=5，旷班考勤用id=7，请假考勤用id=8");
-                map.put("data",mapList);
-                // 覆盖之前的-1值
-                map.put("returnCode",200);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }
-        return map;
-    }
-
-    @RequestMapping(value = "selectBingJia",method = {RequestMethod.GET,RequestMethod.POST})
-    @ResponseBody
-    public Map<String,Object> selectBingJia(@RequestBody(required = false) GeRenKaoQinBean geRenKaoQinBean, HttpServletRequest request){
-        // 先创建map并将returnCode为-1放入，一旦之后的代码报错直接return
-        Map<String,Object> map = new HashMap<>();
-        map.put("returnCode",-1);
-        // 判断服务器session上存储的操作员档案id与请求个人考勤的目标档案id是否对应，避免恶意查看他人考勤
-        if (request.getSession().getAttribute(SessionKey.DANGANID).equals(geRenKaoQinBean.getDangAnId())){
+//        判断服务器session上存储的操作员档案id与请求个人考勤的目标档案id是否对应，避免恶意查看他人考勤
+//        if (request.getSession().getAttribute(SessionKey.DANGANID).equals(dangAnId)){
         try {
-            List<Kaoqin> list = kaoQinService.selectBing(geRenKaoQinBean);
-            List<Map<String,Object>> mapList = new ArrayList<>();
-            for(Kaoqin kaoqin:list){
-                Map<String,Object> map1 = new HashMap<>();
-                map1.put("dangTianRiQi",kaoqin.getDangTianRiQi().toString());
-                map1.put("qingJiaShiYou",kaoqin.getQingjiabiao().getQingJiaShiYou());
-                map1.put("zhuangTai",kaoqin.getQingjiabiao().getZhuangTai());
-                mapList.add(map1);
-            }
+            // 获取从service层获取的处理后的list
+            List<Map<String,Object>> list = kaoQinService.selectUser(geRenKaoQinBean);
+            Map<String,Integer> count = kaoQinService.selectCount(geRenKaoQinBean.getDangAnId());
+            System.out.println(count);
             map.put("msg","正常考勤用id=1，迟到考勤用id=3，早退考勤用id=5，旷班考勤用id=7，请假考勤用id=8");
-            map.put("data",mapList);
+            map.put("data",list);
+            map.put("chiDao",count.get("chiDao"));
+            map.put("zaoTui",count.get("zaoTui"));
+            map.put("queQin",count.get("queQin"));
+            map.put("qingJia",count.get("qingJia"));
             // 覆盖之前的-1值
             map.put("returnCode",200);
         }catch (Exception e){
             e.printStackTrace();
         }
+//        }
+        return map;
+    }
+
+    /**
+     *  考勤模块的病假查询功能（支持总查询，时间区间查询，指定月份查询）
+     * @param geRenKaoQinBean 接收前端传入的json
+     * @param request 核实操作人员身份
+     * @return 返回查询后的结果
+     */
+    @RequestMapping(value = "selectBingJia",method = {RequestMethod.POST})
+    @ResponseBody
+    public Map<String,Object> selectBingJia(@RequestBody(required = false) GeRenKaoQinBean geRenKaoQinBean, HttpServletRequest request){
+        // 先创建map并将returnCode为-1放入，一旦之后的代码报错直接return
+        Map<String,Object> map = new HashMap<>();
+        map.put("returnCode",-1);
+//         判断服务器session上存储的操作员档案id与请求个人考勤的目标档案id是否对应，避免恶意查看他人考勤
+//        if (request.getSession().getAttribute(SessionKey.DANGANID).equals(geRenKaoQinBean.getDangAnId())){
+        try {
+            // 接收从service中获取的处理后的list
+            List<Map<String,Object>> list = kaoQinService.selectBing(geRenKaoQinBean);
+            map.put("msg","正常考勤用id=1，迟到考勤用id=3，早退考勤用id=5，旷班考勤用id=7，请假考勤用id=8");
+            map.put("data",list);
+            // 覆盖之前的-1值
+            map.put("returnCode",200);
+        }catch (Exception e){
+            e.printStackTrace();
         }
+//        }
         return map;
     }
 }

@@ -69,6 +69,4 @@
             and dangTianRiQi like concat(#{date},'%')
         </if>
     </select>
-
-
 </mapper>

@@ -8,14 +8,25 @@ package cn.com.yuyang.bean;
  * Version: V1.0
  */
 public class JiHuoJinYongBean {
+    private String dangAnId;
     private String[] dengluIds;
     private String zhuangTai;
+
+    public String getDangAnId() {
+        return dangAnId;
+    }
+
+    public void setDangAnId(String dangAnId) {
+        this.dangAnId = dangAnId;
+    }
 
     public String[] getDengluIds() {
         return dengluIds;
     }
 
     public void setDengluIds(String[] dengluIds) {
+        System.out.println(dengluIds[0]);
+        System.out.println(dengluIds[1]);
         this.dengluIds = dengluIds;
     }
 

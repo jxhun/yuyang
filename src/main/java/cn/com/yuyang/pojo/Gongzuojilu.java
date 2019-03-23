@@ -9,15 +9,7 @@ public class Gongzuojilu {
   private long dangAnId;
   private long zhuangTai;
   private long jieShouRenId;
-  private  String neiRong;
 
-  public String getNeiRong() {
-    return neiRong;
-  }
-
-  public void setNeiRong(String neiRong) {
-    this.neiRong = neiRong;
-  }
 
   public long getId() {
     return id;

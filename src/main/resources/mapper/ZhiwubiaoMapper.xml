@@ -36,22 +36,53 @@
     </choose>
 
   </select>
-
-  <select id="selectTest" resultType="cn.com.yuyang.pojo.Denglu">
+  <select id="selectYaoQiu" resultType="cn.com.yuyang.pojo.Denglu">
     select denglu.id
     from denglu,renyuandangan
-    where dangAnId = renyuandangan.id and dangAnId IN #{dengluIds}
+    where dangAnId = renyuandangan.id and dangAnId IN
+    <foreach collection="dengluIds" index="index" item="dengluIds" open="(" separator="," close=")">
+      #{dengluIds}
+    </foreach>
     <choose>
-      <when test="zhuangTai=激活">
-        and zaiZhiZhuangTai = '离职' or zaiZhiZhuangTai = '已删除'
+      <when test="zhuangTai=1">
+        and zaiZhiZhuangTai = '0' or zaiZhiZhuangTai = '2'
       </when>
       <otherwise>
-        and zaiZhiZhuangTai = '在职'
+        and zaiZhiZhuangTai = '1'
       </otherwise>
     </choose>
   </select>
-
-  <update id="update">
-    update denglu set zhuangTai = #{zhuangTai} where dangAnId in #{dengluIds}
+  <update id="updateZhuangTai">
+    update denglu set zhuangTai = #{zhuangTai} where dangAnId in
+    <foreach collection="dengluIds" index="index" item="dengluIds" open="(" separator="," close=")">
+      #{dengluIds}
+    </foreach>
+  </update>
+  <select id="selectZhiWu" resultType="cn.com.yuyang.pojo.Zhiwubiao">
+    select id, zhiWuMingCheng, zhiWuJianJie, chaKanKaoQin, qinJiaShenPi, quangXianGuanLi, chaKanYuanGong, caoZuoYuanGong, faBuXiuGaiGongGao, daiBanShiXiang, chuangJianShiJian
+    from zhiwubiao
+    <if test="zhiWuMingCheng!=null">
+      where zhiWuMingCheng = #{zhiWuMingCheng}
+    </if>
+  </select>
+  <select id="selectZhiWuRen" resultType="cn.com.yuyang.pojo.Renyuandangan" parameterType="java.lang.Integer">
+    select id
+    from renyuandangan
+    where zhiWuId = #{zhiWuId}
+  </select>
+  <delete id="deleteZhiWu" parameterType="java.lang.Integer">
+    delete from zhiwubiao where id = #{zhiWuId}
+  </delete>
+  <insert id="insertZhiWu">
+    insert into zhiwubiao(zhiWuMingCheng, zhiWuJianJie, chaKanKaoQin, qinJiaShenPi, quangXianGuanLi, chaKanYuanGong, caoZuoYuanGong, faBuXiuGaiGongGao, daiBanShiXiang, chuangJianShiJian)
+      values (#{zhiWuMingCheng},#{zhiWuJianJie},#{chaKanKaoQin},#{qinJiaShenPi},#{quangXianGuanLi},#{chaKanYuanGong},#{caoZuoYuanGong},#{faBuXiuGaiGongGao},#{daiBanShiXiang},#{chuangJianShiJian})
+  </insert>
+  <update id="updateZhiWu">
+    update zhiwubiao set zhiWuMingCheng = #{zhiWuMingCheng},zhiWuJianJie = #{zhiWuJianJie},
+                         chaKanKaoQin = #{chaKanKaoQin},qinJiaShenPi = #{qinJiaShenPi},
+                         quangXianGuanLi = #{quangXianGuanLi},chaKanYuanGong = #{chaKanYuanGong},
+                         caoZuoYuanGong = #{caoZuoYuanGong},faBuXiuGaiGongGao = #{faBuXiuGaiGongGao},
+                         daiBanShiXiang = #{daiBanShiXiang},chuangJianShiJian = #{chuangJianShiJian}
+    where id = #{id}
   </update>
 </mapper>

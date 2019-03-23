@@ -1,9 +1,6 @@
 package cn.com.yuyang.pojo;
 
-import cn.com.yuyang.bean.GongGaoBean;
 import cn.com.yuyang.pojo.Gongzuojilu;
-
-import java.util.List;
 
 public interface GongzuojiluMapper {
     /**
@@ -53,7 +50,4 @@ public interface GongzuojiluMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(Gongzuojilu record);
-
-
-    int countRiZhi(GongGaoBean gongGaoBean);
 }

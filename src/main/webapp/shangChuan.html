@@ -7,46 +7,30 @@
 <body>
 <center>
     <h1>论文导入页面</h1>
-    <!--<form action="/geren/shangChuanTouXian" method="post" enctype="multipart/form-data">-->
-        <!--<input type="file" name="articleFile" class="required" id="articleFile"><br>-->
-        <!--<button id="btn_import" onclick="return false"> 导入</button>-->
-        <!--<br><br>-->
-    <!--</form>-->
-
-
-   <!--<form method="post" enctype="multipart/form-data" action="/shouye/shouye">-->
-        <!--上传文件：<input type="file" name="file1">-->
-        <!--<button id="btn_import" onclick="return false"> 导入</button>-->
-    <!--</form>-->
-
-    <button id="btn_import" onclick="return false"> 导入</button>
-
+    <form action="/user/executeImport" method="post" enctype="multipart/form-data">
+        <input type="file" name="articleFile" class="required" id="articleFile"><br>
+        <button id="btn_import" onclick="return false"> 导入</button>
+        <br><br>
+    </form>
 </center>
 </body>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script>
-
-
     $("#btn_import").click(function () {
         //避免重复点击,上传多次文件
-       // $("button").attr("disabled", "disabled");
-       // var formData = new FormData();
-        //formData.append("articleFile", $("#articleFile")[0].files[0]);
-        var json = {dangAnId:1};
+        $("button").attr("disabled", "disabled");
+        var formData = new FormData();
+        formData.append("articleFile", $("#articleFile")[0].files[0]);
         $.ajax({
-            url: "/shouye/shouye",    // 请求路径
-            type:"post",// 请求的方式，不区分大小写 
-            cache:false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE) 
-            contentType:"application/json",
-            data:JSON.stringify(json),
-            datatype:"json",
-            success: function (response) {
-                alert(JSON.stringify(response))
-
-
-            },
-            error: function (response) {
-                alert("出错" + response);
+            url: '/user/executeImport',
+            type: 'post',
+            data: formData,
+            contentType: false,
+            processData: false,
+            cache: false,
+            success: function (data) {
+                window.location.href = '/user/importArticle';
+                alert(JSON.stringify(data))
             }
         });
     });

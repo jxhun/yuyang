@@ -13,12 +13,4 @@ public interface XinxiMapper {
     XinXiShanChuChaXunBean chaXun(Integer xinXiId);
     void shouCangXinXi(XinXiShouCangBean xinXiShouCangBean);
     List<XinXiBean> selectYiFaXinXi(IdBean idBean);
-
-
-    /**
-     * 根据公告bean对象里面的人员ID查询为阅读的信息
-     * @param gongGaoBean
-     * @return
-     */
-   int  countXinXi(GongGaoBean gongGaoBean);
 }

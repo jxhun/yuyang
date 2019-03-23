@@ -22,9 +22,9 @@ public class FileUpload {
      * @param request     得到session
      * @return 成功返回路径
      */
-    public String executeImport(MultipartFile articleFile, HttpServletRequest request) {
+    public static String executeImport(MultipartFile articleFile, HttpServletRequest request) {
         String originalFilename = articleFile.getOriginalFilename();
-        String luJingHouZui = System.currentTimeMillis() + originalFilename.substring(originalFilename.indexOf("."));// 文件存储路径后缀
+        String luJingHouZui = System.currentTimeMillis() + originalFilename.substring(originalFilename.lastIndexOf("."));// 文件存储路径后缀
         String jueDuiLuJing = request.getSession().getServletContext().getRealPath(File.separator) + File.separator;  // 得到文件绝对路径
         String luJingQianZui = "img" + File.separator;  // 图片上传路径前缀
         String luJing = "/img/" + luJingHouZui;
@@ -34,6 +34,7 @@ public class FileUpload {
             luJing = "/office/" + luJingHouZui;  // 得到文件路径
         }
         File file = new File(jueDuiLuJing + luJingQianZui + luJingHouZui);  // 组装上传路径得到文件路径
+        System.out.println(jueDuiLuJing + luJingQianZui + luJingHouZui);
         try {
             articleFile.transferTo(file);      // 上传
             return luJing;   // 上传成功return地址路径

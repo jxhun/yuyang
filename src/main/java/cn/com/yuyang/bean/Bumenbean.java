@@ -13,12 +13,20 @@ public class Bumenbean {
     private long id;
     private String buMenMingCheng;
     private String buMenJianJie;
-    private String fuZeRen;
+    private String xingMing;
     private long dangAnId;
     private java.sql.Timestamp chuangJianShiJian;
     private int count;
     private String token;
+    private long buMenJiBie;
 
+    public long getBuMenJiBie() {
+        return buMenJiBie;
+    }
+
+    public void setBuMenJiBie(long buMenJiBie) {
+        this.buMenJiBie = buMenJiBie;
+    }
     public String getToken() {
         return token;
     }
@@ -27,12 +35,12 @@ public class Bumenbean {
         this.token = token;
     }
 
-    public String getFuZeRen() {
-        return fuZeRen;
+    public String getXingMing() {
+        return xingMing;
     }
 
-    public void setFuZeRen(String fuZeRen) {
-        this.fuZeRen = fuZeRen;
+    public void setXingMing(String xingMing) {
+        this.xingMing = xingMing;
     }
 
     public int getCount() {
