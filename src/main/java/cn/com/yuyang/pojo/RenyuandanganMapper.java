@@ -1,10 +1,7 @@
 package cn.com.yuyang.pojo;
 
 
-import cn.com.yuyang.bean.Bumenbean;
-import cn.com.yuyang.bean.GongGaoBean;
-import cn.com.yuyang.bean.IdBean;
-import cn.com.yuyang.bean.YuanGongBean;
+import cn.com.yuyang.bean.*;
 
 import java.util.List;
 
@@ -70,4 +67,38 @@ public interface RenyuandanganMapper {
     Renyuandangan selectHaoYou(YuanGongBean yuanGongBean);
 
     Integer chaXunBuMenId(GongGaoBean gongGaoBean);
+
+
+    /**
+     * 用于更新个人设置
+     * @param yuanGongBean
+     * @return
+     */
+     Renyuandangan  updateXinXi(YuanGongBean yuanGongBean);
+
+    /**
+     * 用于更新个人设置
+     * @param denglu
+     * @return
+     */
+     Denglu  updateXinXi2(Denglu denglu);
+
+
+    /**
+     * 此方法是查询本人的工作日志
+     * @return
+     */
+    List<Gongzuojilu> shouYeRiZhi(GongGaoBean gongGaoBean);
+
+    /**
+     * 此方法根据每一次如果点击了公告则更新人员档案里面点击公告的时间
+     * @param gongGaoBean
+     */
+    void  updateGongGaoDianJi(GongGaoBean gongGaoBean);
+
+    /**
+     * 根据人员档案ID更改头像地址
+     * @param renyuandangan
+     */
+    void  updateTouXiang(Renyuandangan renyuandangan);
 }

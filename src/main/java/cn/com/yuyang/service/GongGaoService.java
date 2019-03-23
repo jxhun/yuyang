@@ -2,6 +2,7 @@ package cn.com.yuyang.service;
 
 import cn.com.yuyang.bean.Bumenbean;
 import cn.com.yuyang.bean.GongGaoBean;
+import cn.com.yuyang.bean.ShouYeBean;
 import cn.com.yuyang.pojo.*;
 import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -158,4 +159,7 @@ public class GongGaoService {
     public Integer chaXunBuMenId(GongGaoBean gongGaoBean) {
         return renyuandanganMapper.chaXunBuMenId(gongGaoBean);
     }
+
+
+
 }

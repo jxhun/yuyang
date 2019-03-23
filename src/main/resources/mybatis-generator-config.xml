@@ -16,9 +16,9 @@
 
         <!-- 数据库的相关配置 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/oadb"
+                        connectionURL="jdbc:mysql://localhost:3306/oadb?useSSL=true&amp;rewriteBatchedStatements=true&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;rewriteBatchedStatements=true"
                         userId="root"
-                        password="0915"/>
+                        password="123"/>
 
         <!--指定生成的类型为java类型，避免数据库中number等类型字段 -->
         <javaTypeResolver>

@@ -213,4 +213,8 @@
       zhuangTai = #{zhuangtai,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="countQingJia" resultType="java.lang.Integer">
+    select count(id) from qingjiabiao where  shenPiRen=#{dangAnId} and chuLiZhuangTai=0;
+  </select>
 </mapper>

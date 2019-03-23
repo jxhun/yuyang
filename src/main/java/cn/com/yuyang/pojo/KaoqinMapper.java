@@ -2,6 +2,7 @@ package cn.com.yuyang.pojo;
 
 
 import cn.com.yuyang.bean.GeRenKaoQinBean;
+import cn.com.yuyang.bean.GongGaoBean;
 import cn.com.yuyang.bean.KaoQinGuanLiBean;
 
 import java.util.List;
@@ -23,5 +24,6 @@ public interface KaoqinMapper {
     List<Kaoqin> selectBing(GeRenKaoQinBean geRenKaoQinBean);
 
     List<Kaoqin> selectKaoQinGuanLi(KaoQinGuanLiBean kaoQinGuanLiBean);
+
 
 }

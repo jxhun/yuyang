@@ -100,4 +100,10 @@
       xiaWuXiaBan = #{xiawuxiaban,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
+  <select id="selectShiJian" resultType="cn.com.yuyang.pojo.Kaoqin">
+    select  shangWuShangBan,xiaWuXiaBan from zuoxishijian
+
+  </select>
 </mapper>

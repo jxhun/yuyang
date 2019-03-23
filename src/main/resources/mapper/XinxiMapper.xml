@@ -60,4 +60,9 @@
                x.xinXiShiJian,x.fuJianDiZhi,x.id,x.shouCangZhuangTai from xinxi x where x.faXinId =#{id}
                                                                                     and (x.zhuangTai =0 or x.zhuangTai =2) and x.faSongZhuangTai=1;
     </select>
+
+    <select id="countXinXi" resultType="java.lang.Integer">
+        select count(id) from xinxi where  shouXinId=#{dangAnId} and yiDuZhuangTai=0;
+    </select>
+
 </mapper>

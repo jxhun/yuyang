@@ -12,6 +12,7 @@
             and (g.gongGaoMingCheng like concat(concat('%',#{souSuo}),'%') or g.neiRong like
             concat(concat('%',#{souSuo}),'%') or r.xingMing like concat(concat('%',#{souSuo}),'%'))
         </if>
+        order by faBuShiJian;
     </select>
     <resultMap id="getOneToOneMao" type="cn.com.yuyang.pojo.Gonggao">
         <id property="id" column="id1"/>
@@ -114,4 +115,11 @@
             concat(concat('%',#{souSuo}),'%') or r.xingMing like concat(concat('%',#{souSuo}),'%'))
         </if>
     </select>
+
+    <select id="coutGongGao" resultType="java.lang.Integer">
+        select count(id) from gonggao where  dangAnId=#{dangAnId} and faBuShiJian > (select gongGaoDianJiShiJian from renyuandangan where id=#{dangAnId});
+
+    </select>
+
+
 </mapper>

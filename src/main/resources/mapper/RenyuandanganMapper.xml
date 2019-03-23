@@ -224,4 +224,42 @@
     <select id="chaXunBuMenId" resultType="java.lang.Integer">
         select buMenId from oadb.renyuandangan where id=#{dangAnId};
     </select>
+
+     <update id="updateXinXi" parameterType="java.lang.Integer">
+         update  renyuandangan set youXiang=#{youXiang},jinJiLianXiDianHua=#{jinJiLianXiDianHua},beiZhu=#{beiZhu} where id=#{dangAnId};
+     </update>
+
+    <update id="updateXinXi2" parameterType="java.lang.Integer">
+        update  DengLu set shouJiHaoMa=#{shouJiHaoMa},miMa=#{miMa}  where id=#{id};
+    </update>
+
+
+
+    <select id="shouYeRiZhi" resultMap="shouYeRiZhi">
+
+        select  g.id,g.neiRong,g.shiJian ,g.leiXing ,r.xingMing from  gongzuojilu as g,renyuandangan as r where g.dangAnId=r.id and (g.dangAnId=#{dangAnId} or g.jieShouRenId=#{dangAnId});
+
+    </select>
+
+    <resultMap id="shouYeRiZhi" type="cn.com.yuyang.pojo.Renyuandangan">
+        <result property="xingMing" column="xingMing"/>
+        <collection property="gongzuojilus" ofType="cn.com.yuyang.pojo.Gongzuojilu">
+            <id property="id" column="id"/>
+            <result property="leiXing" column="leiXing"/>
+            <result property="neiRong" column="neiRong"/>
+            <result property="shiJian" column="shiJian"/>
+        </collection>
+    </resultMap>
+
+    <update id="updateGongGaoDianJi" parameterType="cn.com.yuyang.pojo.Renyuandangan">
+        update  renyuandangan set gongGaoDianJiShiJian=now();
+
+    </update>
+
+    <update id="updateTouXiang" parameterType="cn.com.yuyang.pojo.Renyuandangan">
+        update  renyuandangan set touXiang=#{touXiang} where id=#{id};
+
+    </update>
+
+
 </mapper>

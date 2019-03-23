@@ -1,6 +1,7 @@
 package cn.com.yuyang.service;
 
 import cn.com.yuyang.bean.YuanGongBean;
+import cn.com.yuyang.pojo.Denglu;
 import cn.com.yuyang.pojo.Renyuandangan;
 import cn.com.yuyang.pojo.RenyuandanganMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +40,29 @@ public class GeRenSheZhiService {
     public Renyuandangan xinxiChaXun(YuanGongBean yuanGongBean){
         return renyuandanganMapper.selectHaoYou(yuanGongBean); // 调用查询方法
     }
-    
+
+    /**
+     * 此方法用来更新人员信息
+     * @param yuanGongBean 存入了前端传入的人员ID
+     * @return  返回Renyuandangan对象，封装有 登录人的个人信息
+     */
+    public  Renyuandangan updateXinXi(YuanGongBean yuanGongBean){
+        return  renyuandanganMapper.updateXinXi(yuanGongBean);
+
+    }
+
+    /**
+     * 此方法用来更新人员信息
+     * @param denglu session中的登录ID
+     * @return 返回对应的登录对象
+     */
+    public Denglu updateXinXi2(Denglu denglu){
+        return  renyuandanganMapper.updateXinXi2(denglu);
+
+    }
+
+    public void updateTouXiang(Renyuandangan renyuandangan){
+        renyuandanganMapper.updateTouXiang(renyuandangan);
+    }
+
 }

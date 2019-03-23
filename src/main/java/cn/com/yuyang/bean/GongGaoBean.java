@@ -24,6 +24,15 @@ public class GongGaoBean {
     private String fuJianDiZhi;  // 附件地址
     private int liuLanShu; // 浏览数
     private String souSuo; // 公告搜索内容
+    private  Timestamp gongGaoDianJiShiJian;//代表人员档案中点击公告的时间
+
+    public Timestamp getGongGaoDianJiShiJian() {
+        return gongGaoDianJiShiJian;
+    }
+
+    public void setGongGaoDianJiShiJian(Timestamp gongGaoDianJiShiJian) {
+        this.gongGaoDianJiShiJian = gongGaoDianJiShiJian;
+    }
 
     public String getSouSuo() {
         return souSuo;
