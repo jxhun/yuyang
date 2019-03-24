@@ -30,6 +30,7 @@ public class Renyuandangan {
     private Zhiwubiao zhiwubiao;
     private Denglu denglu;
     private Timestamp gongGaoDianJiShiJian;
+    private Bumen bumen;
 
     public Timestamp getGongGaoDianJiShiJian() {
         return gongGaoDianJiShiJian;
@@ -47,7 +48,6 @@ public class Renyuandangan {
         this.denglu = denglu;
     }
 
-    private Bumen bumen;
 
     public Bumen getBumen() {
         return bumen;

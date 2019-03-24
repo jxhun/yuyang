@@ -1,6 +1,7 @@
 package cn.com.yuyang.controller;
 
 import cn.com.yuyang.bean.GongGaoBean;
+import cn.com.yuyang.pojo.Bumen;
 import cn.com.yuyang.pojo.Gonggao;
 import cn.com.yuyang.pojo.Zhiwubiao;
 import cn.com.yuyang.service.GongGaoService;
@@ -105,16 +106,16 @@ public class GongGaoController {
 //            int dangAnId = (int) request.getSession().getAttribute(SessionKey.DANGANID); // 得到档案id
 //            gongGaoBean.setDangAnId(dangAnId);  // 档案id存入公告bean对象
         gongGaoBean.setFuJianDiZhi(FileUpload.executeImport(articleFile, request));   // 传入文件地址
-        if (!gongGaoBean.getBuMenMingCheng().equals("全体员工")) {  // 如果前端传入的部门名称不为全体员工，那么就调用查询部门id方法得到部门id
-            Integer buMenId = gongGaoService.selectBuMenId(gongGaoBean);
-            if (buMenId != -1) {  // 如果查询结果不为-1，那么说明查询成功
-                gongGaoBean.setBuMenId(buMenId);  // 调用查询部门id方法，得到部门id并存入gongGaoBean对象
-            } else {  // 如果查询结果为-1，那么直接返回状态码-100提醒前端数据库出错
-                returnMap.put("returncode", -100);   // 成功状态码200
-                returnMap.put("msg", "数据库异常，数据库存在多个相同的部门名称");     // 消息提示上传成功
-                return returnMap;
-            }
-        }
+//        if (!gongGaoBean.getBuMenMingCheng().equals("全体员工")) {  // 如果前端传入的部门名称不为全体员工，那么就调用查询部门id方法得到部门id
+//            Integer buMenId = gongGaoService.selectBuMenId(gongGaoBean);
+//            if (buMenId != -1) {  // 如果查询结果不为-1，那么说明查询成功
+//                gongGaoBean.setBuMenId(buMenId);  // 调用查询部门id方法，得到部门id并存入gongGaoBean对象
+//            } else {  // 如果查询结果为-1，那么直接返回状态码-100提醒前端数据库出错
+//                returnMap.put("returncode", -100);   // 成功状态码200
+//                returnMap.put("msg", "数据库异常，数据库存在多个相同的部门名称");     // 消息提示上传成功
+//                return returnMap;
+//            }
+//        }
         gongGaoService.newInsertGongGao(gongGaoBean);  // 调用新增方法
         returnMap.put("returncode", 200);   // 成功状态码200
         returnMap.put("msg", "200上传成功");     // 消息提示上传成功
@@ -250,6 +251,17 @@ public class GongGaoController {
 //            returnMap.put("returncode", -1);   // 成功状态码-1
 //            returnMap.put("msg", "登录状态已超时或者前端未传数据");     // 消息提示如果比对不成功，那么说明要么登录超时，session已到时
 //        }
+        return returnMap;
+    }
+
+    @RequestMapping(value = {"/chaXunBuMen"})
+    @ResponseBody
+    public Map<String, Object> chaXunBuMen(@RequestBody GongGaoBean gongGaoBean) {
+        List<Bumen> list = gongGaoService.chaXunBuMen(); // 查询得到所有的部门名称和部门id
+        Map<String, Object> returnMap = new HashMap<>();
+        returnMap.put("data", list);
+        returnMap.put("returncode", 200);   // 成功状态码200
+        returnMap.put("msg", "得到部门名称和部门id，新增传递部门的时候传递部门id，全体员工部门id传0，部门id（buMenId）");     // 消息提示上传成功
         return returnMap;
     }
 }

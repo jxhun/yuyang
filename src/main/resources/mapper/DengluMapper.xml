@@ -133,17 +133,17 @@
         select * from denglu
         <where>
             <if test="shouJiHaoMa!=null and shouJiHaoMa!=''">
-                shouJiHaoMa=${shouJiHaoMa}
+                shouJiHaoMa=#{shouJiHaoMa}
             </if>
             <if test="gongHao!=null and gongHao!=''">
-                or gongHao=${gongHao}
+                or gongHao=#{gongHao}
             </if>
         </where>
 
     </select>
 
     <update id="updateLogin" parameterType="cn.com.yuyang.pojo.Denglu">
-        update  denglu set dengLuCiShu=${dengLuCiShu},zuiHouYiCiDengLuShiJian=now(),cuoWuCiShu=0 where id=${id}
+        update  denglu set dengLuCiShu=#{dengLuCiShu},zuiHouYiCiDengLuShiJian=now(),cuoWuCiShu=0 where id=#{id}
     </update>
 
 
@@ -192,7 +192,7 @@
             t3.faBuXiuGaiGongGao,
             t3.daiBanShiXiang
         from denglu t1,renyuandangan t2,zhiwubiao t3
-        where t1.dangAnId=t2.id and t2.zhiWuId=t3.id and t1.id=${id}
+        where t1.dangAnId=t2.id and t2.zhiWuId=t3.id and t1.id=#{id}
     </select>
 
     <resultMap id="getOneToOneMap1" type="cn.com.yuyang.pojo.Denglu">
@@ -245,24 +245,24 @@
     </resultMap>
 
     <update id="updateCuoWuCiShu" parameterType="cn.com.yuyang.pojo.Denglu">
-        update  denglu set cuoWuCiShu=${cuoWuCiShu}  where id=${id}
+        update  denglu set cuoWuCiShu=#{cuoWuCiShu}  where id=#{id}
     </update>
 
     <update id="updateDongJie" parameterType="cn.com.yuyang.pojo.Denglu">
-        update  denglu set zhuangTai=${zhuangTai},dongJieShiJian=now()  where id=${id}
+        update  denglu set zhuangTai=#{zhuangTai},dongJieShiJian=now()  where id=#{id}
     </update>
 
     <select id="selectByDongJiShiJiaan" resultType="cn.com.yuyang.pojo.Denglu">
-        select * from denglu where id=${id};
+        select * from denglu where id=#{id};
     </select>
 
     <update id="updateJieDong" parameterType="cn.com.yuyang.pojo.Denglu">
-        update  denglu set zhuangTai=${zhuangTai},dongJieShiJian=null  where id=${id}
+        update  denglu set zhuangTai=#{zhuangTai},dongJieShiJian=null  where id=#{id}
     </update>
 
 
     <select id="selectByYanZhengMa" resultType="cn.com.yuyang.pojo.Denglu">
-        select * from denglu where shouJiHaoMa=${shouJiHaoMa};
+        select * from denglu where shouJiHaoMa=#{shouJiHaoMa};
     </select>
     <insert id="insertDenglu" parameterType="cn.com.yuyang.bean.YuanGongBean">
         insert into denglu

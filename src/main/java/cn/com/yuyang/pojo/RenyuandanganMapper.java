@@ -102,15 +102,15 @@ public interface RenyuandanganMapper {
      * @param yuanGongBean
      * @return
      */
-    Renyuandangan  updateXinXi(YuanGongBean yuanGongBean);
+    void  updateXinXi(YuanGongBean yuanGongBean);
 
 
     /**
      * 用于更新个人设置
-     * @param denglu
+     * @param yuanGongBean
      * @return
      */
-    Denglu  updateXinXi2(Denglu denglu);
+    void  updateXinXi2(YuanGongBean yuanGongBean);
 
     /** 删除人员档案表，真删除
      *

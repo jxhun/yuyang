@@ -49,10 +49,10 @@ public class GeRenSheZhiController {
 //        if (yuanGongBean != null && token != null && token.equals(yuanGongBean.getToken())) {
 //            yuanGongBean = new YuanGongBean();
 //            yuanGongBean.setDangAnId(1);
-            Renyuandangan renyuandangan = geRenSheZhiService.xinxiChaXun(yuanGongBean);
-            returnMap.put("returncode", 200);
-            returnMap.put("msg", "200,查询成功,注意为0的和为null的数据都是未查询的数据");
-            returnMap.put("data", renyuandangan);
+        Renyuandangan renyuandangan = geRenSheZhiService.xinxiChaXun(yuanGongBean);
+        returnMap.put("returncode", 200);
+        returnMap.put("msg", "200,查询成功,注意为0的和为null的数据都是未查询的数据");
+        returnMap.put("data", renyuandangan);
 //        } else {
 //            returnMap.put("returncode", -1);
 //            returnMap.put("msg", "查询失败");
@@ -63,39 +63,40 @@ public class GeRenSheZhiController {
 
     @RequestMapping(value = {"/updateXinXi"})
     @ResponseBody
-    public Map<String, Object> updateXinXi(@RequestBody(required = false) YuanGongBean yuanGongBean, Denglu denglu, HttpServletRequest request) {
+    public Map<String, Object> updateXinXi(@RequestBody(required = false) YuanGongBean yuanGongBean, HttpServletRequest request) {
         String token = (String) request.getSession().getAttribute(SessionKey.TOKEN);    // 得到token
+        System.out.println("备注" + yuanGongBean.getBeiZhu());
+        yuanGongBean.setDangAnId(1);
         Map<String, Object> returnMap = new HashMap<>();
         geRenSheZhiService.updateXinXi(yuanGongBean);
-        geRenSheZhiService.updateXinXi2(denglu);
+        geRenSheZhiService.updateXinXi2(yuanGongBean);
+        System.out.println("=======" + yuanGongBean.getShouJiHaoMa());
         //更新了数据之后再进行查询用工信息
         Renyuandangan renyuandangan = geRenSheZhiService.xinxiChaXun(yuanGongBean);
         returnMap.put("returncode", 200);
         returnMap.put("msg", "更新成功，");
-        returnMap.put("data",renyuandangan );
-      return returnMap;
+        returnMap.put("data", renyuandangan);
+        return returnMap;
     }
 
 
     @RequestMapping(value = {"/shangChuanTouXian"})
     @ResponseBody
-    public Map<String, Object> shangChuanTouXian(@RequestBody(required = false) MultipartFile articleFile, HttpServletRequest request,Renyuandangan renyuandangan) {
+    public Map<String, Object> shangChuanTouXian(@RequestBody(required = false) MultipartFile articleFile, HttpServletRequest request, Renyuandangan renyuandangan) {
         String token = (String) request.getSession().getAttribute(SessionKey.TOKEN);    // 得到token
         Map<String, Object> returnMap = new HashMap<>();
         FileUpload fileUpload = new FileUpload();
         String imgURl = fileUpload.executeImport(articleFile, request);
-        System.out.println("99999"+imgURl);
-        if(imgURl!= null && !imgURl.trim().equals("")){
+        System.out.println("99999" + imgURl);
+        if (imgURl != null && !imgURl.trim().equals("")) {
             renyuandangan.setTouXiang(imgURl);
             geRenSheZhiService.updateTouXiang(renyuandangan);
         }
         returnMap.put("returncode", 200);
         returnMap.put("msg", "更新成功，");
-        returnMap.put("data",imgURl );
+        returnMap.put("data", imgURl);
         return returnMap;
     }
-
-
 
 
 }

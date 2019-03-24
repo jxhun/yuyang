@@ -50,4 +50,8 @@ public interface BumenMapper {
      * @return
      */
     List<Bumenbean> selectCount(Bumenbean bum);
+
+    Bumen selectBuMenJiBie(Integer buMenId);
+
+    List<Bumen> selectShangCengShenPiRen(Integer buMenJiBie);
 }

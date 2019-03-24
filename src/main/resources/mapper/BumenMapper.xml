@@ -105,4 +105,12 @@
         </if>
         group by buMenId
     </select>
+    <select id="selectShangCengShenPiRen" parameterType="java.lang.Integer" resultType="cn.com.yuyang.pojo.Bumen">
+        select buMenMingCheng,dangAnId from  bumen where buMenJiBie =#{buMenJiBie} ;
+    </select>
+
+    <select id="selectBuMenJiBie" resultType="cn.com.yuyang.pojo.Bumen" parameterType="java.lang.Integer">
+        select buMenJiBie from  bumen where  id=#{buMenId};
+    </select>
+
 </mapper>

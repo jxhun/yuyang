@@ -13,7 +13,24 @@ public class Qingjiabiao {
   private long chuLiZhuangTai;
   private java.sql.Timestamp shenQingShiJian;
   private long zhuangTai;
+  private Renyuandangan renyuandangan;
+  private Bumen bumen;
 
+  public Renyuandangan getRenyuandangan() {
+    return renyuandangan;
+  }
+
+  public void setRenyuandangan(Renyuandangan renyuandangan) {
+    this.renyuandangan = renyuandangan;
+  }
+
+  public Bumen getBumen() {
+    return bumen;
+  }
+
+  public void setBumen(Bumen bumen) {
+    this.bumen = bumen;
+  }
 
   public long getId() {
     return id;

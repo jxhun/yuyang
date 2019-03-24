@@ -10,6 +10,15 @@ public class Bumen {
   private String buMenJianJie;
   private long dangAnId;
   private java.sql.Timestamp chuangJianShiJian;
+  private int buMenJiBie;
+
+  public int getBuMenJiBie() {
+    return buMenJiBie;
+  }
+
+  public void setBuMenJiBie(int buMenJiBie) {
+    this.buMenJiBie = buMenJiBie;
+  }
 
   private List<Renyuandangan> renyuandanganList;
 

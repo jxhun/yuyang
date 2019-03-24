@@ -156,4 +156,13 @@ public class GongGaoService {
     public Integer chaXunBuMenId(GongGaoBean gongGaoBean) {
         return renyuandanganMapper.chaXunBuMenId(gongGaoBean);
     }
+
+    /**
+     * 查询所有部门
+     * @return 返回部门名称和id集合
+     */
+    public List<Bumen> chaXunBuMen() {
+        List<Bumen> list = bumenMapper.selectBumen();
+        return list;
+    }
 }

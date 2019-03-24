@@ -210,12 +210,30 @@
         select buMenId from oadb.renyuandangan where id=#{dangAnId};
     </select>
 
-     <update id="updateXinXi" parameterType="java.lang.Integer">
-         update  renyuandangan set youXiang=#{youXiang},jinJiLianXiDianHua=#{jinJiLianXiDianHua},beiZhu=#{beiZhu} where id=#{dangAnId};
+     <update id="updateXinXi" parameterType="cn.com.yuyang.bean.YuanGongBean">
+         update  renyuandangan set id=#{dangAnId}
+                <if  test="youXiang !=null and youXiang !=''">
+                    ,youXiang=#{youXiang}
+                </if>
+                <if  test="jinJiLianXiDianHua !=null and jinJiLianXiDianHua !=''">
+                   ,jinJiLianXiDianHua=#{jinJiLianXiDianHua}
+               </if>
+               <if  test="beiZhu !=null and beiZhu !=''">
+                   ,beiZhu=#{beiZhu}
+                </if>
+
+               where id=#{dangAnId};
      </update>
 
-    <update id="updateXinXi2" parameterType="java.lang.Integer">
-        update  DengLu set shouJiHaoMa=#{shouJiHaoMa},miMa=#{miMa}  where id=#{id};
+    <update id="updateXinXi2" parameterType="cn.com.yuyang.pojo.Denglu">
+        update  DengLu set dangAnId=#{dangAnId}
+        <if  test="shouJiHaoMa !=null and shouJiHaoMa !=''">
+            ,shouJiHaoMa=#{shouJiHaoMa}
+        </if>
+        <if  test="miMa !=null and miMa !=''">
+            ,miMa=#{miMa}
+        </if>
+             where dangAnId=#{dangAnId};
     </update>
 
 

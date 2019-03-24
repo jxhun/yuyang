@@ -27,4 +27,8 @@ public interface KaoqinMapper {
 
     Map<String,Integer> selectCount(String dangAnId);
 
+    /**
+     * excle上传
+     */
+    void excle(List<Kaoqin> list);
 }

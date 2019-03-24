@@ -77,10 +77,7 @@ public class DengLuService {
         request.getSession().setAttribute(SessionKey.TOKEN, ToKen.toKen());
         request.getSession().setAttribute(SessionKey.XINGMING, denglu1.getRenyuandangan().getXingMing());
         request.getSession().setAttribute(SessionKey.BUMENID, denglu1.getRenyuandangan().getBuMenId());
-        map.put("returncode", "200");
-        map.put("msg", "登录成功");
-        map.put("data", denglu1);
-        map.put("toKen", ToKen.toKen());
+
         return map;
 
     }

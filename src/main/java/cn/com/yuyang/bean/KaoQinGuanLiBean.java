@@ -5,6 +5,24 @@ public class KaoQinGuanLiBean {
     private String buMenMingCheng;
     private String startTime;
     private String endTime;
+    private int buMenId;
+    private String toKen;
+
+    public String getToKen() {
+        return toKen;
+    }
+
+    public void setToKen(String toKen) {
+        this.toKen = toKen;
+    }
+
+    public int getBuMenId() {
+        return buMenId;
+    }
+
+    public void setBuMenId(int buMenId) {
+        this.buMenId = buMenId;
+    }
 
     public String getXingMing() {
         return xingMing;

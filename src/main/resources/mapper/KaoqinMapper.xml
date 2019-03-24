@@ -2,31 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.com.yuyang.pojo.KaoqinMapper">
     <select id="selectKaoQinGuanLi" parameterType="cn.com.yuyang.bean.KaoQinGuanLiBean" resultMap="KaoQinGuanLiMap">
-        select  kaoqin.id id1,renyuandangan.id id2,bumen.id id3, xingMing,buMenMingCheng,shangWuShangBan, xiaWuXiaBan, zhuangTai, qingJiaZhuangTai, dangTianRiQi from kaoqin,renyuandangan,bumen
+        select kaoqin.id id1,renyuandangan.id id2,bumen.id id3, xingMing,buMenMingCheng,shangWuShangBan, xiaWuXiaBan,
+        zhuangTai, qingJiaZhuangTai, dangTianRiQi from kaoqin,renyuandangan,bumen
         where
-        kaoqin.dangAnId =renyuandangan.id  and buMenId =bumen.id
+        kaoqin.dangAnId =renyuandangan.id and buMenId =bumen.id
         <if test="xingMing !=null and xingMing.trim() !=''">
             and xingMing like concat(concat('%',#{xingMing}),'%')
         </if>
-        <if test="buMenMingCheng !=null and buMenMingCheng.trim() !=''">
-            and buMenMingCheng like concat(concat('%',#{buMenMingCheng}),'%')
+        <if test="buMenId != 0 ">
+            and buMenId = #{buMenId}
         </if>
         <if test="startTime !=null and startTime !=''">
-            and dangTianRiQi  >#{startTime}
+            and dangTianRiQi >#{startTime}
         </if>
         <if test="endTime !=null and endTime !=''">
-            and  #{endTime} > dangTianRiQi
+            and #{endTime} > dangTianRiQi
         </if>
 
     </select>
     <resultMap id="KaoQinGuanLiMap" type="cn.com.yuyang.pojo.Kaoqin">
         <id property="id" column="id1"/>
         <!--<result property="dangAnId" column="dangAnId"/>-->
-        <result property="shangWuShangBan"  column="shangWuShangBan"/>
-        <result property="xiaWuXiaBan"  column="xiaWuXiaBan"/>
-        <result property="zhuangTai"  column="zhuangTai"/>
-        <result property="qingJiaZhuangTai"  column="qingJiaZhuangTai"/>
-        <result property="dangTianRiQi"  column="dangTianRiQi"/>
+        <result property="shangWuShangBan" column="shangWuShangBan"/>
+        <result property="xiaWuXiaBan" column="xiaWuXiaBan"/>
+        <result property="zhuangTai" column="zhuangTai"/>
+        <result property="qingJiaZhuangTai" column="qingJiaZhuangTai"/>
+        <result property="dangTianRiQi" column="dangTianRiQi"/>
         <association property="renyuandangan" javaType="cn.com.yuyang.pojo.Renyuandangan">
             <id property="id" column="id2"/>
             <result property="xingMing" column="xingMing"/>
@@ -69,4 +70,15 @@
             and dangTianRiQi like concat(#{date},'%')
         </if>
     </select>
+
+    <insert id="excle" parameterType="java.util.List">
+        insert into kaoqin(dangAnId, shangWuShangBan, xiaWuXiaBan, zhuangTai, dangTianRiQi)
+         values
+        <foreach collection ="list" item="item" index= "index" separator =",">
+            (
+              #{item.dangAnId},#{item.shangWuShangBan},#{item.xiaWuXiaBan},#{item.zhuangTai},#{item.dangTianRiQi}
+            )
+        </foreach >
+
+    </insert>
 </mapper>
