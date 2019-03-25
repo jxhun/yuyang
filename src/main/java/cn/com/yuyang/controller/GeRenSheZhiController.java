@@ -51,18 +51,19 @@ public class GeRenSheZhiController {
     @ResponseBody
     public Map<String, Object> xinxi(@RequestBody(required = false) YuanGongBean yuanGongBean, HttpServletRequest request) {
         String token = (String) request.getSession().getAttribute(SessionKey.TOKEN);    // 得到token
-        Map<String, Object> returnMap = new HashMap<>();
         // 如果token不为空,说明用户已经登录,并且前端的token必须和我session的token相同
 //        if (yuanGongBean != null && token != null && token.equals(yuanGongBean.getToken())) {
 //            yuanGongBean = new YuanGongBean();
 //            yuanGongBean.setDangAnId(1);
+        Map<String, Object> returnMap = new HashMap<>();
         Renyuandangan renyuandangan = geRenSheZhiService.xinxiChaXun(yuanGongBean);
         returnMap.put("returncode", 200);
         returnMap.put("msg", "200,查询成功,注意为0的和为null的数据都是未查询的数据");
         returnMap.put("data", renyuandangan);
+//        returnMap.put("token", token);  // 传出token
 //        } else {
 //            returnMap.put("returncode", -1);
-//            returnMap.put("msg", "查询失败");
+//            returnMap.put("msg", "登录超时，请从新登录");
 //        }
         return returnMap;
     }
@@ -72,6 +73,8 @@ public class GeRenSheZhiController {
     @ResponseBody
     public Map<String, Object> updateXinXi(@RequestBody(required = false) YuanGongBean yuanGongBean, HttpServletRequest request) {
         String token = (String) request.getSession().getAttribute(SessionKey.TOKEN);    // 得到token
+        // 如果token不为空,说明用户已经登录,并且前端的token必须和我session的token相同
+//        if (yuanGongBean != null && token != null && token.equals(yuanGongBean.getToken())) {
         System.out.println("备注" + yuanGongBean.getBeiZhu());
         yuanGongBean.setDangAnId(1);
         Map<String, Object> returnMap = new HashMap<>();
@@ -85,27 +88,46 @@ public class GeRenSheZhiController {
         returnMap.put("returncode", 200);
         returnMap.put("msg", "更新成功，");
         returnMap.put("data", renyuandangan);
+//        returnMap.put("token", token);  // 传出token
+        //        } else {
+//            returnMap.put("returncode", -1);
+//            returnMap.put("msg", "登录超时，请从新登录");
+//        }
+
         return returnMap;
     }
 
 
     @RequestMapping(value = {"/shangChuanTouXian"})
     @ResponseBody
-    public Map<String, Object> shangChuanTouXian(@RequestBody(required = false) MultipartFile articleFile, HttpServletRequest request, Renyuandangan renyuandangan) {
+    public Map<String, Object> shangChuanTouXian(@RequestBody(required = false) MultipartFile articleFile, HttpServletRequest request, YuanGongBean yuanGongBean) {
         String token = (String) request.getSession().getAttribute(SessionKey.TOKEN);    // 得到token
+        // 如果token不为空,说明用户已经登录,并且前端的token必须和我session的token相同
+//        if (yuanGongBean != null && token != null && token.equals(yuanGongBean.getToken())) {
         Map<String, Object> returnMap = new HashMap<>();
+
+        if(yuanGongBean==null){
+            Integer attribute = (Integer) request.getSession().getAttribute(SessionKey.DANGANID);
+            yuanGongBean.setDangAnId(attribute);
+        }
+
         FileUpload fileUpload = new FileUpload();
         String imgURl = fileUpload.executeImport(articleFile, request);
         System.out.println("99999" + imgURl);
         if (imgURl != null && !imgURl.trim().equals("")) {
-            renyuandangan.setTouXiang(imgURl);
-            geRenSheZhiService.updateTouXiang(renyuandangan);
+            yuanGongBean.setTouXiang(imgURl);
+            geRenSheZhiService.updateTouXiang(yuanGongBean);
         }
+        Renyuandangan renyuandangan = geRenSheZhiService.xinxiChaXun(yuanGongBean);
         returnMap.put("returncode", 200);
-        returnMap.put("msg", "更新成功，");
+        returnMap.put("msg", "更新成功55555");
         returnMap.put("data", imgURl);
         return returnMap;
     }
+
+
+
+
 
 
 }

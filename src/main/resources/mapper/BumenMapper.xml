@@ -20,7 +20,8 @@
     </select>
 
     <select id="selectRenYuan" resultMap="getOneToOneMao">
-        select bm.buMenMingCheng,ry.xingMing,dl.shouJiHaoMa,ry.jinJiLianXiDianHua,zw.zhiWuMingCheng,bm.id as id1,ry.id,ry.buMenId
+        select bm.buMenMingCheng,ry.xingMing,dl.shouJiHaoMa,ry.jinJiLianXiDianHua,zw.zhiWuMingCheng,bm.id as
+        id1,ry.id,ry.buMenId
         from bumen as bm
         join renyuandangan as ry
         join zhiwubiao as zw
@@ -29,7 +30,7 @@
             and bm.id = #{buMenId}
         </if>
         <if test="xingMing != null and xingMing != ''">
-          and ry.xingMing like concat(concat('%',#{xingMing}),'%')
+            and ry.xingMing like concat(concat('%',#{xingMing}),'%')
         </if>
         <if test="shouJiHaoMa != null and shouJiHaoMa != ''">
             and ry.shouJiHaoMa like concat(concat('%',#{shouJiHaoMa}),'%')
@@ -89,12 +90,14 @@
         where id = #{id}
     </delete>
     <select id="selectBumen" resultType="cn.com.yuyang.pojo.Bumen">
-        select id,buMenMingCheng from bumen;
+        select id,buMenMingCheng
+        from bumen;
     </select>
     <select id="selectCount" resultType="cn.com.yuyang.bean.Bumenbean"
             parameterType="cn.com.yuyang.pojo.Bumen">
         select
         count(r.id),
+        r.xingMing,
         b.id,
         b.dangAnId,
         b.buMenMingCheng,
@@ -107,11 +110,15 @@
         group by buMenId
     </select>
     <select id="selectShangCengShenPiRen" parameterType="java.lang.Integer" resultType="cn.com.yuyang.pojo.Bumen">
-        select buMenMingCheng,dangAnId from  bumen where buMenJiBie =#{buMenJiBie} ;
+        select buMenMingCheng,dangAnId
+        from bumen
+        where buMenJiBie = #{buMenJiBie};
     </select>
 
     <select id="selectBuMenJiBie" resultType="cn.com.yuyang.pojo.Bumen" parameterType="java.lang.Integer">
-        select buMenJiBie from  bumen where  id=#{buMenId};
+        select buMenJiBie
+        from bumen
+        where id = #{buMenId};
     </select>
 
 </mapper>

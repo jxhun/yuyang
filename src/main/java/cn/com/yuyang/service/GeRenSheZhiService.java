@@ -61,8 +61,8 @@ public class GeRenSheZhiService {
 
     }
 
-    public void updateTouXiang(Renyuandangan renyuandangan){
-        renyuandanganMapper.updateTouXiang(renyuandangan);
+    public void updateTouXiang(YuanGongBean yuanGongBean){
+        renyuandanganMapper.updateTouXiang(yuanGongBean);
     }
 
 }

@@ -10,6 +10,24 @@ public class Gongzuojilu {
   private long zhuangTai;
   private long jieShouRenId;
   private Rizhipinglun rizhipinglun;
+  private String neiRong;
+  private long riZhiPingLunId;
+
+  public String getNeiRong() {
+    return neiRong;
+  }
+
+  public void setNeiRong(String neiRong) {
+    this.neiRong = neiRong;
+  }
+
+  public long getRiZhiPingLunId() {
+    return riZhiPingLunId;
+  }
+
+  public void setRiZhiPingLunId(long riZhiPingLunId) {
+    this.riZhiPingLunId = riZhiPingLunId;
+  }
 
   public Rizhipinglun getRizhipinglun() {
     return rizhipinglun;

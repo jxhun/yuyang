@@ -94,9 +94,9 @@ public interface RenyuandanganMapper {
 
     /**
      * 根据人员档案ID更改头像地址
-     * @param renyuandangan
+     * @param yuanGongBean
      */
-    void  updateTouXiang(Renyuandangan renyuandangan);
+    void  updateTouXiang(YuanGongBean yuanGongBean);
     /**
      * 用于更新个人设置
      * @param yuanGongBean

@@ -175,8 +175,15 @@ public class YuanGongGuanLiService {
             }
             long dangAnId = renyuandanganMapper.selectId(yuanGongBean);
             yuanGongBean.setDangAnId(dangAnId);
-            dengluMapper.insertDenglu(yuanGongBean);
-            msg = "添加成功!!!";
+            Integer denglu = dengluMapper.insertDenglu(yuanGongBean);
+            if(denglu==0){
+                msg="添加失败，请仔细核对信息是否正确！";
+                renyuandanganMapper.shanchuRenyuandangan(yuanGongBean);
+                return msg;
+            }
+            else {
+                msg = "添加成功!!!";
+            }
         }
         return msg;
     }

@@ -265,7 +265,7 @@
 
     </update>
 
-    <update id="updateTouXiang" parameterType="cn.com.yuyang.pojo.Renyuandangan">
+    <update id="updateTouXiang" parameterType="cn.com.yuyang.bean.YuanGongBean">
         update renyuandangan
         set touXiang=#{touXiang}
         where id = #{id};

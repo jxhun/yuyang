@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,19 +69,20 @@ public class DengLuService {
      * @param request
      */
     public void setQuanXian(Denglu denglu1, HttpServletRequest request){
-        request.getSession().setAttribute(SessionKey.DENGLUID, denglu1.getId());
-        request.getSession().setAttribute(SessionKey.DANGANID, denglu1.getDangAnId());// 登录成功后传入session的登录id
-        request.getSession().setAttribute(SessionKey.CHAKANKAOQIN, denglu1.getRenyuandangan().getZhiwubiao().getChaKanKaoQin());
-        request.getSession().setAttribute(SessionKey.QINGJIASHENPI, denglu1.getRenyuandangan().getZhiwubiao().getQinJiaShenPi());
-        request.getSession().setAttribute(SessionKey.QUANXIANGUANLI, denglu1.getRenyuandangan().getZhiwubiao().getQuanXianGuanLi());
-        request.getSession().setAttribute(SessionKey.CHAKANYUANGONG, denglu1.getRenyuandangan().getZhiwubiao().getChaKanYuanGong());
-        request.getSession().setAttribute(SessionKey.CAOZUOYUANGONG, denglu1.getRenyuandangan().getZhiwubiao().getCaoZuoYuanGong());
-        request.getSession().setAttribute(SessionKey.FABUXIUGAIGONGGAO, denglu1.getRenyuandangan().getZhiwubiao().getFaBuXiuGaiGongGao());
-        request.getSession().setAttribute(SessionKey.DAIBANSHIXIANG, denglu1.getRenyuandangan().getZhiwubiao().getDaiBanShiXiang());
-        request.getSession().setAttribute(SessionKey.TOKEN, ToKen.toKen());
-        request.getSession().setAttribute(SessionKey.XINGMING, denglu1.getRenyuandangan().getXingMing());
-        request.getSession().setAttribute(SessionKey.BUMENID, denglu1.getRenyuandangan().getBuMenId());
-        request.getSession().setAttribute(SessionKey.BUMENGUANLI, denglu1.getRenyuandangan().getZhiwubiao().getBuMenGuanLi());
+        HttpSession session = request.getSession(); // 得到session
+        session.setAttribute(SessionKey.DENGLUID, denglu1.getId());
+        session.setAttribute(SessionKey.DANGANID, denglu1.getDangAnId());// 登录成功后传入session的登录id
+        session.setAttribute(SessionKey.CHAKANKAOQIN, denglu1.getRenyuandangan().getZhiwubiao().getChaKanKaoQin());
+        session.setAttribute(SessionKey.QINGJIASHENPI, denglu1.getRenyuandangan().getZhiwubiao().getQinJiaShenPi());
+        session.setAttribute(SessionKey.QUANXIANGUANLI, denglu1.getRenyuandangan().getZhiwubiao().getQuanXianGuanLi());
+        session.setAttribute(SessionKey.CHAKANYUANGONG, denglu1.getRenyuandangan().getZhiwubiao().getChaKanYuanGong());
+        session.setAttribute(SessionKey.CAOZUOYUANGONG, denglu1.getRenyuandangan().getZhiwubiao().getCaoZuoYuanGong());
+        session.setAttribute(SessionKey.FABUXIUGAIGONGGAO, denglu1.getRenyuandangan().getZhiwubiao().getFaBuXiuGaiGongGao());
+        session.setAttribute(SessionKey.DAIBANSHIXIANG, denglu1.getRenyuandangan().getZhiwubiao().getDaiBanShiXiang());
+        session.setAttribute(SessionKey.TOKEN, ToKen.toKen());
+        session.setAttribute(SessionKey.XINGMING, denglu1.getRenyuandangan().getXingMing());
+        session.setAttribute(SessionKey.BUMENID, denglu1.getRenyuandangan().getBuMenId());
+        session.setAttribute(SessionKey.BUMENGUANLI, denglu1.getRenyuandangan().getZhiwubiao().getBuMenGuanLi());
     }
 
     public DengluMapper getDengluMapper() {
