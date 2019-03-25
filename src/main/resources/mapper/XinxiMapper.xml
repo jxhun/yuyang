@@ -200,5 +200,9 @@
         where xinxi.id=#{id}
     </update>
 
+    <select id="countXinXi" resultType="java.lang.Integer">
+        select count(id) from xinxi where  shouXinId=#{dangAnId} and yiDuZhuangTai=0;
+    </select>
+
 
 </mapper>

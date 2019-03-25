@@ -62,9 +62,12 @@ public class DengLuService {
     }
 
 
-    //此方法为登录成功，在session中设置权限
-    public Map<String, Object> setQuanXian(Denglu denglu1, HttpServletRequest request){
-        Map<String ,Object> map = new HashMap<>();
+    /**
+     * 此方法为登录成功，将该人员的权限存入session
+     * @param denglu1
+     * @param request
+     */
+    public void setQuanXian(Denglu denglu1, HttpServletRequest request){
         request.getSession().setAttribute(SessionKey.DENGLUID, denglu1.getId());
         request.getSession().setAttribute(SessionKey.DANGANID, denglu1.getDangAnId());// 登录成功后传入session的登录id
         request.getSession().setAttribute(SessionKey.CHAKANKAOQIN, denglu1.getRenyuandangan().getZhiwubiao().getChaKanKaoQin());
@@ -77,9 +80,7 @@ public class DengLuService {
         request.getSession().setAttribute(SessionKey.TOKEN, ToKen.toKen());
         request.getSession().setAttribute(SessionKey.XINGMING, denglu1.getRenyuandangan().getXingMing());
         request.getSession().setAttribute(SessionKey.BUMENID, denglu1.getRenyuandangan().getBuMenId());
-
-        return map;
-
+        request.getSession().setAttribute(SessionKey.BUMENGUANLI, denglu1.getRenyuandangan().getZhiwubiao().getBuMenGuanLi());
     }
 
     public DengluMapper getDengluMapper() {

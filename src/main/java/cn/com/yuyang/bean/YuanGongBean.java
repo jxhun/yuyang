@@ -37,9 +37,21 @@ public class YuanGongBean {
     private String gongHao;
     private String shouJiHaoMa;
     private String miMa;
+    private byte[] miMa2;
     private String kaiShiShiJian;
     private String jieShuShiJian;
     private String token;
+    private String siYao;
+
+
+
+    public String getSiYao() {
+        return siYao;
+    }
+
+    public void setSiYao(String siYao) {
+        this.siYao = siYao;
+    }
 
     public String getToken() {
         return token;
@@ -279,5 +291,13 @@ public class YuanGongBean {
 
     public void setMiMa(String miMa) {
         this.miMa = miMa;
+    }
+
+    public byte[] getMiMa2() {
+        return miMa2;
+    }
+
+    public void setMiMa2(byte[] miMa2) {
+        this.miMa2 = miMa2;
     }
 }

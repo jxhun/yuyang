@@ -38,7 +38,13 @@ public interface BumenMapper {
 
     List<Bumen> selectBuMen();
 
+    /**
+     * 通信录用来查询人员信息
+     * @param idBean 传入部门id
+     * @return 返回一个部门对象
+     */
     Bumen selectRenYuan(IdBean idBean);
+
     /** 查询所有部门名称及ID
      *
      * @return

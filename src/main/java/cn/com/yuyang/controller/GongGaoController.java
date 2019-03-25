@@ -254,6 +254,11 @@ public class GongGaoController {
         return returnMap;
     }
 
+    /**
+     * 这个方法用来查询所有的部门
+     * @param gongGaoBean 得到token
+     * @return
+     */
     @RequestMapping(value = {"/chaXunBuMen"})
     @ResponseBody
     public Map<String, Object> chaXunBuMen(@RequestBody GongGaoBean gongGaoBean) {

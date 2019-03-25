@@ -51,4 +51,13 @@
 
     where id = #{id};
   </update>
+
+  <select id="chaXunDangTianQingJia" resultType="cn.com.yuyang.pojo.Qingjiabiao">
+    select shenQingRen,leiXing from qingjiabiao where #{shiJian} > qiShiShiJian and zhongZhiShiJian > #{shiJian};
+  </select>
+
+  <select id="countQingJia" resultType="java.lang.Integer">
+    select count(id) from qingjiabiao where  shenPiRen=#{dangAnId} and chuLiZhuangTai=0;
+  </select>
+
 </mapper>

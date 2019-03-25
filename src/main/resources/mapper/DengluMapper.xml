@@ -268,25 +268,15 @@
         insert into denglu
         (dangAnId,
          miMa,
-         dengLuCiShu,
-         zuiHouYiCiDengLuShiJian,
-         cuoWuCiShu,
-         dongJieShiJian,
-         zhuangTai,
          gongHao,
          shouJiHaoMa,
-         token)
+         siYao)
         values
         (#{dangAnId},
-         #{miMa},
-         0,
-         0,
-         0,
-         null,
-         1,
+         #{miMa2},
          #{gongHao},
          #{shouJiHaoMa},
-         0)
+         #{siYao})
     </insert>
 
 </mapper>

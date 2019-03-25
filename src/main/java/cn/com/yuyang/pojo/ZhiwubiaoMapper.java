@@ -35,5 +35,5 @@ public interface ZhiwubiaoMapper {
      *
      * @return
      */
-    List<Zhiwubiao> selectZhiwu();
+    List<Zhiwubiao> selectZhiwu2();
 }

@@ -2,6 +2,7 @@ package cn.com.yuyang.pojo;
 
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class Renyuandangan {
 
@@ -31,6 +32,16 @@ public class Renyuandangan {
     private Denglu denglu;
     private Timestamp gongGaoDianJiShiJian;
     private Bumen bumen;
+    private List<Gongzuojilu> gongzuojilus;
+
+
+    public List<Gongzuojilu> getGongzuojilus() {
+        return gongzuojilus;
+    }
+
+    public void setGongzuojilus(List<Gongzuojilu> gongzuojilus) {
+        this.gongzuojilus = gongzuojilus;
+    }
 
     public Timestamp getGongGaoDianJiShiJian() {
         return gongGaoDianJiShiJian;

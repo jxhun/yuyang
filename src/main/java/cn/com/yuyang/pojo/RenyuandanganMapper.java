@@ -118,4 +118,11 @@ public interface RenyuandanganMapper {
      */
     Integer shanchuRenyuandangan(YuanGongBean yuanGongBean);
 
+    /**
+     * 这个方法用来通信录的搜索
+     * @param idBean 传入姓名或者手机号码
+     * @return 成功返回结果list
+     */
+    List<Renyuandangan> chaXunRenYuan(IdBean idBean);
+
 }

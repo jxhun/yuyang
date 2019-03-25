@@ -4,6 +4,7 @@ package cn.com.yuyang.controller;
 import cn.com.yuyang.bean.YanZhengMaBean;
 import cn.com.yuyang.pojo.Denglu;
 import cn.com.yuyang.service.DengLuService;
+import cn.com.yuyang.util.AsymmetricEncryption;
 import cn.com.yuyang.util.SendSMS;
 import cn.com.yuyang.util.SessionKey;
 import cn.com.yuyang.util.ToKen;
@@ -57,7 +58,7 @@ public class DengLuController {
                         //根据ID查询人员档案信息和职务信息
                         denglu1 = dengLuService.selectChaXun1(denglu1);
                         //设置权限在session中
-                        map = dengLuService.setQuanXian(denglu1, request);
+                        dengLuService.setQuanXian(denglu1, request);
                         //根据ID，更新用户的登录次数和最后一次登录时间
                         dengLuService.updateLogin(denglu1);
                         map.put("returncode", "200");
@@ -72,14 +73,15 @@ public class DengLuController {
                     }
                 }
                 //状态不为-1代表状态可以为0 或者1  如果状态为0 冻结时间大于解冻时间则可以进行登录
-                else if (denglu1.getZhuangTai() != -1 && ((denglu1.getCuoWuCiShu() % 3 == 0 && t >= (3 * 1000 * 60)) || (denglu1.getCuoWuCiShu() % 6 == 0 && t >= (6 * 1000 * 60)) || (denglu1.getCuoWuCiShu() % 9 == 0 && t >= (9 * 1000 * 60)))) {
+                else if (denglu1.getZhuangTai() == 1 || (denglu1.getZhuangTai() == 0 && ((denglu1.getCuoWuCiShu() % 3 == 0 && t >= (3 * 1000 * 60)) || (denglu1.getCuoWuCiShu() % 6 == 0 && t >= (6 * 1000 * 60)) || (denglu1.getCuoWuCiShu() % 9 == 0 && t >= (9 * 1000 * 60))))) {
                     //如果状态为0 则进行解冻
                     if (denglu1.getZhuangTai() == 0) {
                         //根据ID解冻
                         denglu1.setZhuangTai(1);
                         dengLuService.updateJieDong(denglu1);
                     }
-                    String miMa = denglu1.getMiMa();
+                    AsymmetricEncryption asymmetricEncryption = new AsymmetricEncryption();
+                    String miMa = asymmetricEncryption.jieMi(denglu1.getMiMa(), denglu1.getSiYao());  // 传入加密的密码和私钥，解密
                     //前端传过来的密码跟得到的密码进行比较，，如果一样则登录成功
                     if (yanZhengMaBean.getMiMa().trim().equals(miMa)) {
                         //每一次登录成功，登录成功次数加1
@@ -88,7 +90,7 @@ public class DengLuController {
                         denglu1 = dengLuService.selectChaXun1(denglu1);
                         System.out.println("=======" + denglu1);
                         //此方法代表将所有需要设置的权限设置在session中，
-                        map = dengLuService.setQuanXian(denglu1, request);
+                        dengLuService.setQuanXian(denglu1, request);
                         //根据ID，更新用户的登录次数和最后一次登录时间
                         dengLuService.updateLogin(denglu1);
                         map.put("returncode", "200");

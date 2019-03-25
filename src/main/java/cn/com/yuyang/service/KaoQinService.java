@@ -2,14 +2,13 @@ package cn.com.yuyang.service;
 
 import cn.com.yuyang.bean.GeRenKaoQinBean;
 import cn.com.yuyang.bean.KaoQinGuanLiBean;
-import cn.com.yuyang.pojo.Bumen;
-import cn.com.yuyang.pojo.BumenMapper;
-import cn.com.yuyang.pojo.Kaoqin;
-import cn.com.yuyang.pojo.KaoqinMapper;
+import cn.com.yuyang.pojo.*;
 import cn.com.yuyang.util.POIUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -30,11 +29,13 @@ import java.util.Map;
 public class KaoQinService {
     private KaoqinMapper kaoqinMapper;
     private BumenMapper bumenMapper;
+    private QingjiabiaoMapper qingjiabiaoMapper;
 
     @Autowired
-    public KaoQinService(KaoqinMapper kaoqinMapper, BumenMapper bumenMapper) {
+    public KaoQinService(KaoqinMapper kaoqinMapper, BumenMapper bumenMapper, QingjiabiaoMapper qingjiabiaoMapper) {
         this.kaoqinMapper = kaoqinMapper;
         this.bumenMapper = bumenMapper;
+        this.qingjiabiaoMapper = qingjiabiaoMapper;
     }
 
     public KaoqinMapper getKaoqinMapper() {
@@ -109,9 +110,15 @@ public class KaoQinService {
         return kaoqinMapper.selectCount(dangAnId);
     }
 
-    public Map<String, Object> excle() {
-        Map<String, Object> map = new HashMap<>();
-        String path = "F:\\one.xlsx";
+    /**
+     * 这个方法用来导入excle
+     *
+     * @param request 用来得到项目绝对路径
+     * @return 返回结果map
+     */
+    public Map<String, Object> excle(HttpServletRequest request, String luJing) {
+        Map<String, Object> map = new HashMap<>();  // 这个map用来存入结果
+        String path = request.getSession().getServletContext().getRealPath(File.separator) + luJing;  // 使用绝对路径和文件路径拼接得到文件路径
         POIUtil poiUtil = new POIUtil();
         List<List<String>> lists = poiUtil.readExcelForPOI(path);  // 得到上传的excle组合成的集合
         List<Kaoqin> kqlist = new ArrayList<>();   // 这个list用来装传入数据库的数据
@@ -119,18 +126,33 @@ public class KaoQinService {
             Kaoqin kaoqin = new Kaoqin();  // 这个对相应用来封装excle没行的数据
             kaoqin.setDangAnId(Integer.parseInt(lists.get(i).get(0)));  // 得到档案id，存入对象
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            List<Qingjiabiao> qingJiaList = qingjiabiaoMapper.chaXunDangTianQingJia(lists.get(i).get(1));  // 查询得到当天请假人的集合
+            if (qingJiaList.size() != 0) {   // 如果查询出来有人请假
+                for (Qingjiabiao qinJia : qingJiaList) {  // 循环取出请假人
+                    if (qinJia.getShenQingRen() == Integer.parseInt(lists.get(i).get(0))) {  // 如果当天该人有请假信息
+                        kaoqin.setQingJiaZhuangTai(qinJia.getLeiXing());   // 请假状态存入请假类型
+                        kaoqin.setQingJiaBiaoId(qinJia.getShenQingRen());  // 存入请假表id方便查询
+                    } else {  // 如果没有请假，那么状态标记正常
+                        kaoqin.setQingJiaZhuangTai("正常");   // 请假状态存入请假类型
+                    }
+                }
+            } else {  // 如果没有人请假，请假状态全为正常
+                kaoqin.setQingJiaZhuangTai("正常");   // 请假状态存入请假类型
+            }
             try {
                 kaoqin.setShangWuShangBan(new Timestamp(simpleDateFormat.parse(lists.get(i).get(1)).getTime()));// 上午上班时间存入
                 kaoqin.setXiaWuXiaBan(new Timestamp(simpleDateFormat.parse(lists.get(i).get(2)).getTime()));  // 下午下班时间
                 kaoqin.setZhuangTai(Integer.parseInt(lists.get(i).get(3)));  // 存入状态
                 kaoqin.setDangTianRiQi(new Date(simpleDateFormat.parse(lists.get(i).get(1)).getTime()));  // 得到当天日期
+
                 kqlist.add(kaoqin);  // 存入对象到list
             } catch (ParseException e) {
-                e.printStackTrace();
+                map.put("returncode", -1);
+                map.put("msg", "excle格式错误，请检查excle格式");
             }
         }
-        System.out.println("lists" + lists);
-        System.out.println("kqlist" + kqlist);
+        map.put("returncode", 200);
+        map.put("msg", "上传成功");
         kaoqinMapper.excle(kqlist);
         return map;
     }

@@ -4,6 +4,7 @@ import cn.com.yuyang.bean.YuanGongBean;
 import cn.com.yuyang.pojo.Denglu;
 import cn.com.yuyang.pojo.Renyuandangan;
 import cn.com.yuyang.service.GeRenSheZhiService;
+import cn.com.yuyang.util.AsymmetricEncryption;
 import cn.com.yuyang.util.FileUpload;
 import cn.com.yuyang.util.SessionKey;
 import org.apache.commons.fileupload.FileUploadException;
@@ -15,8 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,6 +75,8 @@ public class GeRenSheZhiController {
         System.out.println("备注" + yuanGongBean.getBeiZhu());
         yuanGongBean.setDangAnId(1);
         Map<String, Object> returnMap = new HashMap<>();
+        AsymmetricEncryption asymmetricEncryption = new AsymmetricEncryption();
+        yuanGongBean.setMiMa2(asymmetricEncryption.jiaMi(yuanGongBean.getMiMa(), request));
         geRenSheZhiService.updateXinXi(yuanGongBean);
         geRenSheZhiService.updateXinXi2(yuanGongBean);
         System.out.println("=======" + yuanGongBean.getShouJiHaoMa());

@@ -55,10 +55,18 @@ public class TongXunLuController {
 //        System.out.println(idBean.getDangAnId());
 //        idBean = new IdBean();
 //        idBean.setXingMing("先生");
+        System.out.println("手机号码" + idBean.getShouJiHaoMa());
+        System.out.println("姓名" + idBean.getXingMing());
         List<Map<String, Object>> list = tongXunLuService.chaXunTongXunLu(idBean);
-        returnMap.put("returncode", 200);
-        returnMap.put("msg", "200查询成功,注意id是好友的档案id，查看好友详情需要将这个id传给后台");
-        returnMap.put("data", list);
+        if(list != null){  // 如果查询结果为空
+            returnMap.put("returncode", 200);
+            returnMap.put("msg", "200查询成功,注意id是好友的档案id，查看好友详情需要将这个id传给后台");
+            returnMap.put("data", list);
+        } else {  // 如果查询结果不为空
+            returnMap.put("returncode", -1);
+            returnMap.put("msg", "未查询到该人员");
+        }
+
 //    } else { returnMap.put("returncode", -1);// 失败返回状态码-1
 //        returnMap.put("msg", "-1,登录超时，token验证失败"); // 提示失败}
 

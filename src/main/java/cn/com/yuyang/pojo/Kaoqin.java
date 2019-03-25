@@ -11,6 +11,15 @@ public class Kaoqin {
   private String qingJiaZhuangTai;
   private java.sql.Date dangTianRiQi;
   private Qingjiabiao qingjiabiao;
+  private long qingJiaBiaoId;
+
+  public long getQingJiaBiaoId() {
+    return qingJiaBiaoId;
+  }
+
+  public void setQingJiaBiaoId(long qingJiaBiaoId) {
+    this.qingJiaBiaoId = qingJiaBiaoId;
+  }
 
   private Renyuandangan renyuandangan;
 

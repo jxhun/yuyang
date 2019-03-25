@@ -13,8 +13,16 @@ public class Zhiwubiao {
   private long caoZuoYuanGong;
   private long faBuXiuGaiGongGao;
   private long daiBanShiXiang;
+  private long buMenGuanLi;
   private java.sql.Timestamp chuangJianShiJian;
 
+  public long getBuMenGuanLi() {
+    return buMenGuanLi;
+  }
+
+  public void setBuMenGuanLi(long buMenGuanLi) {
+    this.buMenGuanLi = buMenGuanLi;
+  }
 
   public long getId() {
     return id;

@@ -54,10 +54,10 @@ public class GeRenKaoQinController {
             System.out.println(count);
             map.put("msg","正常考勤用id=1，迟到考勤用id=3，早退考勤用id=5，旷班考勤用id=7，请假考勤用id=8");
             map.put("data",list);
-            map.put("chiDao",count.get("chiDao"));
-            map.put("zaoTui",count.get("zaoTui"));
-            map.put("queQin",count.get("queQin"));
-            map.put("qingJia",count.get("qingJia"));
+            map.put("chiDao",count.get("chidao"));
+            map.put("zaoTui",count.get("zaotui"));
+            map.put("queQin",count.get("kuanggong"));
+            map.put("qingJia",count.get("qingjia"));
             // 覆盖之前的-1值
             map.put("returnCode",200);
         }catch (Exception e){

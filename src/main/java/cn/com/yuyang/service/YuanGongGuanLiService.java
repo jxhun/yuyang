@@ -3,9 +3,12 @@ package cn.com.yuyang.service;
 import cn.com.yuyang.bean.Bumenbean;
 import cn.com.yuyang.bean.YuanGongBean;
 import cn.com.yuyang.pojo.*;
+import cn.com.yuyang.util.AsymmetricEncryption;
+import cn.com.yuyang.util.SessionKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -35,20 +38,20 @@ public class YuanGongGuanLiService {
     private ZhiwubiaoMapper zhiwubiaoMapper;
 
 
-
-
-    /** 查询全部员工的信息
+    /**
+     * 查询全部员工的信息
      *
      * @return
      */
     public List<Denglu> quanCha() {
-        return dengluMapper.selectChaXun(0,0, null, null, null, null);
+        return dengluMapper.selectChaXun(0, 0, null, null, null, null);
     }
 
 
-    /** 条件查询员工的信息
+    /**
+     * 条件查询员工的信息
      *
-     * @param yuanGongBean  前端传递数据封装的bean对象
+     * @param yuanGongBean 前端传递数据封装的bean对象
      * @return
      */
     public List<Denglu> tiaoJainCha(YuanGongBean yuanGongBean) {
@@ -59,11 +62,11 @@ public class YuanGongGuanLiService {
         String jieShuShiJian = yuanGongBean.getJieShuShiJian();
         long buMenId = yuanGongBean.getBuMenId();
         long dangAnId = yuanGongBean.getDangAnId();
-        if(dangAnId!=0){
-            return dengluMapper.selectChaXun(dangAnId,0,null,null,null,null);
+        if (dangAnId != 0) {
+            return dengluMapper.selectChaXun(dangAnId, 0, null, null, null, null);
         }
-        if(buMenId!=0){
-            return dengluMapper.selectChaXun(0,buMenId,null,null,null,null);
+        if (buMenId != 0) {
+            return dengluMapper.selectChaXun(0, buMenId, null, null, null, null);
         }
         //去掉员工工号中的空格为空时，为工号赋值null
         if (gongHao != null && gongHao.trim().equals("")) {
@@ -95,72 +98,77 @@ public class YuanGongGuanLiService {
         } else if (kaiShiShiJian != null && jieShuShiJian == null) {
             startTime = kaiShiShiJian;
             endTime = (new Timestamp(System.currentTimeMillis())).toString();
-        }else if(kaiShiShiJian != null && jieShuShiJian != null){
+        } else if (kaiShiShiJian != null && jieShuShiJian != null) {
             startTime = kaiShiShiJian;
             endTime = jieShuShiJian;
         }
 
-        return dengluMapper.selectChaXun(dangAnId,0, xingMing, gongHao, startTime, endTime);
+        return dengluMapper.selectChaXun(dangAnId, 0, xingMing, gongHao, startTime, endTime);
     }
 
 
-    /** 修改员工信息
+    /**
+     * 修改员工信息
      *
      * @param yuanGongBean
      * @return
      */
-    public String bianji(YuanGongBean yuanGongBean){
+    public String bianji(YuanGongBean yuanGongBean) {
         int i1 = renyuandanganMapper.updateYuanGong(yuanGongBean);
         int i2 = renyuandanganMapper.updateDenglu(yuanGongBean);
         System.out.println(i1);
         System.out.println(i2);
         String msg = "修改失败!!!";
-        if(i1==1){
+        if (i1 == 1) {
             msg = "修改成功!!!";
         }
         return msg;
     }
 
-    /** 删除员工信息，假删除，将登录表的状态改为-1，将档案表的在职状态改为2
+    /**
+     * 删除员工信息，假删除，将登录表的状态改为-1，将档案表的在职状态改为2
      *
      * @param yuanGongBean
      * @return
      */
-    public String shanchu(YuanGongBean yuanGongBean){
+    public String shanchu(YuanGongBean yuanGongBean) {
         int i1 = renyuandanganMapper.deleteDenglu(yuanGongBean);
         int i2 = renyuandanganMapper.deleteRenyuandangan(yuanGongBean);
         System.out.println(i1);
         System.out.println(i2);
         String msg = "删除失败!!!";
-        if(i1==1){
+        if (i1 == 1) {
             msg = "删除成功!!!";
         }
         return msg;
     }
 
-    /** 新增员工
+    /**
+     * 新增员工
      *
      * @param yuanGongBean
      * @return
      */
-    public String xinzeng(YuanGongBean yuanGongBean){
+    public String xinzeng(YuanGongBean yuanGongBean, HttpServletRequest request) {
         String msg = "添加失败!!!";
-        if(yuanGongBean.getRuZhiShiJian()==null){
+        if (yuanGongBean.getRuZhiShiJian() == null) {
             yuanGongBean.setRuZhiShiJian(new Date(System.currentTimeMillis()));
         }
-        int i=0;
-        try{
+        int i = 0;
+        try {
             i = renyuandanganMapper.insertRenyuandangan(yuanGongBean);
-        }catch(Exception e){
-            msg="添加失败，请核实信息是否属实！";
+        } catch (Exception e) {
+            msg = "添加失败，请核实信息是否属实！";
             return msg;
         }
 
-        if(i!=0){
+        if (i != 0) {
             yuanGongBean.setGongHao(gongHao(yuanGongBean.getBuMenId()));
-            try{
-                yuanGongBean.setMiMa(yuanGongBean.getShouJiHaoMa().substring(5,11));
-            }catch(Exception e){
+            try {
+                AsymmetricEncryption asymmetricEncryption = new AsymmetricEncryption();
+                yuanGongBean.setMiMa2(asymmetricEncryption.jiaMi(yuanGongBean.getShouJiHaoMa().substring(5, 11), request)); // 密码加密存入
+                yuanGongBean.setSiYao((String) request.getSession().getAttribute(SessionKey.SIYAO)); // 得到私钥
+            } catch (Exception e) {
                 msg = "手机格式错误!";
                 renyuandanganMapper.shanchuRenyuandangan(yuanGongBean);
                 return msg;
@@ -174,38 +182,42 @@ public class YuanGongGuanLiService {
     }
 
 
-    /**生成员工工号
+    /**
+     * 生成员工工号
      *
      * @return
      */
-    public String gongHao(long buMenId){
-        String gongHao = "yy"+(new Timestamp(System.currentTimeMillis())).toString().substring(0,4);
+    public String gongHao(long buMenId) {
+        String gongHao = "yy" + (new Timestamp(System.currentTimeMillis())).toString().substring(0, 4);
         Bumenbean bum = new Bumenbean();
         bum.setId(buMenId);
         //查询部门信息，部门负责人和部门人数
         List<Bumenbean> list = bumenMapper.selectCount(bum);
-        String count = ""+list.get(0).getCount();
-        while(count.length()<4){
-            count="0"+count;
+        String count = "" + list.get(0).getCount();
+        while (count.length() < 4) {
+            count = "0" + count;
         }
         gongHao = gongHao + count;
         return gongHao;
     }
 
-    /**查找所有部门的名字和对应的id
+    /**
+     * 查找所有部门的名字和对应的id
      *
      * @return
      */
-    public List<Bumen> bumenxuandan(){
+    public List<Bumen> bumenxuandan() {
         List<Bumen> list = bumenMapper.selectBumen();
         return list;
     }
-    /**查找所有职务的名称和对应的id
+
+    /**
+     * 查找所有职务的名称和对应的id
      *
      * @return
      */
-    public List<Zhiwubiao> zhiwuxuandan(){
-        List<Zhiwubiao> list = zhiwubiaoMapper.selectZhiwu();
+    public List<Zhiwubiao> zhiwuxuandan() {
+        List<Zhiwubiao> list = zhiwubiaoMapper.selectZhiwu2();
         return list;
     }
 }

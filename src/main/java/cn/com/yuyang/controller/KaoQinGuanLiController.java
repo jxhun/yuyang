@@ -4,6 +4,8 @@ import cn.com.yuyang.bean.KaoQinGuanLiBean;
 import cn.com.yuyang.pojo.Bumen;
 import cn.com.yuyang.pojo.Kaoqin;
 import cn.com.yuyang.service.KaoQinService;
+import cn.com.yuyang.util.FileUpload;
+import cn.com.yuyang.util.POIUtil;
 import cn.com.yuyang.util.SessionKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
@@ -148,14 +151,20 @@ public class KaoQinGuanLiController {
 
     }
 
+    /**
+     * 这个方法用来导入excle
+     *
+     * @param kaoQinGuanLiBean 存入token
+     * @param request          request对象
+     * @return 成功返回成功消息提醒，失败返回失败提醒
+     */
     @RequestMapping(value = "/excle")
     @ResponseBody
-    public Map<String, Object> shangChuanXls(@RequestBody(required = false) KaoQinGuanLiBean kaoQinGuanLiBean,  HttpServletRequest request) {
-        kaoQinGuanLiService.excle();
-        Map<String, Object> selectAllMap = new HashMap<>();
-        selectAllMap.put("RETURNCODE", 200);
-        selectAllMap.put("MSG", "提交请假审核成功");
-        return selectAllMap;
+    public Map<String, Object> shangChuanXls(@RequestBody(required = false) MultipartFile articleFile, KaoQinGuanLiBean kaoQinGuanLiBean, HttpServletRequest request) {
+        String luJing = FileUpload.executeImport(articleFile, request);  // 调用文件上传方法上传文件，并且得到上传文件路径
+
+        Map<String, Object> map = kaoQinGuanLiService.excle(request, luJing);
+        return map;
 
     }
 }

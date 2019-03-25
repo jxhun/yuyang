@@ -59,7 +59,7 @@
     </foreach>
   </update>
   <select id="selectZhiWu" resultType="cn.com.yuyang.pojo.Zhiwubiao">
-    select id, zhiWuMingCheng, zhiWuJianJie, chaKanKaoQin, qinJiaShenPi, quangXianGuanLi, chaKanYuanGong, caoZuoYuanGong, faBuXiuGaiGongGao, daiBanShiXiang, chuangJianShiJian
+    select id, zhiWuMingCheng, zhiWuJianJie, chaKanKaoQin, qinJiaShenPi, quanXianGuanLi, chaKanYuanGong, caoZuoYuanGong, faBuXiuGaiGongGao, daiBanShiXiang, buMenGuanLi, chuangJianShiJian
     from zhiwubiao
     <if test="zhiWuMingCheng!=null">
       where zhiWuMingCheng = #{zhiWuMingCheng}
@@ -74,18 +74,21 @@
     delete from zhiwubiao where id = #{zhiWuId}
   </delete>
   <insert id="insertZhiWu">
-    insert into zhiwubiao(zhiWuMingCheng, zhiWuJianJie, chaKanKaoQin, qinJiaShenPi, quangXianGuanLi, chaKanYuanGong, caoZuoYuanGong, faBuXiuGaiGongGao, daiBanShiXiang, chuangJianShiJian)
-      values (#{zhiWuMingCheng},#{zhiWuJianJie},#{chaKanKaoQin},#{qinJiaShenPi},#{quangXianGuanLi},#{chaKanYuanGong},#{caoZuoYuanGong},#{faBuXiuGaiGongGao},#{daiBanShiXiang},#{chuangJianShiJian})
+    insert into zhiwubiao(zhiWuMingCheng, zhiWuJianJie, chaKanKaoQin, qinJiaShenPi, quanXianGuanLi, chaKanYuanGong,
+                          caoZuoYuanGong, faBuXiuGaiGongGao, daiBanShiXiang, buMenGuanLi, chuangJianShiJian)
+    values (#{zhiWuMingCheng},#{zhiWuJianJie},#{chaKanKaoQin},#{qinJiaShenPi},#{quangXianGuanLi},#{chaKanYuanGong},
+            #{caoZuoYuanGong},#{faBuXiuGaiGongGao},#{daiBanShiXiang},#{buMenGuanLi},#{chuangJianShiJian})
   </insert>
   <update id="updateZhiWu">
     update zhiwubiao set zhiWuMingCheng = #{zhiWuMingCheng},zhiWuJianJie = #{zhiWuJianJie},
                          chaKanKaoQin = #{chaKanKaoQin},qinJiaShenPi = #{qinJiaShenPi},
-                         quangXianGuanLi = #{quangXianGuanLi},chaKanYuanGong = #{chaKanYuanGong},
+                         quanXianGuanLi = #{quangXianGuanLi},chaKanYuanGong = #{chaKanYuanGong},
                          caoZuoYuanGong = #{caoZuoYuanGong},faBuXiuGaiGongGao = #{faBuXiuGaiGongGao},
-                         daiBanShiXiang = #{daiBanShiXiang},chuangJianShiJian = #{chuangJianShiJian}
+                         daiBanShiXiang = #{daiBanShiXiang},chuangJianShiJian = #{chuangJianShiJian},
+                         buMenGuanLi = #{buMenGuanLi}
     where id = #{id}
   </update>
-  <select id="selectZhiwu" resultType="cn.com.yuyang.pojo.Zhiwubiao">
+  <select id="selectZhiwu2" resultType="cn.com.yuyang.pojo.Zhiwubiao">
     select id,zhiWuMingCheng from zhiwubiao;
   </select>
 </mapper>

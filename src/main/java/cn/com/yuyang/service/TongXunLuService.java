@@ -55,18 +55,40 @@ public class TongXunLuService {
         // 这两个判断放一起的原因是因为，如果用户点击搜索那么就不会传入部门id，如果用户点击部门那么也不会传入手机号码或者姓名
         if (idBean != null && (idBean.getXingMing() != null && !idBean.getXingMing().trim().equals("") ||
                 idBean.getShouJiHaoMa() != null && !idBean.getShouJiHaoMa().trim().equals("") || idBean.getBuMenId() != 0)) {
-            Bumen bumen = bumenMapper.selectRenYuan(idBean);  // 调用查询人员方法,一对多
-            List<Renyuandangan> renyuandanganList = bumen.getRenyuandanganList(); // 得到人员list
-            for (Renyuandangan ry : renyuandanganList) {
-                Map<String, Object> map = new HashMap<>(); // 这个map来取出内容
-                map.put("buMenMingCheng", bumen.getBuMenMingCheng()); // 得到部门名称存入
-                map.put("xingMing", ry.getXingMing()); // 得到姓名存入
-                map.put("shouJiHaoMa", ry.getDenglu().getShouJiHaoMa()); // 得到手机号码存入
-                map.put("jinJiLianXiDianHua", ry.getJinJiLianXiDianHua()); // 得到好友的第二个电话
-                map.put("zhiWuMingCheng", ry.getZhiwubiao().getZhiWuMingCheng());// 得到职务名称
-                map.put("id", ry.getId()); // 得到好友的id
-                mapList.add(map);  // 存入值得map存入list
+            if (idBean.getBuMenId() != 0) {  // 如果部门id不为0
+                Bumen bumen = bumenMapper.selectRenYuan(idBean);  // 调用查询人员方法,一对多
+                List<Renyuandangan> renyuandanganList = bumen.getRenyuandanganList(); // 得到人员list
+                for (Renyuandangan ry : renyuandanganList) {
+                    Map<String, Object> map = new HashMap<>(); // 这个map来取出内容
+                    map.put("buMenId", ry.getBuMenId()); // 得到部门id存入
+                    map.put("buMenMingCheng", bumen.getBuMenMingCheng()); // 得到部门名称存入
+                    map.put("xingMing", ry.getXingMing()); // 得到姓名存入
+                    map.put("shouJiHaoMa", ry.getDenglu().getShouJiHaoMa()); // 得到手机号码存入
+                    map.put("jinJiLianXiDianHua", ry.getJinJiLianXiDianHua()); // 得到好友的第二个电话
+                    map.put("zhiWuMingCheng", ry.getZhiwubiao().getZhiWuMingCheng());// 得到职务名称
+                    map.put("id", ry.getId()); // 得到好友的id
+                    mapList.add(map);  // 存入值得map存入list
+                }
+            } else { // 如果部门id为0，那么说明用户是在进行搜索
+                List<Renyuandangan> renyuandanganList = renyuandanganMapper.chaXunRenYuan(idBean);  // 调用查询人员方法,一对一
+                if (renyuandanganList != null && renyuandanganList.size() != 0) {  // 如果查询结果不为空，能查询到
+                    for (Renyuandangan ry : renyuandanganList) {
+                        Map<String, Object> map = new HashMap<>(); // 这个map来取出内容
+                        map.put("buMenMingCheng", ry.getBumen().getBuMenMingCheng()); // 得到部门id存入
+                        map.put("buMenId", ry.getBuMenId()); // 得到部门名称存入
+                        map.put("xingMing", ry.getXingMing()); // 得到姓名存入
+                        map.put("shouJiHaoMa", ry.getDenglu().getShouJiHaoMa()); // 得到手机号码存入
+                        map.put("jinJiLianXiDianHua", ry.getJinJiLianXiDianHua()); // 得到好友的第二个电话
+                        map.put("zhiWuMingCheng", ry.getZhiwubiao().getZhiWuMingCheng());// 得到职务名称
+                        map.put("id", ry.getId()); // 得到好友的id
+                        mapList.add(map);  // 存入值得map存入list
+                    }
+                } else {// 如果查询结果为空
+                    return null;
+                }
             }
+
+
         } else if (idBean != null && idBean.getBuMenId() == 0) {  // 如果部门id为0，那么说明用户是点击通讯录进入通讯录，这个时候只能看到的是部门
             List<Bumen> bumenList = bumenMapper.selectBuMen();
             for (Bumen bm : bumenList) {  //循环取出查询结果

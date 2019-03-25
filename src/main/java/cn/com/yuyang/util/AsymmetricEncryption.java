@@ -1,13 +1,6 @@
 package cn.com.yuyang.util;
 
-import java.security.InvalidKeyException;
-import java.security.Key;
-import java.security.KeyFactory;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
+import java.security.*;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
@@ -125,19 +118,18 @@ public class AsymmetricEncryption {
     /**
      * 这个方法加密
      *
-     * @throws NoSuchAlgorithmException
-     * @throws BadPaddingException
-     * @throws IllegalBlockSizeException
-     * @throws NoSuchPaddingException
-     * @throws InvalidKeyException
      */
-    public byte[] jiaMi(String msg, HttpServletRequest request) throws NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException,
-            IllegalBlockSizeException, BadPaddingException {
+    public byte[] jiaMi(String msg, HttpServletRequest request)  {
         HttpSession session = request.getSession();  // 获取到session
         AsymmetricEncryption rsa = new AsymmetricEncryption();
 //        String msg = "www.suning.com/index.jsp";
         // KeyPairGenerator类用于生成公钥和私钥对，基于RSA算法生成对象
-        KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance(RSA);
+        KeyPairGenerator keyPairGen = null;
+        try {
+            keyPairGen = KeyPairGenerator.getInstance(RSA);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
         // 初始化密钥对生成器，密钥大小为1024位
         keyPairGen.initialize(1024);
         // 生成一个密钥对，保存在keyPair中
@@ -149,10 +141,20 @@ public class AsymmetricEncryption {
 
         // 用公钥加密
         byte[] srcBytes = msg.getBytes();
-        byte[] resultBytes = rsa.encrypt(Base64.encodeBase64String(publicKey.getEncoded()), srcBytes);
+        byte[] resultBytes = new byte[0];
+        try {
+            resultBytes = rsa.encrypt(Base64.encodeBase64String(publicKey.getEncoded()), srcBytes);
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        }
         System.out.println(Base64.encodeBase64String(publicKey.getEncoded()));
         // 用私钥解密
-        byte[] decBytes = rsa.decrypt(Base64.encodeBase64String(privateKey.getEncoded()), resultBytes);
+        byte[] decBytes = new byte[0];
+        try {
+            decBytes = rsa.decrypt(Base64.encodeBase64String(privateKey.getEncoded()), resultBytes);
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        }
         System.out.println(Base64.encodeBase64String(privateKey.getEncoded()));
         session.setAttribute(SessionKey.SIYAO, Base64.encodeBase64String(privateKey.getEncoded()));
         System.out.println("明文是:" + msg);
@@ -164,19 +166,18 @@ public class AsymmetricEncryption {
     /**
      * 这个方法用来解密
      *
-     * @param msg
-     * @param shiYao
+     * @param msg 密码
+     * @param shiYao 私钥
      * @return
-     * @throws NoSuchAlgorithmException
-     * @throws InvalidKeyException
-     * @throws NoSuchPaddingException
-     * @throws IllegalBlockSizeException
-     * @throws BadPaddingException
      */
-    public String jieMi(byte[] msg, String shiYao) throws NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException,
-            IllegalBlockSizeException, BadPaddingException {
+    public String jieMi(byte[] msg, String shiYao)  {
         AsymmetricEncryption rsa = new AsymmetricEncryption();
-        byte[] decBytes = rsa.decrypt(shiYao, msg);
+        byte[] decBytes = new byte[0];
+        try {
+            decBytes = rsa.decrypt(shiYao, msg);
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        }
         return new String(decBytes);
     }
 }
