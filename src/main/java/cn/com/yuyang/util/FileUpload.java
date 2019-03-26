@@ -23,9 +23,23 @@ public class FileUpload {
      * @return 成功返回路径
      */
     public static String executeImport(MultipartFile articleFile, HttpServletRequest request) {
+
         String originalFilename = articleFile.getOriginalFilename();
         String luJingHouZui = System.currentTimeMillis() + originalFilename.substring(originalFilename.lastIndexOf("."));// 文件存储路径后缀
         String jueDuiLuJing = request.getSession().getServletContext().getRealPath(File.separator) + File.separator;  // 得到文件绝对路径
+//        String jueDuiLuJing = request.getSession().getServletContext().getRealPath("/");  // 得到文件绝对路径
+
+        System.out.println(jueDuiLuJing);
+        File dir = new File(jueDuiLuJing+"office");
+        if(!dir .exists()  && !dir .isDirectory())
+        {
+            System.out.println("//不存在");
+            dir .mkdir();
+        } else
+        {
+            System.out.println("//目录存在");
+        }
+
         String luJingQianZui = "img" + File.separator;  // 图片上传路径前缀
         String luJing = "/img/" + luJingHouZui;
         if (originalFilename != null && (originalFilename.endsWith(".doc") || originalFilename.endsWith(".docx") ||
