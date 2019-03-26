@@ -11,6 +11,15 @@ public class JiHuoJinYongBean {
     private String dangAnId;
     private String[] dengluIds;
     private String zhuangTai;
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public String getDangAnId() {
         return dangAnId;

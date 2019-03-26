@@ -195,10 +195,79 @@
     where id=#{id} and dangAnId=#{dangAnId}
   </update>
 
-  <update id="updateZhuangTai" parameterType="cn.com.yuyang.bean.GongZuoJiLuBean">
+  <update id="updateZhuangTai1" parameterType="cn.com.yuyang.bean.GongZuoJiLuBean">
     update gongzuojilu set zhuangTai=1 where id=#{id} and dangAnId=#{dangAnId}
   </update>
+  <select id="selectRiZhiByDangAnId" parameterType="cn.com.yuyang.bean.GongZuoRiZhiBean" resultType="cn.com.yuyang.bean.GongZuoJiLuBean">
+    select g.id,g.neiRong,g.shiJian,g.dangAnId,g.leiXing,(select renyuandangan.xingMing
+                                                          from oadb.renyuandangan where renyuandangan.id=g.dangAnId) as xingMing,
+           g.zhuangTai,g.jieShouRenId,(select id from rizhipinglun where riZhiId=g.id) as riZhiPingLunId,(select r.pingLunNeiRong from oadb.rizhipinglun as  r where g.id =r.riZhiId)
+                                                                                                                     as pingLunNeiRong,(select  r.riQi from oadb.rizhipinglun as r where g.id =r.riZhiId) as riQi,
+           (select renyuandangan.xingMing from oadb.renyuandangan where renyuandangan.id= g.jieShouRenId) as pingLunRen
+    from oadb.gongzuojilu g where DATE_SUB(CURDATE(), INTERVAL 90 DAY) &lt;=  shiJian and g.dangAnId=#{dangAnId} and g.zhuangTai !=-1
+  </select>
 
+  <select id="selectRiZhi" parameterType="cn.com.yuyang.bean.GongZuoRiZhiBean" resultType="cn.com.yuyang.bean.GongZuoJiLuBean">
+    select g.id,g.neiRong,g.shiJian,g.dangAnId,g.leiXing,(select renyuandangan.xingMing
+    from oadb.renyuandangan where renyuandangan.id=g.dangAnId) as xingMing,
+    g.zhuangTai,g.jieShouRenId,(select id from rizhipinglun where riZhiId=g.id) as riZhiPingLunId,(select r.pingLunNeiRong from oadb.rizhipinglun as  r where g.id =r.riZhiId)
+    as pingLunNeiRong,(select  r.riQi from oadb.rizhipinglun as r where g.id =r.riZhiId) as riQi,
+    (select renyuandangan.xingMing from oadb.renyuandangan where renyuandangan.id= g.jieShouRenId) as pingLunRen
+    from oadb.gongzuojilu g where  g.dangAnId=#{dangAnId} and g.zhuangTai!=-1
+    <if test="startDate!=null and startDate!=''">
+      and g.shiJian  &gt;=#{startDate} and g.shiJian &lt;=#{endDate}
+    </if>
+    <if test="type!=null and type!=''">
+      and g.leiXing =#{type}
+    </if>
+  </select>
+
+
+  <select id="shenYueRiZhi" parameterType="cn.com.yuyang.bean.GongZuoRiZhiBean" resultType="cn.com.yuyang.bean.GongZuoJiLuBean">
+    select g.id,g.neiRong,g.shiJian,g.dangAnId,g.leiXing,(select renyuandangan.xingMing
+                                                          from oadb.renyuandangan where renyuandangan.id=g.dangAnId) as xingMing,
+           g.zhuangTai,g.jieShouRenId,(select id from rizhipinglun where riZhiId=g.id) as riZhiPingLunId,(select r.pingLunNeiRong from oadb.rizhipinglun as  r where g.id =r.riZhiId)
+                                                                                                                     as pingLunNeiRong,(select  r.riQi from oadb.rizhipinglun as r where g.id =r.riZhiId) as riQi,
+           (select renyuandangan.xingMing from oadb.renyuandangan where renyuandangan.id= g.jieShouRenId) as pingLunRen
+    from oadb.gongzuojilu g where DATE_SUB(CURDATE(), INTERVAL 90 DAY) &lt;=  shiJian and g.jieShouRenId=#{dangAnId} and g.zhuangTai!=-1
+  </select>
+
+  <select id="shenYueXiangQing" parameterType="cn.com.yuyang.bean.GongZuoJiLuBean" resultType="cn.com.yuyang.bean.GongZuoJiLuBean">
+    select g.id,g.neiRong,g.shiJian,g.dangAnId,g.leiXing,(select renyuandangan.xingMing
+                                                          from oadb.renyuandangan where renyuandangan.id=g.dangAnId) as xingMing,
+           g.zhuangTai,g.jieShouRenId,(select id from rizhipinglun where riZhiId=g.id) as riZhiPingLunId,(select r.pingLunNeiRong from oadb.rizhipinglun as  r where g.id =r.riZhiId)
+                                                                                                                     as pingLunNeiRong,(select  r.riQi from oadb.rizhipinglun as r where g.id =r.riZhiId) as riQi,
+           (select renyuandangan.xingMing from oadb.renyuandangan where renyuandangan.id= g.jieShouRenId) as pingLunRen
+    from oadb.gongzuojilu g where g.id=#{id} and g.jieShouRenId=#{dangAnId} and g.zhuangTai !=-1
+  </select>
+
+  <update id="updateZhuangTai" parameterType="cn.com.yuyang.bean.GongZuoRiZhiBean">
+    update gongzuojilu set gongzuojilu.zhuangTai=1 where gongzuojilu.id=#{id}
+  </update>
+
+  <insert id="tiJiao" parameterType="cn.com.yuyang.bean.GongZuoJiLuBean">
+    insert into gongzuojilu(leiXing, shiJian, dangAnId, zhuangTai, jieShouRenId, neiRong)
+    values (#{leiXing},#{shiJian},#{dangAnId},0,#{jieShouRenId},#{neiRong})
+  </insert>
+
+  <insert id="pingLun" parameterType="cn.com.yuyang.bean.RiZhiPingLunBean">
+    insert into rizhipinglun(pingLunNeiRong, riQi,riZhiId) values(#{pingLunNeiRong},#{riQi},#{riZhiId})
+  </insert>
+
+  <select id="shenYueSouSuo" parameterType="cn.com.yuyang.bean.GongZuoRiZhiBean" resultType="cn.com.yuyang.bean.GongZuoJiLuBean">
+    select g.id,g.neiRong,g.shiJian,g.dangAnId,g.leiXing,(select renyuandangan.xingMing
+    from oadb.renyuandangan where renyuandangan.id=g.dangAnId) as xingMing,
+    g.zhuangTai,g.jieShouRenId,(select id from rizhipinglun where riZhiId=g.id) as riZhiPingLunId,(select r.pingLunNeiRong from oadb.rizhipinglun as  r where g.id =r.riZhiId)
+    as pingLunNeiRong,(select  r.riQi from oadb.rizhipinglun as r where g.id =r.riZhiId) as riQi,
+    (select renyuandangan.xingMing from oadb.renyuandangan where renyuandangan.id= g.jieShouRenId) as pingLunRen
+    from oadb.gongzuojilu g where  g.jieShouRenId=#{dangAnId} and g.zhuangTai!=-1
+    <if test="startDate!=null and startDate!=''">
+      and g.shiJian  &gt;=#{startDate} and g.shiJian &lt;=#{endDate}
+    </if>
+    <if test="type!=null and type!=''">
+      and g.leiXing =#{type}
+    </if>
+  </select>
 
 
 

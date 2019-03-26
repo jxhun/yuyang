@@ -40,8 +40,14 @@ public interface GonggaoMapper {
      * @param gongGaoBean 公告bean对象，其中存储有公告的id
      * @return  返回一个Gonggao对象
      */
-    Gonggao gongGaoXiangQing(GongGaoBean gongGaoBean);
+    Map<String,Object> gongGaoXiangQing(GongGaoBean gongGaoBean);
 
+    /**
+     * 这个方法用来查询部门名称
+     * @param gongGaoBean
+     * @return
+     */
+    String chaXunBuMenMingCheng(GongGaoBean gongGaoBean);
 
     Integer shanChuGongGao(GongGaoBean gongGaoBean);
 

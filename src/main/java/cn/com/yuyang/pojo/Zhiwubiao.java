@@ -15,6 +15,15 @@ public class Zhiwubiao {
   private long daiBanShiXiang;
   private long buMenGuanLi;
   private java.sql.Timestamp chuangJianShiJian;
+  private String token;
+
+  public String getToken() {
+    return token;
+  }
+
+  public void setToken(String token) {
+    this.token = token;
+  }
 
   public long getBuMenGuanLi() {
     return buMenGuanLi;

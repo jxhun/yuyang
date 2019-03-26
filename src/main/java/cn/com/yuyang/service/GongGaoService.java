@@ -112,8 +112,11 @@ public class GongGaoService {
      * @param gongGaoBean 公告bean对象，其中存储有公告的id
      * @return 返回一个Gonggao对象
      */
-    public Gonggao xiangQing(GongGaoBean gongGaoBean) {
-        return gonggaoMapper.gongGaoXiangQing(gongGaoBean);  // 调用查询公告详情方法
+    public Map<String, Object> xiangQing(GongGaoBean gongGaoBean) {
+        Map<String, Object> map = gonggaoMapper.gongGaoXiangQing(gongGaoBean);  // 调用查询公告详情方法
+        String buMenMingCheng = gonggaoMapper.chaXunBuMenMingCheng(gongGaoBean); // 调用查询部门名称方法查询部门名称
+        map.put("buMenMingCheng",buMenMingCheng);  // 存入部门名称
+        return map;  // 调用查询公告详情方法
     }
 
     /**

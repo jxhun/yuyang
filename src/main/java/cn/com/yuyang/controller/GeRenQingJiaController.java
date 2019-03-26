@@ -29,8 +29,8 @@ public class GeRenQingJiaController {
     @RequestMapping(value = "/qingjia",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
     public Map<String,Object> selectAll(@RequestBody(required = false) GeRenQingJiaBean geRenQingJiaBean, HttpServletRequest request){
-        request.getSession().setAttribute(SessionKey.TOKEN, "toKen");
-        if (!request.getSession().getAttribute(SessionKey.TOKEN).equals(geRenQingJiaBean.getToKen())) {
+//        request.getSession().setAttribute(SessionKey.TOKEN, "toKen");
+        if (geRenQingJiaBean.getToken()!= null && !request.getSession().getAttribute(SessionKey.TOKEN).equals(geRenQingJiaBean.getToken())) {
             Map<String, Object> selectAllMap = new HashMap<>();
             selectAllMap.put("RETURNCODE", -1);
             selectAllMap.put("MSG", "请求超时");

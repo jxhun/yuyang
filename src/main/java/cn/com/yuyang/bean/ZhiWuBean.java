@@ -11,7 +11,15 @@ public class ZhiWuBean {
     private String dangAnId;
     private Integer zhiWuId;
     private String zhiWuMingCheng;
+    private String token;
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public String getDangAnId() {
         return dangAnId;

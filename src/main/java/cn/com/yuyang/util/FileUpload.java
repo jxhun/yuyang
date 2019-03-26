@@ -23,9 +23,23 @@ public class FileUpload {
      * @return 成功返回路径
      */
     public static String executeImport(MultipartFile articleFile, HttpServletRequest request) {
+        if (articleFile == null || articleFile.getSize() > 10485760) {  // 如果前端传入文件失败或者文件大小超过设置大小，那么直接返回null
+            return null;
+        }
         String originalFilename = articleFile.getOriginalFilename();
         String luJingHouZui = System.currentTimeMillis() + originalFilename.substring(originalFilename.lastIndexOf("."));// 文件存储路径后缀
         String jueDuiLuJing = request.getSession().getServletContext().getRealPath(File.separator) + File.separator;  // 得到文件绝对路径
+        System.out.println(jueDuiLuJing);
+        File diroffice = new File(jueDuiLuJing + "office");
+        if (!diroffice.exists() && !diroffice.isDirectory()) {  // 如果offie目录不存在
+            System.out.println("//不存在");
+            diroffice.mkdir();  // 创建目录
+        }
+        File dirimg = new File(jueDuiLuJing + "img");
+        if (!dirimg.exists() && !dirimg.isDirectory()) {  // 如果img目录不存在
+            System.out.println("//不存在");
+            dirimg.mkdir();  // 创建目录
+        }
         String luJingQianZui = "img" + File.separator;  // 图片上传路径前缀
         String luJing = "/img/" + luJingHouZui;
         if (originalFilename != null && (originalFilename.endsWith(".doc") || originalFilename.endsWith(".docx") ||

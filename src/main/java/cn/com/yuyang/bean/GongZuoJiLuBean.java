@@ -15,6 +15,15 @@ public class GongZuoJiLuBean {
     private String pingLunRen; //评论人姓名
     private  int riZhiPingLunId;//评论日志ID；
     private  int jieShouRenId;//评论人ID；
+    private String token;   //前台传来token
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public int getDangAnId() {
         return dangAnId;

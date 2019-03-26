@@ -13,6 +13,15 @@ public class QuanXianChaXunBean {
     private String gongHao;
     private String buMenMingCheng;
     private String zhiWuMingCheng;
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public String getDangAnId() {
         return dangAnId;

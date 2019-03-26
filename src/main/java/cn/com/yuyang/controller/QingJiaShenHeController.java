@@ -34,11 +34,11 @@ public class QingJiaShenHeController {
     @RequestMapping(value = "/selectAll",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
     public Map<String,Object> selectAll(@RequestBody(required = false)QingJiaShenHeBean qingJiaShenHeBean, HttpServletRequest request){
-        request.getSession().setAttribute(SessionKey.BUMENID,3);
-        request.getSession().setAttribute(SessionKey.QINGJIASHENPI,1);
-        request.getSession().setAttribute(SessionKey.TOKEN,"toKen");
+//        request.getSession().setAttribute(SessionKey.BUMENID,3);
+//        request.getSession().setAttribute(SessionKey.QINGJIASHENPI,1);
+//        request.getSession().setAttribute(SessionKey.TOKEN,"toKen");
         //判断token值是否相同
-        if(!request.getSession().getAttribute(SessionKey.TOKEN).equals(qingJiaShenHeBean.getToKen())){
+        if(qingJiaShenHeBean.getToken()==null||(qingJiaShenHeBean.getToken()!=null &&!request.getSession().getAttribute(SessionKey.TOKEN).equals(qingJiaShenHeBean.getToken()))){
             Map<String,Object> selectAllMap = new HashMap<>();
             selectAllMap.put("RETURNCODE",-1);
             selectAllMap.put("MSG","请求超时");
@@ -107,11 +107,11 @@ public class QingJiaShenHeController {
     @RequestMapping(value = "/updateShenHe",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
     public Map<String,Object> updateShenHe(@RequestBody(required = false)QingJiaShenHeBean qingJiaShenHeBean, HttpServletRequest request){
-        request.getSession().setAttribute(SessionKey.BUMENID,3);
-        request.getSession().setAttribute(SessionKey.QINGJIASHENPI,1);
-        request.getSession().setAttribute(SessionKey.TOKEN,"toKen");
+//        request.getSession().setAttribute(SessionKey.BUMENID,3);
+//        request.getSession().setAttribute(SessionKey.QINGJIASHENPI,1);
+//        request.getSession().setAttribute(SessionKey.TOKEN,"toKen");
         //判断token值是否相同
-        if(!request.getSession().getAttribute(SessionKey.TOKEN).equals(qingJiaShenHeBean.getToKen())){
+        if(qingJiaShenHeBean.getToken()==null||(qingJiaShenHeBean.getToken()!=null &&!request.getSession().getAttribute(SessionKey.TOKEN).equals(qingJiaShenHeBean.getToken()))){
             Map<String,Object> selectAllMap = new HashMap<>();
             selectAllMap.put("RETURNCODE",-1);
             selectAllMap.put("MSG","请求超时");
@@ -143,11 +143,11 @@ public class QingJiaShenHeController {
     @RequestMapping(value = "/tiJiaoShenHe",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
     public Map<String,Object> tiJiaoShenHe(@RequestBody(required = false)QingJiaShenHeBean qingJiaShenHeBean, HttpServletRequest request ){
-        request.getSession().setAttribute(SessionKey.BUMENID,3);
-        request.getSession().setAttribute(SessionKey.QINGJIASHENPI,1);
-        request.getSession().setAttribute(SessionKey.TOKEN,"toKen");
+//        request.getSession().setAttribute(SessionKey.BUMENID,3);
+//        request.getSession().setAttribute(SessionKey.QINGJIASHENPI,1);
+//        request.getSession().setAttribute(SessionKey.TOKEN,"toKen");
         //判断token值是否相同
-        if(!request.getSession().getAttribute(SessionKey.TOKEN).equals(qingJiaShenHeBean.getToKen())){
+        if(qingJiaShenHeBean.getToken()==null||(qingJiaShenHeBean.getToken()!=null &&!request.getSession().getAttribute(SessionKey.TOKEN).equals(qingJiaShenHeBean.getToken()))){
             Map<String,Object> selectAllMap = new HashMap<>();
             selectAllMap.put("RETURNCODE",-1);
             selectAllMap.put("MSG","请求超时");

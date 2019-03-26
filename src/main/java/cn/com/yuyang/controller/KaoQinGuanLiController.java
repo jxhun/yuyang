@@ -42,11 +42,11 @@ public class KaoQinGuanLiController {
     @RequestMapping(value = "/chakan", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public Map<String, Object> selectKaoQinGuanLi(@RequestBody(required = false) KaoQinGuanLiBean kaoQinGuanLiBean, HttpServletRequest request) throws ParseException {
-        request.getSession().setAttribute(SessionKey.BUMENID, 3);
-        request.getSession().setAttribute(SessionKey.CHAKANKAOQIN, 1);
-        request.getSession().setAttribute(SessionKey.TOKEN, "toKen");
+//        request.getSession().setAttribute(SessionKey.BUMENID, 3);
+//        request.getSession().setAttribute(SessionKey.CHAKANKAOQIN, 1);
+//        request.getSession().setAttribute(SessionKey.TOKEN, "toKen");
         //判断token值是否相同
-        if (!(request.getSession().getAttribute(SessionKey.TOKEN)).equals(kaoQinGuanLiBean.getToKen())) {
+        if (kaoQinGuanLiBean.getToken()==null||(kaoQinGuanLiBean.getToken()!=null && !(request.getSession().getAttribute(SessionKey.TOKEN)).equals(kaoQinGuanLiBean.getToken()))) {
             Map<String, Object> selectAllMap = new HashMap<>();
             selectAllMap.put("RETURNCODE", -1);
             selectAllMap.put("MSG", "请求超时");
@@ -131,21 +131,21 @@ public class KaoQinGuanLiController {
     @RequestMapping(value = "/selectBuMen", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public Map<String, Object> selectBuMen(@RequestBody(required = false) KaoQinGuanLiBean kaoQinGuanLiBean, HttpServletRequest request) {
-        request.getSession().setAttribute(SessionKey.TOKEN, "toKen");
+//        request.getSession().setAttribute(SessionKey.TOKEN, "toKen");
         //判断token值是否相同
-        if (!(request.getSession().getAttribute(SessionKey.TOKEN)).equals(kaoQinGuanLiBean.getToKen())) {
-            Map<String, Object> selectAllMap = new HashMap<>();
-            selectAllMap.put("RETURNCODE", -1);
-            selectAllMap.put("MSG", "请求超时");
-            return selectAllMap;
+        if (kaoQinGuanLiBean.getToken()==null||(kaoQinGuanLiBean.getToken()!=null && !(request.getSession().getAttribute(SessionKey.TOKEN)).equals(kaoQinGuanLiBean.getToken()))) {
+            Map<String, Object> selectBuMenMap = new HashMap<>();
+            selectBuMenMap.put("RETURNCODE", -1);
+            selectBuMenMap.put("MSG", "请求超时");
+            return selectBuMenMap;
         } else {
             List<Bumen> selectBuMenList = kaoQinGuanLiService.selectBuMen();
             ArrayList arrayList = new ArrayList();
-            Map<String, Object> selectAllMap = new HashMap<>();
-            selectAllMap.put("RETURNCODE", 200);
-            selectAllMap.put("MSG", "提交请假审核成功");
-            selectAllMap.put("DATA", selectBuMenList);
-            return selectAllMap;
+            Map<String, Object> selectBuMenMap = new HashMap<>();
+            selectBuMenMap.put("RETURNCODE", 200);
+            selectBuMenMap.put("MSG", "提交请假审核成功");
+            selectBuMenMap.put("DATA", selectBuMenList);
+            return selectBuMenMap;
         }
 
     }
@@ -160,14 +160,14 @@ public class KaoQinGuanLiController {
     @RequestMapping(value = "/excle")
     @ResponseBody
     public Map<String, Object> shangChuanXls(@RequestBody(required = false) MultipartFile articleFile, KaoQinGuanLiBean kaoQinGuanLiBean, HttpServletRequest request) {
-        request.getSession().setAttribute(SessionKey.TOKEN, "toKen");
-        System.out.println(kaoQinGuanLiBean.getToKen());
+//        request.getSession().setAttribute(SessionKey.TOKEN, "toKen");
+
         //判断token值是否相同
-        if (!(request.getSession().getAttribute(SessionKey.TOKEN)).equals(kaoQinGuanLiBean.getToKen())) {
-            Map<String, Object> selectAllMap = new HashMap<>();
-            selectAllMap.put("RETURNCODE", -1);
-            selectAllMap.put("MSG", "请求超时");
-            return selectAllMap;
+        if (kaoQinGuanLiBean.getToken()==null||(kaoQinGuanLiBean.getToken()!=null && !(request.getSession().getAttribute(SessionKey.TOKEN)).equals(kaoQinGuanLiBean.getToken()))) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("RETURNCODE", -1);
+            map.put("MSG", "请求超时");
+            return map;
         } else {
             String luJing = FileUpload.executeImport(articleFile, request);  // 调用文件上传方法上传文件，并且得到上传文件路径
 

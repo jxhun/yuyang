@@ -2,11 +2,13 @@ package cn.com.yuyang.service;
 
 import cn.com.yuyang.bean.GongZuoJiLuBean;
 import cn.com.yuyang.bean.GongZuoRiZhiBean;
+import cn.com.yuyang.bean.RiZhiPingLunBean;
 import cn.com.yuyang.pojo.Gongzuojilu;
 import cn.com.yuyang.pojo.GongzuojiluMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,9 +35,67 @@ public class GongZuoRiZhiService {
      * @param gongZuoRiZhiBean 存储档案id查询到人，时间区间查询，状态查询
      * @return 查询结果集
      */
-    public List<Gongzuojilu> selectRiZhiByDangAnId(GongZuoRiZhiBean gongZuoRiZhiBean){
+    public List<GongZuoJiLuBean> selectRiZhiByDangAnId(GongZuoRiZhiBean gongZuoRiZhiBean){
         return gongzuojiluMapper.selectRiZhiByDangAnId(gongZuoRiZhiBean);
     }
+    /**
+     * 多条件搜索查看自己的工作记录
+     * @param gongZuoRiZhiBean 存储档案id查询到人，时间区间查询，状态查询
+     * @return 查询结果集
+     */
+    public List<GongZuoJiLuBean> selectRiZhi(GongZuoRiZhiBean gongZuoRiZhiBean){
+        return gongzuojiluMapper.selectRiZhi(gongZuoRiZhiBean);
+    }
+
+    /**
+     * 查看提交给自己的工作记录
+     * @param gongZuoRiZhiBean 存储档案id查询到人，时间区间查询，状态查询
+     * @return 查询结果集
+     */
+    public List<GongZuoJiLuBean> shenYueRiZhi(GongZuoRiZhiBean gongZuoRiZhiBean){
+        return gongzuojiluMapper.shenYueRiZhi(gongZuoRiZhiBean);
+    }
+
+    /**
+     * 查看待审阅日志的详情
+     * @param gongZuoJiLuBean 存储档案id,审阅的日志id
+     * @return 查询结果集
+     */
+    public List<GongZuoJiLuBean> shenYueXiangQing(GongZuoJiLuBean gongZuoJiLuBean){
+
+        return gongzuojiluMapper.shenYueXiangQing(gongZuoJiLuBean);
+    }
+
+    //修改审阅状态为已审阅
+    public void yiShenYue(GongZuoJiLuBean gongZuoJiLuBean){
+        gongzuojiluMapper.updateZhuangTai(gongZuoJiLuBean);
+    }
+    /**
+     * 提交某条工作日志到数据库
+     * @param gongZuoJiLuBean 存储档案id,日志内容，日志类型，日志接收人，日志时间等信息
+     */
+    public void tiJiao(GongZuoJiLuBean gongZuoJiLuBean){
+        gongZuoJiLuBean.setShiJian(new Timestamp(System.currentTimeMillis()));
+        gongzuojiluMapper.tiJiao(gongZuoJiLuBean);
+    }
+    /**
+     * 提交某条日志评论到数据库
+     * @param riZhiPingLunBean 存储档案id,评论内容，评论的日志id等信息
+     */
+    public void pingLun(RiZhiPingLunBean riZhiPingLunBean){
+        riZhiPingLunBean.setRiQi(new Timestamp(System.currentTimeMillis()));
+        gongzuojiluMapper.pingLun(riZhiPingLunBean);
+    }
+
+    /**
+     * 多条件搜索查看自己的工作记录
+     * @param gongZuoRiZhiBean 存储档案id查询到人，时间区间查询，状态查询
+     * @return 查询结果集
+     */
+    public List<GongZuoJiLuBean> shenYueSouSuo(GongZuoRiZhiBean gongZuoRiZhiBean){
+        return gongzuojiluMapper.shenYueSouSuo(gongZuoRiZhiBean);
+    }
+
 
     /**
      * 查看手下的工作记录
@@ -92,14 +152,7 @@ public class GongZuoRiZhiService {
 
 
 
-    /**
-     * 查看自己的工作记录
-     * @param gongZuoJiLuBean 存储档案id查询到人，时间区间查询，状态查询
-     * @return gongZuoJiLuBean
-     */
-    public List<GongZuoJiLuBean> selectRiZhiByDangAnId(GongZuoJiLuBean gongZuoJiLuBean){
-        return gongzuojiluMapper.selectRiZhiByDangAnId(gongZuoJiLuBean);
-    }
+
 
     /**
      * 查看手下的工作记录
@@ -172,7 +225,7 @@ public class GongZuoRiZhiService {
      * @param gongZuoJiLuBean
      */
     public void updateZhuangTai(GongZuoJiLuBean gongZuoJiLuBean){
-        gongzuojiluMapper.updateZhuangTai(gongZuoJiLuBean);
+        gongzuojiluMapper.updateZhuangTai1(gongZuoJiLuBean);
 
     }
 

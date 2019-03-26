@@ -190,20 +190,20 @@ public class YuanGongGuanLiController {
         String token = (String) request.getSession().getAttribute(SessionKey.TOKEN);
         Integer quanxian = (Integer) request.getSession().getAttribute(SessionKey.CAOZUOYUANGONG);
         Map<String, Object> map = new HashMap<>();
-        if (!yuanGongBean.getToken().equals(token)) {
-            map.put("Returncode", -1);
-            map.put("msg", "登录超时！");
-        } else if (quanxian != 1) {
-            map.put("Returncode", -2);
-            map.put("msg", "你没有这个权限！");
-        } else {
+//        if (!yuanGongBean.getToken().equals(token)) {
+//            map.put("Returncode", -1);
+//            map.put("msg", "登录超时！");
+//        } else if (quanxian != 1) {
+//            map.put("Returncode", -2);
+//            map.put("msg", "你没有这个权限！");
+//        } else {
             String touXiang = FileUpload.executeImport(articleFile, request);
             yuanGongBean.setTouXiang(touXiang);
             String msg = yuanGongGuanLiService.xinzeng(yuanGongBean, request);
             yuanGongGuanLiService.minGanXinZeng(request); // 调用方法，存入用户操作记录
             map.put("Returncode", 200);
             map.put("msg", msg);
-        }
+//        }
         return map;
     }
 
@@ -238,15 +238,21 @@ public class YuanGongGuanLiController {
     @RequestMapping(value = {"/ChongZhi"}, method = RequestMethod.POST)
     public Map<String, Object> updateChongZhiMiMa(@RequestBody(required = false)YuanGongBean yuanGongBean,HttpServletRequest request){
         Map<String,Object> map = new HashMap<>();
-
-        map.put("returncode",-1);
-        try {
-            yuanGongGuanLiService.updateChongZhiMiMa(yuanGongBean);
-            map.put("returncode",200);
-            map.put("msg","重置密码成功");
-        }catch (Exception e){
-            e.printStackTrace();
+        String token = (String) request.getSession().getAttribute(SessionKey.TOKEN);
+        if (yuanGongBean.getToken().equals(token)) {
+            map.put("returncode",-1);
+            try {
+                yuanGongGuanLiService.updateChongZhiMiMa(yuanGongBean);
+                map.put("returncode",200);
+                map.put("msg","重置密码成功");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }else{
+            map.put("Returncode", -1);
+            map.put("msg", "登录超时！");
         }
+
         return map;
     }
 

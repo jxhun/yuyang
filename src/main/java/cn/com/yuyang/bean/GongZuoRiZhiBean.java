@@ -12,6 +12,15 @@ public class GongZuoRiZhiBean {
     private String startDate;
     private String endDate;
     private String type;
+    private String token;   //前台传来token
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public String getDangAnId() {
         return dangAnId;

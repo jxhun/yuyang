@@ -61,8 +61,12 @@
         set liuLanShu=#{liuLanShu}
         where id = #{id};
     </update>
+    <select id="chaXunBuMenMingCheng" resultType="java.lang.String" parameterType="cn.com.yuyang.bean.GongGaoBean">
+        select bm.buMenMingCheng
+        from gonggao as g join oadb.bumen as bm on bm.id = g.buMenId and g.id = #{id}
+    </select>
 
-    <select id="gongGaoXiangQing" resultMap="getOneToOne">
+    <select id="gongGaoXiangQing" resultType="java.util.HashMap">
         select g.gongGaoMingCheng,
                g.faBuShiJian,
                g.lanMu,
@@ -70,12 +74,10 @@
                g.liuLanShu,
                ry.xingMing,
                g.id,
-               bm.buMenMingCheng,
                g.dangAnId,
                g.fuJianDiZhi
         from gonggao as g
-                 join bumen as bm
-                 join renyuandangan as ry on g.buMenId = bm.id and g.dangAnId = ry.id and g.id = #{id}
+                 join renyuandangan as ry on g.dangAnId = ry.id and g.id = #{id};
     </select>
     <resultMap id="getOneToOne" type="cn.com.yuyang.pojo.Gonggao">
         <id property="id" column="id"/>
@@ -99,8 +101,8 @@
     <update id="shanChuGongGao">
         update gonggao
         set zhuangTai = #{zhuangTai}
-        <if test="zhuangTai=1">
-            ,set faBuShiJian = now()
+        <if test="zhuangTai==1">
+            , faBuShiJian = now()
         </if>
         where id = #{id}
         and dangAnId = #{dangAnId};
@@ -117,7 +119,10 @@
     </select>
 
     <select id="coutGongGao" resultType="java.lang.Integer">
-        select count(id) from gonggao where  dangAnId=#{dangAnId} and faBuShiJian > (select gongGaoDianJiShiJian from renyuandangan where id=#{dangAnId});
+        select count(id)
+        from gonggao
+        where dangAnId = #{dangAnId}
+          and faBuShiJian > (select gongGaoDianJiShiJian from renyuandangan where id = #{dangAnId});
 
     </select>
 

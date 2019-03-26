@@ -6,14 +6,14 @@ public class GeRenQingJiaBean {
     private String qiShiShiJian;
     private String zhongZhiShiJian;
     private String qingJiaShiYou;
-    private String toKen;
+    private String token;
 
-    public String getToKen() {
-        return toKen;
+    public String getToken() {
+        return token;
     }
 
-    public void setToKen(String toKen) {
-        this.toKen = toKen;
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getShenQingRen() {
