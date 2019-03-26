@@ -118,7 +118,6 @@ public class KaoQinGuanLiController {
                 kaoQinGuanLiMap.put("RETURNCODE", returnCode);
                 kaoQinGuanLiMap.put("MSG", msg);
                 kaoQinGuanLiMap.put("DATA", arrayList);
-                kaoQinGuanLiMap.put("TOKEN", "token");
                 return kaoQinGuanLiMap;
             }
         }
@@ -161,10 +160,19 @@ public class KaoQinGuanLiController {
     @RequestMapping(value = "/excle")
     @ResponseBody
     public Map<String, Object> shangChuanXls(@RequestBody(required = false) MultipartFile articleFile, KaoQinGuanLiBean kaoQinGuanLiBean, HttpServletRequest request) {
-        String luJing = FileUpload.executeImport(articleFile, request);  // 调用文件上传方法上传文件，并且得到上传文件路径
+        request.getSession().setAttribute(SessionKey.TOKEN, "toKen");
+        System.out.println(kaoQinGuanLiBean.getToKen());
+        //判断token值是否相同
+        if (!(request.getSession().getAttribute(SessionKey.TOKEN)).equals(kaoQinGuanLiBean.getToKen())) {
+            Map<String, Object> selectAllMap = new HashMap<>();
+            selectAllMap.put("RETURNCODE", -1);
+            selectAllMap.put("MSG", "请求超时");
+            return selectAllMap;
+        } else {
+            String luJing = FileUpload.executeImport(articleFile, request);  // 调用文件上传方法上传文件，并且得到上传文件路径
 
-        Map<String, Object> map = kaoQinGuanLiService.excle(request, luJing);
-        return map;
-
+            Map<String, Object> map = kaoQinGuanLiService.excle(request, luJing);
+            return map;
+        }
     }
 }
