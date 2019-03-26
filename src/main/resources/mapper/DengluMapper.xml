@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.com.yuyang.pojo.DengluMapper">
 
-    <select id="selectChaXun" resultMap="getOneToOneMap" >
+    <select id="selectChaXun" resultMap="getOneToOneMap">
         select
         t1.id,
         t1.dangAnId,
@@ -39,14 +39,15 @@
         t3.id,
         t3.zhiWuMingCheng,
         t3.zhiWuJianJie,
+        t3.chaKanKaoQin,
         t3.qinJiaShenPi,
         t3.quanXianGuanLi,
         t3.chaKanYuanGong,
-        t3.chaKanKaoQin,
         t3.caoZuoYuanGong,
-        t3.chuangJianShiJian,
         t3.faBuXiuGaiGongGao,
         t3.daiBanShiXiang,
+        t3.buMenGuanLi,
+        t3.chuangJianShiJian,
         t4.id,
         t4.buMenMingCheng,
         t4.buMenJianJie,
@@ -68,7 +69,7 @@
             and t2.xingMing like #{xingMing}
         </if>
         <if test="startTime !=null or endTime !=null">
-            and t2.ruZhiShiJian between  #{startTime} and #{endTime}
+            and t2.ruZhiShiJian between #{startTime} and #{endTime}
         </if>
 
     </select>
@@ -112,13 +113,14 @@
                 <result property="zhiWuMingCheng" column="zhiWuMingCheng"/>
                 <result property="zhiWuJianJie" column="zhiWuJianJie"/>
                 <result property="qinJiaShenPi" column="qinJiaShenPi"/>
-                <result property="buMenCaoZuo" column="buMenCaoZuo"/>
+                <result property="buMenGuanLi" column="buMenGuanLi"/>
                 <result property="chaKanYuanGong" column="chaKanYuanGong"/>
                 <result property="chaKanKaoQin" column="chaKanKaoQin"/>
                 <result property="caoZuoYuanGong" column="caoZuoYuanGong"/>
                 <result property="chuangJianShiJian" column="chuangJianShiJian"/>
                 <result property="faBuXiuGaiGongGao" column="faBuXiuGaiGongGao"/>
                 <result property="daiBanShiXiang" column="daiBanShiXiang"/>
+                <result property="quanXianGuanLi" column="quanXianGuanLi"/>
             </association>
             <association property="bumen" javaType="cn.com.yuyang.pojo.Bumen">
                 <id property="id" column="id3"/>
@@ -143,7 +145,11 @@
     </select>
 
     <update id="updateLogin" parameterType="cn.com.yuyang.pojo.Denglu">
-        update  denglu set dengLuCiShu=#{dengLuCiShu},zuiHouYiCiDengLuShiJian=now(),cuoWuCiShu=0 where id=#{id}
+        update denglu
+        set dengLuCiShu=#{dengLuCiShu},
+            zuiHouYiCiDengLuShiJian=now(),
+            cuoWuCiShu=0
+        where id = #{id}
     </update>
 
 
@@ -183,16 +189,21 @@
             t3.id,
             t3.zhiWuMingCheng,
             t3.zhiWuJianJie,
+            t3.chaKanKaoQin,
             t3.qinJiaShenPi,
             t3.quanXianGuanLi,
             t3.chaKanYuanGong,
-            t3.chaKanKaoQin,
             t3.caoZuoYuanGong,
-            t3.chuangJianShiJian,
             t3.faBuXiuGaiGongGao,
-            t3.daiBanShiXiang
-        from denglu t1,renyuandangan t2,zhiwubiao t3
-        where t1.dangAnId=t2.id and t2.zhiWuId=t3.id and t1.id=#{id}
+            t3.daiBanShiXiang,
+            t3.buMenGuanLi,
+            t3.chuangJianShiJian
+        from denglu t1,
+             renyuandangan t2,
+             zhiwubiao t3
+        where t1.dangAnId = t2.id
+          and t2.zhiWuId = t3.id
+          and t1.id = #{id}
     </select>
 
     <resultMap id="getOneToOneMap1" type="cn.com.yuyang.pojo.Denglu">
@@ -233,36 +244,49 @@
                 <result property="zhiWuMingCheng" column="zhiWuMingCheng"/>
                 <result property="zhiWuJianJie" column="zhiWuJianJie"/>
                 <result property="qinJiaShenPi" column="qinJiaShenPi"/>
-                <result property="buMenCaoZuo" column="buMenCaoZuo"/>
+                <result property="buMenGuanLi" column="buMenGuanLi"/>
                 <result property="chaKanYuanGong" column="chaKanYuanGong"/>
                 <result property="chaKanKaoQin" column="chaKanKaoQin"/>
                 <result property="caoZuoYuanGong" column="caoZuoYuanGong"/>
                 <result property="chuangJianShiJian" column="chuangJianShiJian"/>
                 <result property="faBuXiuGaiGongGao" column="faBuXiuGaiGongGao"/>
                 <result property="daiBanShiXiang" column="daiBanShiXiang"/>
+                <result property="quanXianGuanLi" column="quanXianGuanLi"/>
             </association>
         </association>
     </resultMap>
 
     <update id="updateCuoWuCiShu" parameterType="cn.com.yuyang.pojo.Denglu">
-        update  denglu set cuoWuCiShu=#{cuoWuCiShu}  where id=#{id}
+        update denglu
+        set cuoWuCiShu=#{cuoWuCiShu}
+        where id = #{id}
     </update>
 
     <update id="updateDongJie" parameterType="cn.com.yuyang.pojo.Denglu">
-        update  denglu set zhuangTai=#{zhuangTai},dongJieShiJian=now()  where id=#{id}
+        update denglu
+        set zhuangTai=#{zhuangTai},
+            dongJieShiJian=now()
+        where id = #{id}
     </update>
 
     <select id="selectByDongJiShiJiaan" resultType="cn.com.yuyang.pojo.Denglu">
-        select * from denglu where id=#{id};
+        select *
+        from denglu
+        where id = #{id};
     </select>
 
     <update id="updateJieDong" parameterType="cn.com.yuyang.pojo.Denglu">
-        update  denglu set zhuangTai=#{zhuangTai},dongJieShiJian=null  where id=#{id}
+        update denglu
+        set zhuangTai=#{zhuangTai},
+            dongJieShiJian= null
+        where id = #{id}
     </update>
 
 
     <select id="selectByYanZhengMa" resultType="cn.com.yuyang.pojo.Denglu">
-        select * from denglu where shouJiHaoMa=#{shouJiHaoMa};
+        select *
+        from denglu
+        where shouJiHaoMa = #{shouJiHaoMa};
     </select>
     <insert id="insertDenglu" parameterType="cn.com.yuyang.bean.YuanGongBean">
         insert into denglu
@@ -278,5 +302,11 @@
          #{shouJiHaoMa},
          #{siYao})
     </insert>
+
+
+    <update id="updateChongZhiMiMa" parameterType="cn.com.yuyang.bean.YuanGongBean">
+        update denglu set miMa='123456' where  dangAnId=#{dangAnId}
+
+    </update>
 
 </mapper>

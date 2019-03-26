@@ -44,7 +44,6 @@ public class GeRenSheZhiController {
 
     public GeRenSheZhiController(GeRenSheZhiService geRenSheZhiService) {
         this.geRenSheZhiService = geRenSheZhiService;
-        System.out.println("------GeRenSheZhiController()构造函数------");
     }
 
     @RequestMapping(value = {"/xinxi"})
@@ -73,28 +72,34 @@ public class GeRenSheZhiController {
     @ResponseBody
     public Map<String, Object> updateXinXi(@RequestBody(required = false) YuanGongBean yuanGongBean, HttpServletRequest request) {
         String token = (String) request.getSession().getAttribute(SessionKey.TOKEN);    // 得到token
-        // 如果token不为空,说明用户已经登录,并且前端的token必须和我session的token相同
-//        if (yuanGongBean != null && token != null && token.equals(yuanGongBean.getToken())) {
-        System.out.println("备注" + yuanGongBean.getBeiZhu());
-        yuanGongBean.setDangAnId(1);
+        //如果yuanGongBean为null则从session里面获取档案ID
+        if(yuanGongBean==null){
+            yuanGongBean.setDangAnId((Integer)request.getSession().getAttribute(SessionKey.DANGANID));
+        }
         Map<String, Object> returnMap = new HashMap<>();
-        AsymmetricEncryption asymmetricEncryption = new AsymmetricEncryption();
-        yuanGongBean.setMiMa2(asymmetricEncryption.jiaMi(yuanGongBean.getMiMa(), request));
         geRenSheZhiService.updateXinXi(yuanGongBean);
+
+        //代表旧密码不为空，则判断旧密码是否输入正确
+        if(yuanGongBean!=null && !yuanGongBean.getJiuMiMa().trim().equals("")){
+            //此方法代表根据前端传过来的旧密码查询后台如果大于0则代表旧密码输入成功
+            Integer integer = geRenSheZhiService.selectMiMa(yuanGongBean);
+            //旧密码输入错误
+            if(integer<=0){
+                returnMap.put("returncode", -1);
+                returnMap.put("msg", "旧密码输入错误");
+                return  returnMap;
+            }
+
+        }
+        //如果旧密码输入成功则更新密码
         geRenSheZhiService.updateXinXi2(yuanGongBean);
-        System.out.println("=======" + yuanGongBean.getShouJiHaoMa());
         //更新了数据之后再进行查询用工信息
         Renyuandangan renyuandangan = geRenSheZhiService.xinxiChaXun(yuanGongBean);
         returnMap.put("returncode", 200);
         returnMap.put("msg", "更新成功，");
         returnMap.put("data", renyuandangan);
-//        returnMap.put("token", token);  // 传出token
-        //        } else {
-//            returnMap.put("returncode", -1);
-//            returnMap.put("msg", "登录超时，请从新登录");
-//        }
-
         return returnMap;
+
     }
 
 
@@ -102,32 +107,33 @@ public class GeRenSheZhiController {
     @ResponseBody
     public Map<String, Object> shangChuanTouXian(@RequestBody(required = false) MultipartFile articleFile, HttpServletRequest request, YuanGongBean yuanGongBean) {
         String token = (String) request.getSession().getAttribute(SessionKey.TOKEN);    // 得到token
+        Map<String, Object> returnMap = new HashMap<>();
         // 如果token不为空,说明用户已经登录,并且前端的token必须和我session的token相同
 //        if (yuanGongBean != null && token != null && token.equals(yuanGongBean.getToken())) {
-        Map<String, Object> returnMap = new HashMap<>();
+            if (yuanGongBean == null) {
+                Integer attribute = (Integer) request.getSession().getAttribute(SessionKey.DANGANID);
+                yuanGongBean.setDangAnId(attribute);
+            }
+            FileUpload fileUpload = new FileUpload();
+            String imgURl = fileUpload.executeImport(articleFile, request);
+            if (imgURl != null && !imgURl.trim().equals("")) {
+                yuanGongBean.setTouXiang(imgURl);
+                geRenSheZhiService.updateTouXiang(yuanGongBean);
+                returnMap.put("returncode", 200);
+                returnMap.put("msg", "更新成功55555");
+                returnMap.put("data", imgURl);
+            } else {
+                returnMap.put("returncode", -100);
+                returnMap.put("msg", "文件过大，请传递小余10M的文件");
+            }
+            returnMap.put("token", token);  // 传出token
+//        } else {
+//            returnMap.put("returncode", -1);
+//            returnMap.put("msg", "登录超时，请从新登录");
+//        }
 
-        if(yuanGongBean==null){
-            Integer attribute = (Integer) request.getSession().getAttribute(SessionKey.DANGANID);
-            yuanGongBean.setDangAnId(attribute);
-        }
-
-        FileUpload fileUpload = new FileUpload();
-        String imgURl = fileUpload.executeImport(articleFile, request);
-        System.out.println("99999" + imgURl);
-        if (imgURl != null && !imgURl.trim().equals("")) {
-            yuanGongBean.setTouXiang(imgURl);
-            geRenSheZhiService.updateTouXiang(yuanGongBean);
-        }
-        Renyuandangan renyuandangan = geRenSheZhiService.xinxiChaXun(yuanGongBean);
-        returnMap.put("returncode", 200);
-        returnMap.put("msg", "更新成功55555");
-        returnMap.put("data", imgURl);
         return returnMap;
     }
-
-
-
-
 
 
 }

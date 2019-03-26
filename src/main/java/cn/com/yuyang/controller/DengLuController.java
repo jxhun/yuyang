@@ -34,7 +34,6 @@ public class DengLuController {
     @ResponseBody
     public Map<String, Object> loginByShoujiHaoMa(@RequestBody(required = false) YanZhengMaBean yanZhengMaBean, HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
-        System.out.println("手机号码" + yanZhengMaBean.getMiMa());
         //yanZhengMaBean存在
         if (yanZhengMaBean != null) {
             //根据前台传过来的手机号码或者工号判断该手机号查询是否存在
@@ -83,12 +82,11 @@ public class DengLuController {
                     AsymmetricEncryption asymmetricEncryption = new AsymmetricEncryption();
                     String miMa = asymmetricEncryption.jieMi(denglu1.getMiMa(), denglu1.getSiYao());  // 传入加密的密码和私钥，解密
                     //前端传过来的密码跟得到的密码进行比较，，如果一样则登录成功
-                    if (yanZhengMaBean.getMiMa().trim().equals(miMa)) {
+                    if (yanZhengMaBean!=null && yanZhengMaBean.getMiMa().trim().equals(miMa)) {
                         //每一次登录成功，登录成功次数加1
                         denglu1.setDengLuCiShu(denglu1.getDengLuCiShu() + 1);
                         //根据ID查询人员档案信息和职务信息
                         denglu1 = dengLuService.selectChaXun1(denglu1);
-                        System.out.println("=======" + denglu1);
                         //此方法代表将所有需要设置的权限设置在session中，
                         dengLuService.setQuanXian(denglu1, request);
                         //根据ID，更新用户的登录次数和最后一次登录时间
@@ -176,7 +174,6 @@ public class DengLuController {
             Denglu denglu1 = dengLuService.selectByYanZhengMa(yanZhengMaBean);
 
             Denglu denglu = dengLuService.selectChaXun1(denglu1);
-            System.out.println(denglu.getRenyuandangan().getXingMing() + denglu.getRenyuandangan().getYouXiang());
 
 //            new Thread(new MyJavaMail(denglu.getRenyuandangan().getXingMing(),denglu.getRenyuandangan().getYouXiang(),"haha")).start();
 

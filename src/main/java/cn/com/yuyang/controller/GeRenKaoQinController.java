@@ -51,8 +51,7 @@ public class GeRenKaoQinController {
             // 获取从service层获取的处理后的list
             List<Map<String,Object>> list = kaoQinService.selectUser(geRenKaoQinBean);
             Map<String,Integer> count = kaoQinService.selectCount(geRenKaoQinBean.getDangAnId());
-            System.out.println(count);
-            map.put("msg","正常考勤用id=1，迟到考勤用id=3，早退考勤用id=5，旷班考勤用id=7，请假考勤用id=8");
+            map.put("msg","查询成功");
             map.put("data",list);
             map.put("chiDao",count.get("chidao"));
             map.put("zaoTui",count.get("zaotui"));
@@ -84,7 +83,7 @@ public class GeRenKaoQinController {
         try {
             // 接收从service中获取的处理后的list
             List<Map<String,Object>> list = kaoQinService.selectBing(geRenKaoQinBean);
-            map.put("msg","正常考勤用id=1，迟到考勤用id=3，早退考勤用id=5，旷班考勤用id=7，请假考勤用id=8");
+            map.put("msg","查询成功");
             map.put("data",list);
             // 覆盖之前的-1值
             map.put("returnCode",200);

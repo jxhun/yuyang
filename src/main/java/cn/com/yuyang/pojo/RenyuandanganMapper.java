@@ -125,4 +125,11 @@ public interface RenyuandanganMapper {
      */
     List<Renyuandangan> chaXunRenYuan(IdBean idBean);
 
+    /**
+     * 此方法表示判断输入的旧密码是否正确
+     * @param yuanGongBean
+     * @return
+     */
+    Integer selectMiMa(YuanGongBean yuanGongBean);
+
 }

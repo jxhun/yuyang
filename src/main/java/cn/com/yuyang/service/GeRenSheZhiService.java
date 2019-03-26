@@ -29,7 +29,6 @@ public class GeRenSheZhiService {
      */
     public GeRenSheZhiService(RenyuandanganMapper renyuandanganMapper) {
         this.renyuandanganMapper = renyuandanganMapper;
-        System.out.println("------GeRenSheZhiService()构造函数------");
     }
 
     /**
@@ -65,4 +64,13 @@ public class GeRenSheZhiService {
         renyuandanganMapper.updateTouXiang(yuanGongBean);
     }
 
+
+    /**
+     * 此方法根据传过来是旧密码判断改密码是否正确
+     * @param yuanGongBean
+     * @return
+     */
+    public Integer selectMiMa(YuanGongBean yuanGongBean){
+        return  renyuandanganMapper.selectMiMa(yuanGongBean);
+    }
 }

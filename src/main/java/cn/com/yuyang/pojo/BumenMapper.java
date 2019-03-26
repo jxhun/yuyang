@@ -60,4 +60,11 @@ public interface BumenMapper {
     Bumen selectBuMenJiBie(Integer buMenId);
 
     List<Bumen> selectShangCengShenPiRen(Integer buMenJiBie);
+    /** 查看员工是否是某个部门的负责人
+     *
+     * @param bumenbean
+     * @return
+     */
+    Integer selectFuZeRen(Bumenbean bumenbean);
+
 }

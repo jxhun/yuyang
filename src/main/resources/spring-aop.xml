@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/aop
+          http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <import resource="spring_database.xml"/>
+
+    <!-- 切面配置-->
+    <bean id="restfulAop" class="cn.com.yuyang.util.AopXml"/>
+    <aop:config>
+        <aop:aspect ref="restfulAop">
+            <!-- @Before -->
+            <aop:pointcut id="pointCutBefore"
+                          expression="execution(* cn.com.yuyang.service.YuanGongGuanLiService.bianji(..))" />
+            <!--<aop:before method="logBefore" pointcut-ref="pointCutBefore" />-->
+
+            <!--<aop:pointcut id="restfulPointcut" expression="execution(* cn.com.yuyang.bean.IdBean.setXingMing(..))"/>-->
+            <aop:after-returning method="logAfterReturning" returning="result"
+                                 pointcut-ref="pointCutBefore"/>
+        </aop:aspect>
+        <aop:aspect ref="restfulAop">
+            <!-- @Before -->
+            <aop:pointcut id="pointCutBefore"
+                          expression="execution(* cn.com.yuyang.service.YuanGongGuanLiService.shanchu(..))" />
+            <!--<aop:before method="logBefore" pointcut-ref="pointCutBefore" />-->
+
+            <!--<aop:pointcut id="restfulPointcut" expression="execution(* cn.com.yuyang.bean.IdBean.setXingMing(..))"/>-->
+            <aop:after-returning method="logAfterReturning" returning="result"
+                                 pointcut-ref="pointCutBefore"/>
+        </aop:aspect>
+        <aop:aspect ref="restfulAop">
+            <!-- @Before -->
+            <aop:pointcut id="pointCutBefore"
+                          expression="execution(* cn.com.yuyang.service.YuanGongGuanLiService.xinzeng(..))" />
+            <!--<aop:before method="logBefore" pointcut-ref="pointCutBefore" />-->
+
+            <!--<aop:pointcut id="restfulPointcut" expression="execution(* cn.com.yuyang.bean.IdBean.setXingMing(..))"/>-->
+            <aop:after-returning method="logAfterReturning" returning="result"
+                                 pointcut-ref="pointCutBefore"/>
+        </aop:aspect>
+        <aop:aspect ref="restfulAop">
+            <!-- @Before -->
+            <aop:pointcut id="pointCutBefore"
+                          expression="execution(* cn.com.yuyang.service.BuMenGuanLiService.xinzeng(..))" />
+            <!--<aop:before method="logBefore" pointcut-ref="pointCutBefore" />-->
+
+            <!--<aop:pointcut id="restfulPointcut" expression="execution(* cn.com.yuyang.bean.IdBean.setXingMing(..))"/>-->
+            <aop:after-returning method="logAfterReturning" returning="result"
+                                 pointcut-ref="pointCutBefore"/>
+        </aop:aspect>
+        <aop:aspect ref="restfulAop">
+            <!-- @Before -->
+            <aop:pointcut id="pointCutBefore"
+                          expression="execution(* cn.com.yuyang.service.BuMenGuanLiService.shanchu(..))" />
+            <!--<aop:before method="logBefore" pointcut-ref="pointCutBefore" />-->
+
+            <!--<aop:pointcut id="restfulPointcut" expression="execution(* cn.com.yuyang.bean.IdBean.setXingMing(..))"/>-->
+            <aop:after-returning method="logAfterReturning" returning="result"
+                                 pointcut-ref="pointCutBefore"/>
+        </aop:aspect>
+        <aop:aspect ref="restfulAop">
+            <!-- @Before -->
+            <aop:pointcut id="pointCutBefore"
+                          expression="execution(* cn.com.yuyang.service.BuMenGuanLiService.bianji(..))" />
+            <!--<aop:before method="logBefore" pointcut-ref="pointCutBefore" />-->
+
+            <!--<aop:pointcut id="restfulPointcut" expression="execution(* cn.com.yuyang.bean.IdBean.setXingMing(..))"/>-->
+            <aop:after-returning method="logAfterReturning" returning="result"
+                                 pointcut-ref="pointCutBefore"/>
+        </aop:aspect>
+    </aop:config>
+
+
+</beans>

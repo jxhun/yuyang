@@ -40,7 +40,6 @@ public class GongGaoService {
         this.gonggaoMapper = gonggaoMapper;
         this.bumenMapper = bumenMapper;
         this.renyuandanganMapper = renyuandanganMapper;
-        System.out.println("-----GongGaoService()------");
     }
 
 

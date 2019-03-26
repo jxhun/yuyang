@@ -2,6 +2,7 @@ package cn.com.yuyang.service;
 
 import cn.com.yuyang.bean.IdBean;
 import cn.com.yuyang.pojo.*;
+import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -21,7 +22,6 @@ import java.util.Map;
  * Version: V1.0
  */
 @Service
-@Scope(value = "prototype")
 public class TongXunLuService {
 
     private final BumenMapper bumenMapper;
@@ -87,9 +87,8 @@ public class TongXunLuService {
                     return null;
                 }
             }
-
-
         } else if (idBean != null && idBean.getBuMenId() == 0) {  // 如果部门id为0，那么说明用户是点击通讯录进入通讯录，这个时候只能看到的是部门
+//           try{}catch (CommunicationsException c){}
             List<Bumen> bumenList = bumenMapper.selectBuMen();
             for (Bumen bm : bumenList) {  //循环取出查询结果
                 Map<String, Object> bmMap = new HashMap<>();  // 用一个map来组装查询得到的结果
@@ -98,7 +97,6 @@ public class TongXunLuService {
                 mapList.add(bmMap); // 存入map
             }
         }
-        System.out.println("mapList" + mapList);
         return mapList;
     }
 

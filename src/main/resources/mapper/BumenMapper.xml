@@ -33,7 +33,7 @@
             and ry.xingMing like concat(concat('%',#{xingMing}),'%')
         </if>
         <if test="shouJiHaoMa != null and shouJiHaoMa != ''">
-            and ry.shouJiHaoMa like concat(concat('%',#{shouJiHaoMa}),'%')
+            and dl.shouJiHaoMa like concat(concat('%',#{shouJiHaoMa}),'%')
         </if>
     </select>
 
@@ -103,7 +103,7 @@
         b.buMenMingCheng,
         b.buMenJianJie,
         b.chuangJianShiJian
-        from renyuandangan as r join bumen as b where r.buMenId = b.id
+        from renyuandangan as r join bumen as b where r.buMenId = b.id and r.zaiZhiZhuangTai=1
         <if test="buMenMingCheng!=null and buMenMingCheng!=''">
             and b.buMenMingCheng like #{buMenMingCheng}
         </if>
@@ -120,5 +120,11 @@
         from bumen
         where id = #{buMenId};
     </select>
+    <select id="selectFuZeRen" resultType="java.lang.Integer" parameterType="cn.com.yuyang.bean.Bumenbean">
+        select id
+        from bumen
+        where dangAnId = #{dangAnId}
+    </select>
+
 
 </mapper>

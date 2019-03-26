@@ -24,6 +24,7 @@ public class IdBean {
     }
 
     public void setXingMing(String xingMing) {
+        System.out.println("IdBean~~~~setXingMing");
         this.xingMing = xingMing;
     }
 

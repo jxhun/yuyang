@@ -24,19 +24,25 @@ import java.util.List;
 @Service
 public class YuanGongGuanLiService {
 
+    private final MingancaozuoMapper mingancaozuoMapper;
 
-    @Autowired
     private DengluMapper dengluMapper;
 
-    @Autowired
-    private RenyuandanganMapper renyuandanganMapper;
+    private final RenyuandanganMapper renyuandanganMapper;
+
+    private final BumenMapper bumenMapper;
+
+    private final ZhiwubiaoMapper zhiwubiaoMapper;
 
     @Autowired
-    private BumenMapper bumenMapper;
-
-    @Autowired
-    private ZhiwubiaoMapper zhiwubiaoMapper;
-
+    public YuanGongGuanLiService(MingancaozuoMapper mingancaozuoMapper,DengluMapper dengluMapper, RenyuandanganMapper renyuandanganMapper,
+                                 BumenMapper bumenMapper, ZhiwubiaoMapper zhiwubiaoMapper) {
+        this.mingancaozuoMapper = mingancaozuoMapper;
+        this.bumenMapper = bumenMapper;
+        this.dengluMapper = dengluMapper;
+        this.renyuandanganMapper = renyuandanganMapper;
+        this.zhiwubiaoMapper = zhiwubiaoMapper;
+    }
 
     /**
      * 查询全部员工的信息
@@ -113,14 +119,11 @@ public class YuanGongGuanLiService {
      * @param yuanGongBean
      * @return
      */
-    public String bianji(YuanGongBean yuanGongBean) {
-        int i1 = renyuandanganMapper.updateYuanGong(yuanGongBean);
-        int i2 = renyuandanganMapper.updateDenglu(yuanGongBean);
-        System.out.println(i1);
-        System.out.println(i2);
+    public String bianji(YuanGongBean yuanGongBean, HttpServletRequest request) {
         String msg = "修改失败!!!";
-        if (i1 == 1) {
-            msg = "修改成功!!!";
+        if (renyuandanganMapper.updateYuanGong(yuanGongBean) != null &&
+                renyuandanganMapper.updateDenglu(yuanGongBean) != null) {
+            msg = "修改!!!";
         }
         return msg;
     }
@@ -131,17 +134,15 @@ public class YuanGongGuanLiService {
      * @param yuanGongBean
      * @return
      */
-    public String shanchu(YuanGongBean yuanGongBean) {
-        int i1 = renyuandanganMapper.deleteDenglu(yuanGongBean);
-        int i2 = renyuandanganMapper.deleteRenyuandangan(yuanGongBean);
-        System.out.println(i1);
-        System.out.println(i2);
+    public String shanchu(YuanGongBean yuanGongBean, HttpServletRequest request) {
         String msg = "删除失败!!!";
-        if (i1 == 1) {
+        if (renyuandanganMapper.deleteDenglu(yuanGongBean) != null &&
+                renyuandanganMapper.deleteRenyuandangan(yuanGongBean) != null) {
             msg = "删除成功!!!";
         }
         return msg;
     }
+
 
     /**
      * 新增员工
@@ -176,12 +177,11 @@ public class YuanGongGuanLiService {
             long dangAnId = renyuandanganMapper.selectId(yuanGongBean);
             yuanGongBean.setDangAnId(dangAnId);
             Integer denglu = dengluMapper.insertDenglu(yuanGongBean);
-            if(denglu==0){
-                msg="添加失败，请仔细核对信息是否正确！";
+            if (denglu == 0) {
+                msg = "添加失败，请仔细核对信息是否正确！";
                 renyuandanganMapper.shanchuRenyuandangan(yuanGongBean);
                 return msg;
-            }
-            else {
+            } else {
                 msg = "添加成功!!!";
             }
         }
@@ -195,7 +195,7 @@ public class YuanGongGuanLiService {
      * @return
      */
     public String gongHao(long buMenId) {
-        String gongHao = "yy" + (new Timestamp(System.currentTimeMillis())).toString().substring(0, 4);
+        String gongHao = "xm" + (new Timestamp(System.currentTimeMillis())).toString().substring(0, 4);
         Bumenbean bum = new Bumenbean();
         bum.setId(buMenId);
         //查询部门信息，部门负责人和部门人数
@@ -227,4 +227,22 @@ public class YuanGongGuanLiService {
         List<Zhiwubiao> list = zhiwubiaoMapper.selectZhiwu2();
         return list;
     }
+
+    /**
+     * 这个方法用来新增操作记录
+     * @param request 用来获取session
+     */
+    public void minGanXinZeng(HttpServletRequest request){
+        mingancaozuoMapper.xinZeng((Mingancaozuo) request.getSession().getAttribute(SessionKey.MGSJ)); // 调用方法，传入对象
+    }
+
+
+    /**
+     * 重置密码
+     * @param yuanGongBean
+     */
+    public  void updateChongZhiMiMa(YuanGongBean yuanGongBean){
+        dengluMapper.updateChongZhiMiMa(yuanGongBean);
+    }
+
 }

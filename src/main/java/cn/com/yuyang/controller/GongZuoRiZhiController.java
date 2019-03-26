@@ -1,6 +1,7 @@
 package cn.com.yuyang.controller;
 
 import cn.com.yuyang.bean.GeRenKaoQinBean;
+import cn.com.yuyang.bean.GongZuoJiLuBean;
 import cn.com.yuyang.bean.GongZuoRiZhiBean;
 import cn.com.yuyang.pojo.Gongzuojilu;
 import cn.com.yuyang.service.GongZuoRiZhiService;
@@ -45,7 +46,6 @@ public class GongZuoRiZhiController {
         Map<String,Object> map = new HashMap<>();
         map.put("returnCode",-1);
         try{
-            System.out.println(gongZuoRiZhiBean.getType());
             List<Gongzuojilu> list = gongZuoRiZhiService.selectRiZhiByDangAnId(gongZuoRiZhiBean);
             map.put("data",list);
             map.put("msg","查询成功");
@@ -61,6 +61,106 @@ public class GongZuoRiZhiController {
         map.put("returnCode",-1);
         try{
 
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+    /**
+     * 更新草稿内容
+     * @param gongZuoJiLuBean
+     * @return
+     */
+    @RequestMapping(value = "/updateCaoGao",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> updateCaoGao(@RequestBody(required = false) GongZuoJiLuBean gongZuoJiLuBean){
+        Map<String,Object> map = new HashMap<>();
+        map.put("returnCode",-1);
+        try{
+            gongZuoRiZhiService.updateCaoGao(gongZuoJiLuBean);
+            map.put("msg","更新成功");
+            map.put("returnCode",200);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+
+    /**
+     * 插入草稿
+     * @param gongZuoJiLuBean
+     * @return
+     */
+    @RequestMapping(value = "/insertCaoGao",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> insertCaoGao(@RequestBody(required = false) GongZuoJiLuBean gongZuoJiLuBean){
+        Map<String,Object> map = new HashMap<>();
+        map.put("returnCode",-1);
+        try{
+            gongZuoRiZhiService.insertCaoGao(gongZuoJiLuBean);
+            map.put("msg","插入草稿成功");
+            map.put("returnCode",200);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+
+
+    /**
+     * 此方法是点击草稿 查看草稿
+     * @param gongZuoJiLuBean
+     * @return
+     */
+    @RequestMapping(value = "/caoGao",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> selectCaoGao(@RequestBody(required = false) GongZuoJiLuBean gongZuoJiLuBean){
+        Map<String,Object> map = new HashMap<>();
+        map.put("returnCode",-1);
+        try{
+            gongZuoJiLuBean.setZhuangTai(-1);
+            List<HashMap<String,Object>> list=gongZuoRiZhiService.selectCaoGao(gongZuoJiLuBean);
+            map.put("msg","查询草稿成功");
+            map.put("returnCode",200);
+            map.put("data",list);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+    /**
+     * 此方法根据草稿ID删除草稿
+     * @param gongZuoJiLuBean
+     * @return
+     */
+    @RequestMapping(value = "/deleteCaoGao",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> deleteCaoGao(@RequestBody(required = false) GongZuoJiLuBean gongZuoJiLuBean){
+        Map<String,Object> map = new HashMap<>();
+        map.put("returnCode",-1);
+        try{
+            gongZuoRiZhiService.deleteCaoGao(gongZuoJiLuBean);
+            map.put("msg","删除草稿成功");
+            map.put("returnCode",200);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+    @RequestMapping(value = "/updateZhuangTai",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> updateZhuangTai(@RequestBody(required = false) GongZuoJiLuBean gongZuoJiLuBean){
+        Map<String,Object> map = new HashMap<>();
+        map.put("returnCode",-1);
+        try{
+            gongZuoRiZhiService.updateZhuangTai(gongZuoJiLuBean);
+            map.put("msg","草稿发表成功");
+            map.put("returnCode",200);
         }catch (Exception e){
             e.printStackTrace();
         }

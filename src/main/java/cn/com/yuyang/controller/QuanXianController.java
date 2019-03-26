@@ -88,6 +88,7 @@ public class QuanXianController {
     public Map<String,String>jiHuo(@RequestBody(required = false) JiHuoJinYongBean jiHuoJinYongBean,HttpServletRequest request){
         Map<String,String> map = new HashMap<>();
         map.put("returnCode","-1");
+        map.put("msg","存在不符合要求的人");
 //        // 判断服务器session上存储的操作员档案id与访问权限功能的id是否对应，避免恶意查看访问权限功能
 //        if (request.getSession().getAttribute(SessionKey.DANGANID).equals(jiHuoJinYongBean.getDangAnId())){
 //            // 确认此操作员是否有权限
@@ -97,9 +98,9 @@ public class QuanXianController {
                     if(quanXianService.selectYaoQiu(jiHuoJinYongBean) == 0){
                         // 执行批量更新
                         quanXianService.updateZhuangTai(jiHuoJinYongBean);
+                        map.put("returnCode","200");
+                        map.put("msg","修改状态执行成功");
                     }
-                    map.put("returnCode","200");
-                    map.put("msg","执行成功");
                 }catch (Exception e){
                     e.printStackTrace();
                     map.put("msg","后端报错");

@@ -22,6 +22,7 @@ public class YuanGongBean {
     private String youXiang;
     private String biYeYuanXiao;
     private long zaiZhiZhuangTai;
+    private long zhuangTai;
     private String minZu;
     private String jiGuan;
     private String shenFenZheng;
@@ -43,7 +44,23 @@ public class YuanGongBean {
     private String token;
     private String siYao;
 
+    private String jiuMiMa;
 
+    public String getJiuMiMa() {
+        return jiuMiMa;
+    }
+
+    public void setJiuMiMa(String jiuMiMa) {
+        this.jiuMiMa = jiuMiMa;
+    }
+
+    public long getZhuangTai() {
+        return zhuangTai;
+    }
+
+    public void setZhuangTai(long zhuangTai) {
+        this.zhuangTai = zhuangTai;
+    }
 
     public String getSiYao() {
         return siYao;

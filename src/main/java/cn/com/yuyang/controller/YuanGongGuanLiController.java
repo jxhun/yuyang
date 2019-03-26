@@ -37,7 +37,8 @@ public class YuanGongGuanLiController {
     private YuanGongGuanLiService yuanGongGuanLiService;
 
 
-    /** 查询所有员工的员工档案
+    /**
+     * 查询所有员工的员工档案
      *
      * @param yuanGongBean
      * @param request
@@ -48,16 +49,14 @@ public class YuanGongGuanLiController {
     public Map<String, Object> quanchaxun(@RequestBody(required = false) YuanGongBean yuanGongBean, HttpServletRequest request) {
         String token = (String) request.getSession().getAttribute(SessionKey.TOKEN);
         Integer quanxian = (Integer) request.getSession().getAttribute(SessionKey.CHAKANYUANGONG);
-        Map<String,Object> map = new HashMap<>();
-        if(!yuanGongBean.getToken().equals(token)){
-            map.put("Returncode",-1);
-            map.put("msg","登录超时！");
-        }
-        else if(quanxian!=1){
-            map.put("Returncode",-1);
-            map.put("msg","你没有这个权限！");
-        }
-        else {
+        Map<String, Object> map = new HashMap<>();
+        if (!yuanGongBean.getToken().equals(token)) {
+            map.put("Returncode", -1);
+            map.put("msg", "登录超时！");
+        } else if (quanxian != 1) {
+            map.put("Returncode", -2);
+            map.put("msg", "你没有这个权限！");
+        } else {
             List<Denglu> list = yuanGongGuanLiService.quanCha();
             map.put("Returncode", 200);
             map.put("msg", "成功");
@@ -66,7 +65,8 @@ public class YuanGongGuanLiController {
         return map;
     }
 
-    /** 条件查询员工的员工档案
+    /**
+     * 条件查询员工的员工档案
      *
      * @param yuanGongBean
      * @param request
@@ -77,16 +77,14 @@ public class YuanGongGuanLiController {
     public Map<String, Object> tiaojianchaxun(@RequestBody(required = false) YuanGongBean yuanGongBean, HttpServletRequest request) {
         String token = (String) request.getSession().getAttribute(SessionKey.TOKEN);
         Integer quanxian = (Integer) request.getSession().getAttribute(SessionKey.CHAKANYUANGONG);
-        Map<String,Object> map = new HashMap<>();
-        if(!yuanGongBean.getToken().equals(token)){
-            map.put("Returncode",-1);
-            map.put("msg","登录超时！");
-        }
-        else if(quanxian!=1){
-            map.put("Returncode",-1);
-            map.put("msg","你没有这个权限！");
-        }
-        else {
+        Map<String, Object> map = new HashMap<>();
+        if (!yuanGongBean.getToken().equals(token)) {
+            map.put("Returncode", -1);
+            map.put("msg", "登录超时！");
+        } else if (quanxian != 1) {
+            map.put("Returncode", -2);
+            map.put("msg", "你没有这个权限！");
+        } else {
             List<Denglu> list = yuanGongGuanLiService.tiaoJainCha(yuanGongBean);
             map.put("Returncode", 200);
             map.put("msg", "成功");
@@ -94,7 +92,9 @@ public class YuanGongGuanLiController {
         }
         return map;
     }
-    /** 查询指定的员工所有信息
+
+    /**
+     * 查询指定的员工所有信息
      *
      * @param yuanGongBean
      * @param request
@@ -105,16 +105,14 @@ public class YuanGongGuanLiController {
     public Map<String, Object> mingxi(@RequestBody(required = false) YuanGongBean yuanGongBean, HttpServletRequest request) {
         String token = (String) request.getSession().getAttribute(SessionKey.TOKEN);
         Integer quanxian = (Integer) request.getSession().getAttribute(SessionKey.CHAKANYUANGONG);
-        Map<String,Object> map = new HashMap<>();
-        if(!yuanGongBean.getToken().equals(token)){
-            map.put("Returncode",-1);
-            map.put("msg","登录超时！");
-        }
-        else if(quanxian!=1){
-            map.put("Returncode",-1);
-            map.put("msg","你没有这个权限！");
-        }
-        else {
+        Map<String, Object> map = new HashMap<>();
+        if (!yuanGongBean.getToken().equals(token)) {
+            map.put("Returncode", -1);
+            map.put("msg", "登录超时！");
+        } else if (quanxian != 1) {
+            map.put("Returncode", -2);
+            map.put("msg", "你没有这个权限！");
+        } else {
             List<Denglu> list = yuanGongGuanLiService.tiaoJainCha(yuanGongBean);
             map.put("Returncode", 200);
             map.put("msg", "成功");
@@ -122,7 +120,9 @@ public class YuanGongGuanLiController {
         }
         return map;
     }
-    /** 修改员工的信息
+
+    /**
+     * 修改员工的信息
      *
      * @param yuanGongBean
      * @param request
@@ -133,24 +133,24 @@ public class YuanGongGuanLiController {
     public Map<String, Object> update(YuanGongBean yuanGongBean, HttpServletRequest request) {
         String token = (String) request.getSession().getAttribute(SessionKey.TOKEN);
         Integer quanxian = (Integer) request.getSession().getAttribute(SessionKey.CAOZUOYUANGONG);
-        Map<String,Object> map = new HashMap<>();
-        if(!yuanGongBean.getToken().equals(token)){
-            map.put("Returncode",-1);
-            map.put("msg","登录超时！");
-        }
-        else if(quanxian!=1){
-            map.put("Returncode",-1);
-            map.put("msg","你没有这个权限！");
-        }
-        else {
-            String msg = yuanGongGuanLiService.bianji(yuanGongBean);
+        Map<String, Object> map = new HashMap<>();
+        if (!yuanGongBean.getToken().equals(token)) {
+            map.put("Returncode", -1);
+            map.put("msg", "登录超时！");
+        } else if (quanxian != 1) {
+            map.put("Returncode", -2);
+            map.put("msg", "你没有这个权限！");
+        } else {
+            String msg = yuanGongGuanLiService.bianji(yuanGongBean, request);
+            yuanGongGuanLiService.minGanXinZeng(request); // 调用方法，存入用户操作记录
             map.put("Returncode", 200);
             map.put("msg", msg);
         }
         return map;
     }
 
-    /** 删除员工的员工档案（假删除）
+    /**
+     * 删除员工的员工档案（假删除）
      *
      * @param yuanGongBean
      * @param request
@@ -161,24 +161,24 @@ public class YuanGongGuanLiController {
     public Map<String, Object> delete(@RequestBody(required = false) YuanGongBean yuanGongBean, HttpServletRequest request) {
         String token = (String) request.getSession().getAttribute(SessionKey.TOKEN);
         Integer quanxian = (Integer) request.getSession().getAttribute(SessionKey.CAOZUOYUANGONG);
-        Map<String,Object> map = new HashMap<>();
-        if(!yuanGongBean.getToken().equals(token)){
-            map.put("Returncode",-1);
-            map.put("msg","登录超时！");
-        }
-        else if(quanxian!=1){
-            map.put("Returncode",-1);
-            map.put("msg","你没有这个权限！");
-        }
-        else {
-            String msg = yuanGongGuanLiService.shanchu(yuanGongBean);
+        Map<String, Object> map = new HashMap<>();
+        if (!yuanGongBean.getToken().equals(token)) {
+            map.put("Returncode", -1);
+            map.put("msg", "登录超时！");
+        } else if (quanxian != 1) {
+            map.put("Returncode", -2);
+            map.put("msg", "你没有这个权限！");
+        } else {
+            String msg = yuanGongGuanLiService.shanchu(yuanGongBean, request);
+            yuanGongGuanLiService.minGanXinZeng(request); // 调用方法，存入用户操作记录
             map.put("Returncode", 200);
             map.put("msg", msg);
         }
         return map;
     }
 
-    /** 新增员工
+    /**
+     * 新增员工
      *
      * @param yuanGongBean
      * @param request
@@ -186,30 +186,29 @@ public class YuanGongGuanLiController {
      */
     @ResponseBody
     @RequestMapping(value = {"/xinzeng"}, method = RequestMethod.POST)
-    public Map<String, Object> xinzeng(@RequestBody(required = false)MultipartFile articleFile, YuanGongBean yuanGongBean, HttpServletRequest request) {
+    public Map<String, Object> xinzeng(@RequestBody(required = false) MultipartFile articleFile, YuanGongBean yuanGongBean, HttpServletRequest request) {
         String token = (String) request.getSession().getAttribute(SessionKey.TOKEN);
         Integer quanxian = (Integer) request.getSession().getAttribute(SessionKey.CAOZUOYUANGONG);
-        Map<String,Object> map = new HashMap<>();
-        if(!yuanGongBean.getToken().equals(token)){
-            map.put("Returncode",-1);
-            map.put("msg","登录超时！");
-        }
-        else if(quanxian!=1){
-            map.put("Returncode",-1);
-            map.put("msg","你没有这个权限！");
-        }
-        else {
+        Map<String, Object> map = new HashMap<>();
+        if (!yuanGongBean.getToken().equals(token)) {
+            map.put("Returncode", -1);
+            map.put("msg", "登录超时！");
+        } else if (quanxian != 1) {
+            map.put("Returncode", -2);
+            map.put("msg", "你没有这个权限！");
+        } else {
             String touXiang = FileUpload.executeImport(articleFile, request);
             yuanGongBean.setTouXiang(touXiang);
-            System.out.println("头像地址" + touXiang);
             String msg = yuanGongGuanLiService.xinzeng(yuanGongBean, request);
+            yuanGongGuanLiService.minGanXinZeng(request); // 调用方法，存入用户操作记录
             map.put("Returncode", 200);
             map.put("msg", msg);
         }
         return map;
     }
 
-    /** 查询所有部门以及所有职务的名称和id
+    /**
+     * 查询所有部门以及所有职务的名称和id
      *
      * @param
      * @param request
@@ -217,18 +216,15 @@ public class YuanGongGuanLiController {
      */
     @ResponseBody
     @RequestMapping(value = {"/xuandan"}, method = RequestMethod.POST)
-    public Map<String, Object> xuandan(YuanGongBean yuanGongBean,HttpServletRequest request) {
+    public Map<String, Object> xuandan(YuanGongBean yuanGongBean, HttpServletRequest request) {
         String token = (String) request.getSession().getAttribute(SessionKey.TOKEN);
-        Map<String,Object> map = new HashMap<>();
-        if(!yuanGongBean.getToken().equals(token)){
-            map.put("Returncode",-1);
-            map.put("msg","登录超时！");
-        }
-        else {
+        Map<String, Object> map = new HashMap<>();
+        if (!yuanGongBean.getToken().equals(token)) {
+            map.put("Returncode", -1);
+            map.put("msg", "登录超时！");
+        } else {
             List<Bumen> bumen = yuanGongGuanLiService.bumenxuandan();
             List<Zhiwubiao> zhiwu = yuanGongGuanLiService.zhiwuxuandan();
-            System.out.println(bumen);
-            System.out.println(zhiwu);
             map.put("Returncode", 200);
             map.put("msg", "成功");
             map.put("data", bumen);
@@ -236,4 +232,22 @@ public class YuanGongGuanLiController {
         }
         return map;
     }
+
+
+    @ResponseBody
+    @RequestMapping(value = {"/ChongZhi"}, method = RequestMethod.POST)
+    public Map<String, Object> updateChongZhiMiMa(@RequestBody(required = false)YuanGongBean yuanGongBean,HttpServletRequest request){
+        Map<String,Object> map = new HashMap<>();
+
+        map.put("returncode",-1);
+        try {
+            yuanGongGuanLiService.updateChongZhiMiMa(yuanGongBean);
+            map.put("returncode",200);
+            map.put("msg","重置密码成功");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return map;
+    }
+
 }

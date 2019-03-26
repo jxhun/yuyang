@@ -44,8 +44,8 @@
       #{dengluIds}
     </foreach>
     <choose>
-      <when test="zhuangTai=1">
-        and zaiZhiZhuangTai = '0' or zaiZhiZhuangTai = '2'
+      <when test="zhuangTai==1">
+        and (zaiZhiZhuangTai = '0' or zaiZhiZhuangTai = '2')
       </when>
       <otherwise>
         and zaiZhiZhuangTai = '1'
@@ -76,13 +76,13 @@
   <insert id="insertZhiWu">
     insert into zhiwubiao(zhiWuMingCheng, zhiWuJianJie, chaKanKaoQin, qinJiaShenPi, quanXianGuanLi, chaKanYuanGong,
                           caoZuoYuanGong, faBuXiuGaiGongGao, daiBanShiXiang, buMenGuanLi, chuangJianShiJian)
-    values (#{zhiWuMingCheng},#{zhiWuJianJie},#{chaKanKaoQin},#{qinJiaShenPi},#{quangXianGuanLi},#{chaKanYuanGong},
+    values (#{zhiWuMingCheng},#{zhiWuJianJie},#{chaKanKaoQin},#{qinJiaShenPi},#{quanXianGuanLi},#{chaKanYuanGong},
             #{caoZuoYuanGong},#{faBuXiuGaiGongGao},#{daiBanShiXiang},#{buMenGuanLi},#{chuangJianShiJian})
   </insert>
   <update id="updateZhiWu">
     update zhiwubiao set zhiWuMingCheng = #{zhiWuMingCheng},zhiWuJianJie = #{zhiWuJianJie},
                          chaKanKaoQin = #{chaKanKaoQin},qinJiaShenPi = #{qinJiaShenPi},
-                         quanXianGuanLi = #{quangXianGuanLi},chaKanYuanGong = #{chaKanYuanGong},
+                         quanXianGuanLi = #{quanXianGuanLi},chaKanYuanGong = #{chaKanYuanGong},
                          caoZuoYuanGong = #{caoZuoYuanGong},faBuXiuGaiGongGao = #{faBuXiuGaiGongGao},
                          daiBanShiXiang = #{daiBanShiXiang},chuangJianShiJian = #{chuangJianShiJian},
                          buMenGuanLi = #{buMenGuanLi}

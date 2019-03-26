@@ -2,6 +2,7 @@ package cn.com.yuyang.controller;
 
 import cn.com.yuyang.bean.IdBean;
 import cn.com.yuyang.service.TongXunLuService;
+import cn.com.yuyang.util.SessionKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -23,7 +24,6 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/TongXunLu")
-@Scope(value = "prototype")
 public class TongXunLuController {
 
     private final TongXunLuService tongXunLuService;
@@ -36,7 +36,6 @@ public class TongXunLuController {
     @Autowired
     public TongXunLuController(TongXunLuService tongXunLuService) {
         this.tongXunLuService = tongXunLuService;
-        System.out.println("------TongXunLuController-------");
     }
 
     /**
@@ -52,11 +51,6 @@ public class TongXunLuController {
         Map<String, Object> returnMap = new HashMap<>();
         // 如果token不为空,说明用户已经登录,并且前端的token必须和我session的token相同
 //        if (idBean != null && token != null && token.equals(idBean.getToken())) {
-//        System.out.println(idBean.getDangAnId());
-//        idBean = new IdBean();
-//        idBean.setXingMing("先生");
-        System.out.println("手机号码" + idBean.getShouJiHaoMa());
-        System.out.println("姓名" + idBean.getXingMing());
         List<Map<String, Object>> list = tongXunLuService.chaXunTongXunLu(idBean);
         if(list != null){  // 如果查询结果为空
             returnMap.put("returncode", 200);
@@ -89,7 +83,6 @@ public class TongXunLuController {
 //        if (idBean != null && token != null && token.equals(idBean.getToken())) {
 //        idBean = new IdBean();
 //        idBean.setDangAnId(1);
-        System.out.println("---idBean-----" + idBean.getDangAnId());
         Map<String, Object> map = tongXunLuService.selectHaoYou(idBean);
         returnMap.put("returncode", 200);
         returnMap.put("msg", "200,查询成功");

@@ -13,6 +13,15 @@ public class GeRenKaoQinBean {
     private String endDate;
     private String date;
     private String zhuangTai;
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public String getDangAnId() {
         return dangAnId;

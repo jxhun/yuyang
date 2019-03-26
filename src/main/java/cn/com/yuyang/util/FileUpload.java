@@ -23,6 +23,9 @@ public class FileUpload {
      * @return 成功返回路径
      */
     public static String executeImport(MultipartFile articleFile, HttpServletRequest request) {
+        if(articleFile.getSize() > 10485760){  // 如果文件大小超过设置大小，那么直接返回null
+            return null;
+        }
         String originalFilename = articleFile.getOriginalFilename();
         String luJingHouZui = System.currentTimeMillis() + originalFilename.substring(originalFilename.lastIndexOf("."));// 文件存储路径后缀
         String jueDuiLuJing = request.getSession().getServletContext().getRealPath(File.separator) + File.separator;  // 得到文件绝对路径
@@ -34,7 +37,6 @@ public class FileUpload {
             luJing = "/office/" + luJingHouZui;  // 得到文件路径
         }
         File file = new File(jueDuiLuJing + luJingQianZui + luJingHouZui);  // 组装上传路径得到文件路径
-        System.out.println(jueDuiLuJing + luJingQianZui + luJingHouZui);
         try {
             articleFile.transferTo(file);      // 上传
             return luJing;   // 上传成功return地址路径

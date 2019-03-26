@@ -66,7 +66,6 @@ public class QingJiaShenHeController {
                     Map<String, Object> map = new HashMap<String, Object>();
                     map.put("buMenMingCheng", bumen.getBuMenMingCheng());
                     map.put("dangAnId", bumen.getDangAnId());
-                    System.out.println(bumen.getBuMenMingCheng());
                     arrayList1.add(map);
                 }
                 //提交到该审批人的请假申请

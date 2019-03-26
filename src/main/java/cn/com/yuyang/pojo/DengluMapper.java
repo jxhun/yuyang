@@ -45,4 +45,11 @@ public interface DengluMapper {
      * @return
      */
     Integer insertDenglu(YuanGongBean yuanGongBean);
+
+    /**
+     * 重置密码为初始值123456
+     * @param yuanGongBean
+     */
+    void  updateChongZhiMiMa(YuanGongBean yuanGongBean);
+
 }

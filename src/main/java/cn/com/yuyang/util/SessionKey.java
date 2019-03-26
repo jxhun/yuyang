@@ -23,4 +23,5 @@ public class SessionKey {
     public final static String BUMENID = "部门id"; // 登录成功后传入session的部门的id
     public final static String SIYAO = "加密私钥"; // 加密的私钥
     public final static String BUMENGUANLI = "部门管理权限"; // 部门管理权限
+    public final static String MGSJ = "敏感操作数据";
 }

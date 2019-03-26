@@ -70,18 +70,14 @@
             and dangTianRiQi like concat(#{date},'%')
         </if>
     </select>
-
     <insert id="excle" parameterType="java.util.List">
-        insert into kaoqin(dangAnId, shangWuShangBan, xiaWuXiaBan, zhuangTai,
-        dangTianRiQi,qingJiaZhuangTai,qingJiaBiaoId)
+        insert into kaoqin(dangAnId, shangWuShangBan, xiaWuXiaBan, zhuangTai, dangTianRiQi)
         values
-        <foreach collection="list" item="item" index="index" separator=",">
+        <foreach collection ="list" item="item" index= "index" separator =",">
             (
-            #{item.dangAnId},#{item.shangWuShangBan},#{item.xiaWuXiaBan},
-            #{item.zhuangTai},#{item.dangTianRiQi},#{item.qingJiaZhuangTai},#{item.qingJiaBiaoId}
+            #{item.dangAnId},#{item.shangWuShangBan},#{item.xiaWuXiaBan},#{item.zhuangTai},#{item.dangTianRiQi}
             )
-        </foreach>
-
+        </foreach >
     </insert>
     <resultMap id="resultMap" type="hashMap">
         <result property="chidao" column="chidao"/>
@@ -92,9 +88,9 @@
     <select id="selectCount" resultMap="resultMap">
         select chidao, zaotui, kuanggong, qingjia
         from
-            (select count(id) as chidao from kaoqin where zhuangTai = 2 and id = #{dangAnId}) as chidao,
-            (select count(id) as zaotui from kaoqin where zhuangTai = 3 and id = #{dangAnId}) as zaotui,
-            (select count(id) as kuanggong from kaoqin where zhuangTai = 0 and id = #{dangAnId}) as kuanggong,
-            (select count(id) as qingjia from kaoqin where qingJiaBiaoId is not null and id = #{dangAnId}) as qingjia
+            (select count(id) as chidao from kaoqin where zhuangTai = 2 and dangAnId = #{dangAnId}) as chidao,
+            (select count(id) as zaotui from kaoqin where zhuangTai = 3 and dangAnId = #{dangAnId}) as zaotui,
+            (select count(id) as kuanggong from kaoqin where zhuangTai = 0 and dangAnId = #{dangAnId}) as kuanggong,
+            (select count(id) as qingjia from kaoqin where qingJiaBiaoId <![CDATA[ <> ]]> 0 and dangAnId = #{dangAnId}) as qingjia
     </select>
 </mapper>

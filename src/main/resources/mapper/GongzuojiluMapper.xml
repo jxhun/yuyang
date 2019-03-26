@@ -153,4 +153,53 @@
     select  count(id) from gongzuojilu where dangAnId=#{dangAnId} and zhuangTai=0;
   </select>
 
+
+  <select id="selectFuZeRen" resultType="java.lang.Integer">
+    select count(id) from bumen where dangAnId=#{dangAnId}
+  </select>
+
+  <select id="selectShenYueRen" resultType="java.lang.Integer">
+    select dangAnId from bumen,renyuandangan where renyuandangan.id=#{dangAnId} and bumen.id=renyuandangan.buMenId
+  </select>
+
+
+
+  <select id="selectCaoGao" resultType="java.util.HashMap">
+    select g.id,g.neiRong,g.shiJian,g.leiXing,(select xingMing from renyuandangan where  renyuandangan.id=g.dangAnId) as xingMing ,(select xingMing from renyuandangan where id=g.jieShouRenId) as pingLunRen from gongzuojilu as g where dangAnId=#{dangAnId} and zhuangTai=-1
+  </select>
+
+
+
+  <insert id="insertCaoGao" parameterType="cn.com.yuyang.bean.GongZuoJiLuBean">
+    insert into gongzuojilu(leiXing, shiJian, dangAnId, zhuangTai, jieShouRenId, neiRong, riZhiPingLunId) values(#{leiXing},now(),#{dangAnId},-1,#{jieShouRenId},#{neiRong},#{riZhiPingLunId});
+  </insert>
+
+  <delete id="deleteCaoGao" parameterType="cn.com.yuyang.bean.GongZuoJiLuBean">
+    delete from gongzuojilu where id=#{id}
+  </delete>
+
+  <update id="updateCaoGao" parameterType="cn.com.yuyang.bean.GongZuoJiLuBean">
+    update gongzuojilu set id=#{id}
+    <if test="neiRong != null">
+      ,neiRong=#{neiRong}
+    </if>
+    <if test="shiJian != null">
+      ,shiJian=now()
+    </if>
+    <if test="leiXing != null">
+      ,leiXing=#{leiXing}
+    </if>
+    <if test="jieShouRenId != null">
+      ,jieShouRenId=(select id from  renyuandangan where xingMing=#{pingLunRen})
+    </if>
+    where id=#{id} and dangAnId=#{dangAnId}
+  </update>
+
+  <update id="updateZhuangTai" parameterType="cn.com.yuyang.bean.GongZuoJiLuBean">
+    update gongzuojilu set zhuangTai=1 where id=#{id} and dangAnId=#{dangAnId}
+  </update>
+
+
+
+
 </mapper>

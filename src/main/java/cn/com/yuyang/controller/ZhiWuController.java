@@ -72,7 +72,7 @@ public class ZhiWuController {
     public Map<String,String> delete(@RequestBody(required = false) ZhiWuBean zhiWuBean,HttpServletRequest request){
         Map<String,String> map = new HashMap<>();
         map.put("returnCode","-1");
-        map.put("msg","删除失败");
+        map.put("msg","该职务有员工存在");
 //        // 判断服务器session上存储的操作员档案id与访问权限功能的id是否对应，避免恶意查看访问权限功能
 //        if (request.getSession().getAttribute(SessionKey.DANGANID).equals(zhiWuBean.getDangAnId())){
 //            // 确认此操作员是否有权限
@@ -99,7 +99,7 @@ public class ZhiWuController {
      */
     @RequestMapping(value = "change/{method}",method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,String> change(Zhiwubiao zhiwubiao,@PathVariable("method") String method){
+    public Map<String,String> change(@RequestBody(required = false) Zhiwubiao zhiwubiao,@PathVariable("method") String method){
         Map<String,String> map = new HashMap<>();
         map.put("returnCode","-1");
 //        // 判断服务器session上存储的操作员档案id与访问权限功能的id是否对应，避免恶意查看访问权限功能
@@ -114,6 +114,8 @@ public class ZhiWuController {
                     }else if (method.equals("update")){
                         zhiWuService.updateZhiWu(zhiwubiao);
                     }
+                    map.put("returnCode","200");
+                    map.put("msg","执行成功");
                 } catch (Exception e){
                     map.put("msg","职务名已存在");
                     e.printStackTrace();

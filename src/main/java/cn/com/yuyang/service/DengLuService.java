@@ -23,7 +23,6 @@ public class DengLuService {
 
     @Autowired
     public DengLuService(DengluMapper dengluMapper){
-        System.out.println("---XsxxService构造函数---");
         this.dengluMapper = dengluMapper;
     }
 
