@@ -197,5 +197,9 @@ public class MessageService {
         xinXiCunChuBean.setFaSongZhuangTai(1);
         xinxiMapper.faSongCaoGao(xinXiCunChuBean);
     }
+    //搜索草稿箱某条草稿的详情
+    public XinXiBean caoGaoXiangXiangQing(XiangXiXinXiBean xiangXiXinXiBean){
+        return xinxiMapper.caogaoxiangxiangqing(xiangXiXinXiBean);
+    }
 
 }

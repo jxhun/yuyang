@@ -51,7 +51,7 @@ public class ZhiWuController {
 //        判断服务器session上存储的token与请求的token是否对应，避免恶意查看他人考勤
         if (zhiWuBean != null && request.getSession().getAttribute(SessionKey.TOKEN).equals(zhiWuBean.getToken())) {
 //            // 确认此操作员是否有权限
-            if ((Integer) request.getSession().getAttribute(SessionKey.QUANXIANGUANLI) == 1) {
+            if ((Long) request.getSession().getAttribute(SessionKey.QUANXIANGUANLI) == 1) {
                 try {
                     // 调用service层的查询方法
                     List<Zhiwubiao> list = zhiWuService.selectZhiWu(zhiWuBean);
@@ -86,7 +86,7 @@ public class ZhiWuController {
 //        判断服务器session上存储的token与请求的token是否对应，避免恶意查看他人考勤
         if (zhiWuBean != null && request.getSession().getAttribute(SessionKey.TOKEN).equals(zhiWuBean.getToken())) {
 //            // 确认此操作员是否有权限
-            if ((Integer) request.getSession().getAttribute(SessionKey.QUANXIANGUANLI) == 1) {
+            if ((Long) request.getSession().getAttribute(SessionKey.QUANXIANGUANLI) == 1) {
                 // 将职务id放入方法中查询此职务下面是否还有员工绑定
                 try {
                     if (zhiWuService.selectZhiWuRen(zhiWuBean.getZhiWuId()) == 0) {
@@ -122,7 +122,7 @@ public class ZhiWuController {
 //        判断服务器session上存储的token与请求的token是否对应，避免恶意查看他人考勤
         if (zhiwubiao != null && request.getSession().getAttribute(SessionKey.TOKEN).equals(zhiwubiao.getToken())) {
 //            // 确认此操作员是否有权限
-            if ((Integer) request.getSession().getAttribute(SessionKey.QUANXIANGUANLI) == 1) {
+            if ((Long) request.getSession().getAttribute(SessionKey.QUANXIANGUANLI) == 1) {
                 try {
                     // 调用insert执行添加功能，如果成功则返回200及返回执行成功，如果添加失败会报SQLException进入catch返回职务名存在
                     if (method.equals("insert")) {

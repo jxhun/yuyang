@@ -171,20 +171,21 @@
 
 
   <insert id="insertCaoGao" parameterType="cn.com.yuyang.bean.GongZuoJiLuBean">
-    insert into gongzuojilu(leiXing, shiJian, dangAnId, zhuangTai, jieShouRenId, neiRong, riZhiPingLunId) values(#{leiXing},now(),#{dangAnId},-1,#{jieShouRenId},#{neiRong},#{riZhiPingLunId});
+    insert into gongzuojilu(leiXing, shiJian, dangAnId, zhuangTai, jieShouRenId, neiRong) values(#{leiXing},now(),#{dangAnId},-1,#{jieShouRenId},#{neiRong});
   </insert>
 
   <delete id="deleteCaoGao" parameterType="cn.com.yuyang.bean.GongZuoJiLuBean">
-    delete from gongzuojilu where id=#{id}
+    delete from gongzuojilu where id in
+    <foreach collection="ids" index="index" item="ids" open="(" separator="," close=")">
+      #{ids}
+    </foreach>
   </delete>
 
+
   <update id="updateCaoGao" parameterType="cn.com.yuyang.bean.GongZuoJiLuBean">
-    update gongzuojilu set id=#{id}
+    update gongzuojilu set id=#{id},shiJian=now()
     <if test="neiRong != null">
       ,neiRong=#{neiRong}
-    </if>
-    <if test="shiJian != null">
-      ,shiJian=now()
     </if>
     <if test="leiXing != null">
       ,leiXing=#{leiXing}

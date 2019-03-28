@@ -71,13 +71,15 @@
         </if>
     </select>
     <insert id="excle" parameterType="java.util.List">
-        insert into kaoqin(dangAnId, shangWuShangBan, xiaWuXiaBan, zhuangTai, dangTianRiQi)
+        insert into kaoqin(dangAnId, shangWuShangBan, xiaWuXiaBan, zhuangTai,
+        dangTianRiQi,qingJiaZhuangTai,qingJiaBiaoId)
         values
-        <foreach collection ="list" item="item" index= "index" separator =",">
+        <foreach collection="list" item="item" index="index" separator=",">
             (
-            #{item.dangAnId},#{item.shangWuShangBan},#{item.xiaWuXiaBan},#{item.zhuangTai},#{item.dangTianRiQi}
+            #{item.dangAnId},#{item.shangWuShangBan},#{item.xiaWuXiaBan},#{item.zhuangTai},#{item.dangTianRiQi},
+             #{item.qingJiaZhuangTai},#{item.qingJiaBiaoId}
             )
-        </foreach >
+        </foreach>
     </insert>
     <resultMap id="resultMap" type="hashMap">
         <result property="chidao" column="chidao"/>

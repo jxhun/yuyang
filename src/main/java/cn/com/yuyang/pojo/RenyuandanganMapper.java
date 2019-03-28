@@ -77,7 +77,7 @@ public interface RenyuandanganMapper {
      * @param yuanGongBean
      * @return
      */
-    long selectId(YuanGongBean yuanGongBean);
+    Long selectId(YuanGongBean yuanGongBean);
 
 
     /**
@@ -131,5 +131,14 @@ public interface RenyuandanganMapper {
      * @return
      */
     Integer selectMiMa(YuanGongBean yuanGongBean);
+
+    YuanGongBean selectMiMa2(YuanGongBean yuanGongBean);
+
+    /** 修改部门负责人的部门id
+     *
+     * @return
+     */
+    Integer updateYuanGongBuMen(Bumenbean bumenbean);
+
 
 }

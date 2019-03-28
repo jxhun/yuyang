@@ -230,7 +230,7 @@
             ,shouJiHaoMa=#{shouJiHaoMa}
         </if>
         <if test="miMa2 !=null and miMa2 !=''">
-            ,miMa=#{miMa2}
+            ,miMa=#{miMa2},siYao=#{siYao}
         </if>
         where dangAnId=#{dangAnId};
     </update>
@@ -265,7 +265,7 @@
     <update id="updateTouXiang" parameterType="cn.com.yuyang.bean.YuanGongBean">
         update renyuandangan
         set touXiang=#{touXiang}
-        where id = #{id};
+        where id = #{dangAnId};
 
     </update>
     <insert id="insertRenyuandangan" parameterType="cn.com.yuyang.bean.YuanGongBean">
@@ -368,4 +368,10 @@
 
     </select>
 
+    <select id="selectMiMa2" resultType="cn.com.yuyang.bean.YuanGongBean">
+        select miMa as miMa2,siYao from  denglu where dangAnId=#{dangAnId}
+    </select>
+    <update id="updateYuanGongBuMen" parameterType="cn.com.yuyang.bean.Bumenbean">
+        update renyuandangan set buMenId=#{id} where id=#{dangAnId}
+    </update>
 </mapper>

@@ -54,11 +54,11 @@ public class QingJiaService {
     }
     /**
      * 该方法用于查询部门的级别
-     * @param buMenId 部门id
+     * @param qingJiaShenHeBean 部门id
      * @return 返回一个Bumen对象
      */
-    public Bumen selectBuMenJiBie(Integer buMenId){
-        return bumenMapper.selectBuMenJiBie(buMenId);
+    public Bumen selectBuMenJiBie(QingJiaShenHeBean qingJiaShenHeBean){
+        return bumenMapper.selectBuMenJiBie(qingJiaShenHeBean);
     }
 
     /**

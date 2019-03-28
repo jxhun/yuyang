@@ -39,7 +39,7 @@ public class DengLuController {
             //根据前台传过来的手机号码或者工号判断该手机号查询是否存在
             Denglu denglu1 = dengLuService.loginByShoujiHaoMa(yanZhengMaBean);
             long t = 0;
-            if (denglu1.getDongJieShiJian() != null) {
+            if (denglu1!=null && denglu1.getDongJieShiJian() != null) {
                 //获取冻结时间
                 long dongJieShiJian = denglu1.getDongJieShiJian().getTime();
                 //获取当前时间
@@ -60,12 +60,12 @@ public class DengLuController {
                         dengLuService.setQuanXian(denglu1, request);
                         //根据ID，更新用户的登录次数和最后一次登录时间
                         dengLuService.updateLogin(denglu1);
+                        System.out.println("==degnlu444444="+request.getSession().getAttribute(SessionKey.TOKEN));
                         map.put("returncode", "200");
                         map.put("msg", "登录成功");
                         map.put("data", denglu1);
-                        map.put("toKen", ToKen.toKen());
+                        map.put("toKen", request.getSession().getAttribute(SessionKey.TOKEN));
                         return map;
-
                     } else {
                         map.put("returncode", "-1");
                         map.put("msg", "验证码错误");
@@ -80,7 +80,9 @@ public class DengLuController {
                         dengLuService.updateJieDong(denglu1);
                     }
                     AsymmetricEncryption asymmetricEncryption = new AsymmetricEncryption();
+                    System.out.println("==sy="+denglu1.getSiYao());
                     String miMa = asymmetricEncryption.jieMi(denglu1.getMiMa(), denglu1.getSiYao());  // 传入加密的密码和私钥，解密
+                    asymmetricEncryption=null;
                     //前端传过来的密码跟得到的密码进行比较，，如果一样则登录成功
                     if (yanZhengMaBean!=null && yanZhengMaBean.getMiMa().trim().equals(miMa)) {
                         //每一次登录成功，登录成功次数加1
@@ -91,10 +93,13 @@ public class DengLuController {
                         dengLuService.setQuanXian(denglu1, request);
                         //根据ID，更新用户的登录次数和最后一次登录时间
                         dengLuService.updateLogin(denglu1);
+
                         map.put("returncode", "200");
                         map.put("msg", "登录成功");
                         map.put("data", denglu1);
-                        map.put("toKen", ToKen.toKen());
+                        map.put("toKen",request.getSession().getAttribute(SessionKey.TOKEN));
+                        System.out.println("==degnlu="+request.getSession().getAttribute(SessionKey.TOKEN));
+
                         return map;
                     } else {
                         //如果密码输错，增加错误次数

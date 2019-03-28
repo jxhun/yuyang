@@ -218,7 +218,7 @@ public class GongZuoRiZhiController {
 
         map.put("returncode",-1);
         map.put("msg","查询失败");
-        if(!gongZuoRiZhiBean.getToken().equals( SessionKey.TOKEN)){
+        if(gongZuoRiZhiBean.getToken()==null||!gongZuoRiZhiBean.getToken().equals(request.getSession().getAttribute(SessionKey.TOKEN) )){
             map.put("msg","没有权限");
         }
         else{
@@ -246,7 +246,7 @@ public class GongZuoRiZhiController {
         Map<String,Object> map = new HashMap<>();
         map.put("returncode",-1);
         map.put("msg","查询失败");
-        if(!gongZuoRiZhiBean.getToken().equals( SessionKey.TOKEN)){
+        if(gongZuoRiZhiBean.getToken()==null||!gongZuoRiZhiBean.getToken().equals(request.getSession().getAttribute(SessionKey.TOKEN))){
             map.put("msg","没有权限");
         }
         else{
@@ -274,7 +274,7 @@ public class GongZuoRiZhiController {
         Map<String,Object> map = new HashMap<>();
         map.put("returncode",-1);
         map.put("msg","查询失败");
-        if(!gongZuoRiZhiBean.getToken().equals( SessionKey.TOKEN)){
+        if(gongZuoRiZhiBean.getToken()==null||!gongZuoRiZhiBean.getToken().equals(request.getSession().getAttribute(SessionKey.TOKEN))){
             map.put("msg","没有权限");
         }
         else{
@@ -298,11 +298,11 @@ public class GongZuoRiZhiController {
      */
     @RequestMapping(value = "/shenyuexiangqing",method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> shenYueXiangQing(@RequestBody(required = false) GongZuoJiLuBean gongZuoJiLuBean){
+    public Map<String,Object> shenYueXiangQing(@RequestBody(required = false) GongZuoJiLuBean gongZuoJiLuBean,HttpServletRequest request){
         Map<String,Object> map = new HashMap<>();
         map.put("returncode",-1);
         map.put("msg","查询失败");
-        if(!gongZuoJiLuBean.getToken().equals( SessionKey.TOKEN)){
+        if(gongZuoJiLuBean.getToken()==null||!gongZuoJiLuBean.getToken().equals(request.getSession().getAttribute(SessionKey.TOKEN))){
             map.put("msg","没有权限");
         }
         else{
@@ -326,11 +326,11 @@ public class GongZuoRiZhiController {
      */
     @RequestMapping(value = "/yishenyue",method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> yiShenYue(@RequestBody(required = false) GongZuoJiLuBean gongZuoJiLuBean){
+    public Map<String,Object> yiShenYue(@RequestBody(required = false) GongZuoJiLuBean gongZuoJiLuBean,HttpServletRequest request){
         Map<String,Object> map = new HashMap<>();
         map.put("returncode",-1);
         map.put("msg","修改失败");
-        if(!gongZuoJiLuBean.getToken().equals( SessionKey.TOKEN)){
+        if(gongZuoJiLuBean.getToken()==null||!gongZuoJiLuBean.getToken().equals(request.getSession().getAttribute(SessionKey.TOKEN))){
             map.put("msg","没有权限");
         }
         else{
@@ -353,11 +353,11 @@ public class GongZuoRiZhiController {
      */
     @RequestMapping(value = "/tijiao",method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> tiJiaoRiZhi(@RequestBody(required = false) GongZuoJiLuBean gongZuoJiLuBean){
+    public Map<String,Object> tiJiaoRiZhi(@RequestBody(required = false) GongZuoJiLuBean gongZuoJiLuBean,HttpServletRequest request){
         Map<String,Object> map = new HashMap<>();
         map.put("returncode",-1);
         map.put("msg","提交失败");
-        if(!gongZuoJiLuBean.getToken().equals( SessionKey.TOKEN)){
+        if(gongZuoJiLuBean.getToken()==null||!gongZuoJiLuBean.getToken().equals(request.getSession().getAttribute(SessionKey.TOKEN))){
             map.put("msg","没有权限");
         }
         else{
@@ -380,11 +380,11 @@ public class GongZuoRiZhiController {
      */
     @RequestMapping(value = "/shenyuepinglun",method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> shenYuePingLun(@RequestBody(required = false) RiZhiPingLunBean riZhiPingLunBean){
+    public Map<String,Object> shenYuePingLun(@RequestBody(required = false) RiZhiPingLunBean riZhiPingLunBean,HttpServletRequest request){
         Map<String,Object> map = new HashMap<>();
         map.put("returncode",-1);
         map.put("msg","提交失败");
-        if(!riZhiPingLunBean.getToken().equals( SessionKey.TOKEN)){
+        if(riZhiPingLunBean.getToken()==null||!riZhiPingLunBean.getToken().equals(request.getSession().getAttribute(SessionKey.TOKEN))){
             map.put("msg","没有权限");
         }
         else{
@@ -407,11 +407,11 @@ public class GongZuoRiZhiController {
      */
     @RequestMapping(value = "/shenyuesousuo",method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> shenYueSouSuo(@RequestBody(required = false) GongZuoRiZhiBean gongZuoRiZhiBean){
+    public Map<String,Object> shenYueSouSuo(@RequestBody(required = false) GongZuoRiZhiBean gongZuoRiZhiBean,HttpServletRequest request){
         Map<String,Object> map = new HashMap<>();
         map.put("returncode",-1);
         map.put("msg","查询失败");
-        if(gongZuoRiZhiBean.getToken()!= SessionKey.TOKEN){
+        if(gongZuoRiZhiBean.getToken()==null||!gongZuoRiZhiBean.getToken().equals(request.getSession().getAttribute(SessionKey.TOKEN))){
             map.put("msg","没有权限");
         }
         else{
@@ -440,6 +440,8 @@ public class GongZuoRiZhiController {
             map.put("xingMing",g.getXingMing());
             map.put("zhuangTai",g.getZhuangTai());
             map.put("jieShouRenId",g.getJieShouRenId());
+            map.put("leiXing",g.getLeiXing());
+
             if(g.getRiZhiPingLunId()!=0){
                 map.put("riZhiPingLunId",g.getRiZhiPingLunId());
             }

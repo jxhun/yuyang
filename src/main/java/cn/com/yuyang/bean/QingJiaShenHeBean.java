@@ -7,6 +7,15 @@ public class QingJiaShenHeBean {
     private  String zhuangTai;
     private String shangCengShenPiRen;
     private String token;
+    private long buMenId;
+
+    public long getBuMenId() {
+        return buMenId;
+    }
+
+    public void setBuMenId(long buMenId) {
+        this.buMenId = buMenId;
+    }
 
     public String getToken() {
         return token;

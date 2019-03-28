@@ -1,37 +1,23 @@
 package cn.com.yuyang.pojo;
 
 
+import java.sql.Timestamp;
+
 public class Zhiwubiao {
 
   private long id;
   private String zhiWuMingCheng;
   private String zhiWuJianJie;
-  private long chaKanKaoQin;
-  private long qinJiaShenPi;
-  private long quanXianGuanLi;
-  private long chaKanYuanGong;
-  private long caoZuoYuanGong;
-  private long faBuXiuGaiGongGao;
-  private long daiBanShiXiang;
-  private long buMenGuanLi;
+  private int chaKanKaoQin;
+  private int qinJiaShenPi;
+  private int quanXianGuanLi;
+  private int chaKanYuanGong;
+  private int caoZuoYuanGong;
+  private int faBuXiuGaiGongGao;
+  private int daiBanShiXiang;
+  private int buMenGuanLi;
   private java.sql.Timestamp chuangJianShiJian;
   private String token;
-
-  public String getToken() {
-    return token;
-  }
-
-  public void setToken(String token) {
-    this.token = token;
-  }
-
-  public long getBuMenGuanLi() {
-    return buMenGuanLi;
-  }
-
-  public void setBuMenGuanLi(long buMenGuanLi) {
-    this.buMenGuanLi = buMenGuanLi;
-  }
 
   public long getId() {
     return id;
@@ -41,7 +27,6 @@ public class Zhiwubiao {
     this.id = id;
   }
 
-
   public String getZhiWuMingCheng() {
     return zhiWuMingCheng;
   }
@@ -49,7 +34,6 @@ public class Zhiwubiao {
   public void setZhiWuMingCheng(String zhiWuMingCheng) {
     this.zhiWuMingCheng = zhiWuMingCheng;
   }
-
 
   public String getZhiWuJianJie() {
     return zhiWuJianJie;
@@ -59,76 +43,83 @@ public class Zhiwubiao {
     this.zhiWuJianJie = zhiWuJianJie;
   }
 
-
-  public long getChaKanKaoQin() {
+  public int getChaKanKaoQin() {
     return chaKanKaoQin;
   }
 
-  public void setChaKanKaoQin(long chaKanKaoQin) {
+  public void setChaKanKaoQin(int chaKanKaoQin) {
     this.chaKanKaoQin = chaKanKaoQin;
   }
 
-
-  public long getQinJiaShenPi() {
+  public int getQinJiaShenPi() {
     return qinJiaShenPi;
   }
 
-  public void setQinJiaShenPi(long qinJiaShenPi) {
+  public void setQinJiaShenPi(int qinJiaShenPi) {
     this.qinJiaShenPi = qinJiaShenPi;
   }
 
-
-  public long getQuanXianGuanLi() {
+  public int getQuanXianGuanLi() {
     return quanXianGuanLi;
   }
 
-  public void setQuanXianGuanLi(long quanXianGuanLi) {
+  public void setQuanXianGuanLi(int quanXianGuanLi) {
     this.quanXianGuanLi = quanXianGuanLi;
   }
 
-
-  public long getChaKanYuanGong() {
+  public int getChaKanYuanGong() {
     return chaKanYuanGong;
   }
 
-  public void setChaKanYuanGong(long chaKanYuanGong) {
+  public void setChaKanYuanGong(int chaKanYuanGong) {
     this.chaKanYuanGong = chaKanYuanGong;
   }
 
-
-  public long getCaoZuoYuanGong() {
+  public int getCaoZuoYuanGong() {
     return caoZuoYuanGong;
   }
 
-  public void setCaoZuoYuanGong(long caoZuoYuanGong) {
+  public void setCaoZuoYuanGong(int caoZuoYuanGong) {
     this.caoZuoYuanGong = caoZuoYuanGong;
   }
 
-
-  public long getFaBuXiuGaiGongGao() {
+  public int getFaBuXiuGaiGongGao() {
     return faBuXiuGaiGongGao;
   }
 
-  public void setFaBuXiuGaiGongGao(long faBuXiuGaiGongGao) {
+  public void setFaBuXiuGaiGongGao(int faBuXiuGaiGongGao) {
     this.faBuXiuGaiGongGao = faBuXiuGaiGongGao;
   }
 
-
-  public long getDaiBanShiXiang() {
+  public int getDaiBanShiXiang() {
     return daiBanShiXiang;
   }
 
-  public void setDaiBanShiXiang(long daiBanShiXiang) {
+  public void setDaiBanShiXiang(int daiBanShiXiang) {
     this.daiBanShiXiang = daiBanShiXiang;
   }
 
+  public int getBuMenGuanLi() {
+    return buMenGuanLi;
+  }
 
-  public java.sql.Timestamp getChuangJianShiJian() {
+  public void setBuMenGuanLi(int buMenGuanLi) {
+    this.buMenGuanLi = buMenGuanLi;
+  }
+
+  public Timestamp getChuangJianShiJian() {
     return chuangJianShiJian;
   }
 
-  public void setChuangJianShiJian(java.sql.Timestamp chuangJianShiJian) {
+  public void setChuangJianShiJian(Timestamp chuangJianShiJian) {
     this.chuangJianShiJian = chuangJianShiJian;
   }
 
+  public String getToken() {
+    return token;
+  }
+
+  public void setToken(String token) {
+    this.token = token;
+  }
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -42,20 +43,29 @@ public class KaoQinGuanLiController {
     @RequestMapping(value = "/chakan", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public Map<String, Object> selectKaoQinGuanLi(@RequestBody(required = false) KaoQinGuanLiBean kaoQinGuanLiBean, HttpServletRequest request) throws ParseException {
-//        request.getSession().setAttribute(SessionKey.BUMENID, 3);
+        HttpSession session = request.getSession();
+        //        request.getSession().setAttribute(SessionKey.BUMENID, 3);
 //        request.getSession().setAttribute(SessionKey.CHAKANKAOQIN, 1);
 //        request.getSession().setAttribute(SessionKey.TOKEN, "toKen");
         //判断token值是否相同
-        if (kaoQinGuanLiBean.getToken()==null||(kaoQinGuanLiBean.getToken()!=null && !(request.getSession().getAttribute(SessionKey.TOKEN)).equals(kaoQinGuanLiBean.getToken()))) {
+        String a = (String) session.getAttribute(SessionKey.TOKEN);
+        System.out.println("========1=======" + kaoQinGuanLiBean.getToken());
+        System.out.println("+++++++++++++++" + a);
+        System.out.println(kaoQinGuanLiBean.getToken() == null || !(a.equals(kaoQinGuanLiBean.getToken())));
+        if (kaoQinGuanLiBean.getToken() == null || !(a.equals(kaoQinGuanLiBean.getToken()))) {
             Map<String, Object> selectAllMap = new HashMap<>();
+            ArrayList arrayList = new ArrayList();
             selectAllMap.put("RETURNCODE", -1);
             selectAllMap.put("MSG", "请求超时");
+            selectAllMap.put("DATA", arrayList);
             return selectAllMap;
         } else {
-            if ((int) request.getSession().getAttribute(SessionKey.CHAKANKAOQIN) == 0) {
+            if (String.valueOf(session.getAttribute(SessionKey.CHAKANKAOQIN)).equals("0")) {
                 Map<String, Object> selectAllMap = new HashMap<>();
+                ArrayList arrayList = new ArrayList();
                 selectAllMap.put("RETURNCODE", -1);
                 selectAllMap.put("MSG", "没有权限");
+                selectAllMap.put("DATA", arrayList);
                 return selectAllMap;
             } else {
                 if (kaoQinGuanLiBean.getEndTime() != null && kaoQinGuanLiBean.getEndTime() != "") {
@@ -67,12 +77,11 @@ public class KaoQinGuanLiController {
                     calendar.getTime();
                     kaoQinGuanLiBean.setEndTime(sdf.format(calendar.getTime()));
                 }
-                request.getSession().setAttribute(SessionKey.BUMENID, 1);
-                request.getSession().setAttribute(SessionKey.CHAKANKAOQIN, 1);
                 String msg = "msg";
                 int returnCode;
-                Integer buMenId = (Integer) request.getSession().getAttribute(SessionKey.BUMENID);
-                long buMenJiBie = kaoQinGuanLiService.selectBuMenJiBie(buMenId).getBuMenJiBie();
+                String bmid = String.valueOf(session.getAttribute(SessionKey.BUMENID));
+                int buMenId = Integer.parseInt(bmid); // 得到部门id
+                int buMenJiBie = kaoQinGuanLiService.selectBuMenJiBie(buMenId).getBuMenJiBie();
                 if (buMenJiBie == 3) {
                     if (kaoQinGuanLiBean.getBuMenId() == 0) {
                         kaoQinGuanLiBean.setBuMenId(buMenId);
@@ -133,10 +142,16 @@ public class KaoQinGuanLiController {
     public Map<String, Object> selectBuMen(@RequestBody(required = false) KaoQinGuanLiBean kaoQinGuanLiBean, HttpServletRequest request) {
 //        request.getSession().setAttribute(SessionKey.TOKEN, "toKen");
         //判断token值是否相同
-        if (kaoQinGuanLiBean.getToken()==null||(kaoQinGuanLiBean.getToken()!=null && !(request.getSession().getAttribute(SessionKey.TOKEN)).equals(kaoQinGuanLiBean.getToken()))) {
+        String a = (String) request.getSession().getAttribute(SessionKey.TOKEN);
+        System.out.println("=======2========" + kaoQinGuanLiBean.getToken());
+        System.out.println("+++++++++++++++" + a);
+        System.out.println(kaoQinGuanLiBean.getToken() == null || !(a.equals(kaoQinGuanLiBean.getToken())));
+        if (kaoQinGuanLiBean.getToken() == null || !(a.equals(kaoQinGuanLiBean.getToken()))) {
             Map<String, Object> selectBuMenMap = new HashMap<>();
+            ArrayList arrayList = new ArrayList();
             selectBuMenMap.put("RETURNCODE", -1);
             selectBuMenMap.put("MSG", "请求超时");
+            selectBuMenMap.put("DATA", arrayList);
             return selectBuMenMap;
         } else {
             List<Bumen> selectBuMenList = kaoQinGuanLiService.selectBuMen();
@@ -161,12 +176,16 @@ public class KaoQinGuanLiController {
     @ResponseBody
     public Map<String, Object> shangChuanXls(@RequestBody(required = false) MultipartFile articleFile, KaoQinGuanLiBean kaoQinGuanLiBean, HttpServletRequest request) {
 //        request.getSession().setAttribute(SessionKey.TOKEN, "toKen");
-
-        //判断token值是否相同
-        if (kaoQinGuanLiBean.getToken()==null||(kaoQinGuanLiBean.getToken()!=null && !(request.getSession().getAttribute(SessionKey.TOKEN)).equals(kaoQinGuanLiBean.getToken()))) {
+        String a = (String) request.getSession().getAttribute(SessionKey.TOKEN);
+        System.out.println("======3=========" + kaoQinGuanLiBean.getToken());
+        System.out.println("+++++++++++++++" + a);
+        System.out.println(kaoQinGuanLiBean.getToken() == null || !(a.equals(kaoQinGuanLiBean.getToken())));
+        if (kaoQinGuanLiBean.getToken() == null || !(a.equals(kaoQinGuanLiBean.getToken()))) {
             Map<String, Object> map = new HashMap<>();
+            ArrayList arrayList = new ArrayList();
             map.put("RETURNCODE", -1);
             map.put("MSG", "请求超时");
+            map.put("DATA", arrayList);
             return map;
         } else {
             String luJing = FileUpload.executeImport(articleFile, request);  // 调用文件上传方法上传文件，并且得到上传文件路径

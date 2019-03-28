@@ -17,6 +17,17 @@ public class GongZuoJiLuBean {
     private  int jieShouRenId;//评论人ID；
     private String token;   //前台传来token
 
+    private  int[]  ids;//id的数组
+
+    public int[] getIds() {
+        return ids;
+    }
+
+    public void setIds(int[] ids) {
+        this.ids = ids;
+    }
+
+
     public String getToken() {
         return token;
     }

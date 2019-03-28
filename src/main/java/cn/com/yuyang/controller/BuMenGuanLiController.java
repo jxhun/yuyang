@@ -42,12 +42,13 @@ public class BuMenGuanLiController {
     @RequestMapping(value = {"/shouye"})
     public Map<String, Object> shouye(@RequestBody(required = false) Bumenbean bumen, HttpServletRequest request) {
         String token = (String) request.getSession().getAttribute(SessionKey.TOKEN);
-        Integer quanxian = (Integer) request.getSession().getAttribute(SessionKey.QUANXIANGUANLI);
+        String quanxian =  String.valueOf(request.getSession().getAttribute(SessionKey.QUANXIANGUANLI));
         Map<String, Object> map = new HashMap<>();
+        System.out.println("----------===========--------------=============------------" + bumen.getToken());
         if (!bumen.getToken().equals(token)) {
             map.put("Returncode", -1);
             map.put("msg", "登录超时！");
-        } else if (quanxian != 1) {
+        } else if (quanxian.equals("0")) {
             map.put("Returncode", -1);
             map.put("msg", "你没有这个权限！");
         } else {
@@ -107,10 +108,8 @@ public class BuMenGuanLiController {
             map.put("Returncode", -1);
             map.put("msg", "你没有这个权限！");
         } else {
-            String msg = buMenGuanLiService.xinzeng(bumen);
-            buMenGuanLiService.minGanXinZeng(request); // 调用方法，存入用户操作记录
-            map.put("Returncode", 200);
-            map.put("msg", msg);
+            map = buMenGuanLiService.xinzeng(bumen);
+            //            buMenGuanLiService.minGanXinZeng(request); // 调用方法，存入用户操作记录
         }
         return map;
     }
@@ -135,10 +134,8 @@ public class BuMenGuanLiController {
             map.put("Returncode", -1);
             map.put("msg", "你没有这个权限！");
         } else {
-            String msg = buMenGuanLiService.bianji(bumen);
-            buMenGuanLiService.minGanXinZeng(request); // 调用方法，存入用户操作记录
-            map.put("Returncode", 200);
-            map.put("msg", msg);
+            map = buMenGuanLiService.bianji(bumen);
+//            buMenGuanLiService.minGanXinZeng(request); // 调用方法，存入用户操作记录
         }
         return map;
     }
@@ -163,10 +160,8 @@ public class BuMenGuanLiController {
             map.put("Returncode", -1);
             map.put("msg", "你没有这个权限！");
         } else {
-            String msg = buMenGuanLiService.shanchu(bumen);
-            buMenGuanLiService.minGanXinZeng(request); // 调用方法，存入用户操作记录
-            map.put("Returncode", 200);
-            map.put("msg", msg);
+            map = buMenGuanLiService.shanchu(bumen);
+//            buMenGuanLiService.minGanXinZeng(request); // 调用方法，存入用户操作记录
         }
         return map;
     }

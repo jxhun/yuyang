@@ -16,6 +16,13 @@ public interface GonggaoMapper {
     List<Gonggao> selectGongGao(GongGaoBean gongGaoBean);
 
     /**
+     * 这个方法用来查询未发布或者已发布的公告
+     * @param gongGaoBean  公告bean存储的有登录用户的部门id及档案id或者前端输入的搜索内容
+     * @return  成功返回Gonggao对象集合list
+     */
+    List<Gonggao> selectGongGaoFaBuw(GongGaoBean gongGaoBean);
+
+    /**
      * 这个方法用来查询当前用户已发布的公告和未发布的公告
      * @param map map存储有档案id和已发布或者未发布的状态
      * @return

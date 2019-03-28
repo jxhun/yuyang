@@ -2,6 +2,7 @@ package cn.com.yuyang.service;
 
 import cn.com.yuyang.bean.GeRenKaoQinBean;
 import cn.com.yuyang.bean.KaoQinGuanLiBean;
+import cn.com.yuyang.bean.QingJiaShenHeBean;
 import cn.com.yuyang.pojo.*;
 import cn.com.yuyang.util.POIUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,8 +93,8 @@ public class KaoQinService {
      * @param buMenId 部门id
      * @return 返回一个Bumen对象
      */
-    public Bumen selectBuMenJiBie(Integer buMenId) {
-        return bumenMapper.selectBuMenJiBie(buMenId);
+    public Bumen selectBuMenJiBie(int buMenId) {
+        return bumenMapper.selectBuMenJiBie1(buMenId);
     }
 
     /**

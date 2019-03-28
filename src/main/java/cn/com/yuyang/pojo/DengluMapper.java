@@ -51,5 +51,11 @@ public interface DengluMapper {
      * @param yuanGongBean
      */
     void  updateChongZhiMiMa(YuanGongBean yuanGongBean);
+    /** 查看登录表身份证以及存在
+     *
+     * @param yuanGongBean
+     * @return
+     */
+    Long selectId(YuanGongBean yuanGongBean);
 
 }

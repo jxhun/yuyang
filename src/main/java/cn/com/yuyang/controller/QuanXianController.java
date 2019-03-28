@@ -57,7 +57,7 @@ public class QuanXianController {
 //        判断服务器session上存储的token与请求的token是否对应，避免恶意查看他人考勤
         if (quanXianChaXunBean != null && request.getSession().getAttribute(SessionKey.TOKEN).equals(quanXianChaXunBean.getToken())) {
 //            // 确认此操作员是否有权限
-            if ((Integer) request.getSession().getAttribute(SessionKey.BUMENGUANLI) == 1) {
+            if ((Long) request.getSession().getAttribute(SessionKey.BUMENGUANLI) == 1) {
                 try {
                     // 从service层获取处理后的json格式的list
                     List<Map<String, Object>> list = quanXianService.selectQuangXian(quanXianChaXunBean);
@@ -94,7 +94,7 @@ public class QuanXianController {
 //        判断服务器session上存储的token与请求的token是否对应，避免恶意查看他人考勤
         if (jiHuoJinYongBean != null && request.getSession().getAttribute(SessionKey.TOKEN).equals(jiHuoJinYongBean.getToken())) {
 //            // 确认此操作员是否有权限
-            if ((Integer) request.getSession().getAttribute(SessionKey.BUMENGUANLI) == 1) {
+            if ((Long) request.getSession().getAttribute(SessionKey.BUMENGUANLI) == 1) {
                 try {
                     // 如果不符合条件的对象集长度为0，说明全部符合条件，并进入判断执行批量更新
                     if (quanXianService.selectYaoQiu(jiHuoJinYongBean) == 0) {

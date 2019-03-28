@@ -4,11 +4,15 @@ import cn.com.yuyang.bean.YuanGongBean;
 import cn.com.yuyang.pojo.Denglu;
 import cn.com.yuyang.pojo.Renyuandangan;
 import cn.com.yuyang.pojo.RenyuandanganMapper;
+import cn.com.yuyang.util.AsymmetricEncryption;
+import cn.com.yuyang.util.SessionKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created with IntelliJ IDEA.
@@ -55,10 +59,19 @@ public class GeRenSheZhiService {
      * @param yuanGongBean session中的登录ID
      * @return 返回对应的登录对象
      */
-    public void updateXinXi2(YuanGongBean yuanGongBean){
-         renyuandanganMapper.updateXinXi2(yuanGongBean);
+    public void updateXinXi2(YuanGongBean yuanGongBean, HttpServletRequest request){
+        if(yuanGongBean.getShouJiHaoMa()==null ){
+            AsymmetricEncryption asymmetricEncryption = new AsymmetricEncryption();
+            byte[] bytes = asymmetricEncryption.jiaMi(yuanGongBean.getMiMa(), request);
+            yuanGongBean.setMiMa2(bytes);
+            String attribute = (String) request.getSession().getAttribute(SessionKey.SIYAO);
+            yuanGongBean.setSiYao(attribute);
+        }
+
+        renyuandanganMapper.updateXinXi2(yuanGongBean);
 
     }
+
 
     public void updateTouXiang(YuanGongBean yuanGongBean){
         renyuandanganMapper.updateTouXiang(yuanGongBean);
@@ -73,4 +86,19 @@ public class GeRenSheZhiService {
     public Integer selectMiMa(YuanGongBean yuanGongBean){
         return  renyuandanganMapper.selectMiMa(yuanGongBean);
     }
+
+
+    public String selectMiMa2(YuanGongBean yuanGongBean){
+        AsymmetricEncryption asymmetricEncryption = new AsymmetricEncryption();
+
+        yuanGongBean=renyuandanganMapper.selectMiMa2(yuanGongBean);
+
+
+
+        return   asymmetricEncryption.jieMi(yuanGongBean.getMiMa2(),yuanGongBean.getSiYao());
+    }
+
+
+
+
 }

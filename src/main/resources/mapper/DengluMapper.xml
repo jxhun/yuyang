@@ -62,14 +62,11 @@
         <if test="buMenId!=0">
             and t2.buMenId=#{buMenId}
         </if>
-        <if test="gongHao !=null and gongHao !=''">
-            and t1.gongHao=#{gongHao}
+        <if test="gongHao !=null and gongHao !='' || xingMing !=null and xingMing !=''">
+            and (t1.gongHao like #{gongHao} or t2.xingMing like #{xingMing})
         </if>
-        <if test="xingMing !=null and xingMing !=''">
-            and t2.xingMing like #{xingMing}
-        </if>
-        <if test="startTime !=null or endTime !=null">
-            and t2.ruZhiShiJian between #{startTime} and #{endTime}
+        <if test="startTime !=null and startTime !='' or endTime !=null and endTime !=''">
+            and t2.ruZhiShiJian between  #{startTime} and #{endTime}
         </if>
 
     </select>
@@ -308,5 +305,10 @@
         update denglu set miMa='123456' where  dangAnId=#{dangAnId}
 
     </update>
+
+    <select id="selectId" resultType="java.lang.Long" parameterType="cn.com.yuyang.bean.YuanGongBean">
+        select id from denglu where shouJiHaoMa=#{shouJiHaoMa}
+    </select>
+
 
 </mapper>

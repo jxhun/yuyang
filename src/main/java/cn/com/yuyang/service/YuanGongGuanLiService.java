@@ -12,7 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created with IntelliJ IDEA.
@@ -35,7 +39,7 @@ public class YuanGongGuanLiService {
     private final ZhiwubiaoMapper zhiwubiaoMapper;
 
     @Autowired
-    public YuanGongGuanLiService(MingancaozuoMapper mingancaozuoMapper,DengluMapper dengluMapper, RenyuandanganMapper renyuandanganMapper,
+    public YuanGongGuanLiService(MingancaozuoMapper mingancaozuoMapper, DengluMapper dengluMapper, RenyuandanganMapper renyuandanganMapper,
                                  BumenMapper bumenMapper, ZhiwubiaoMapper zhiwubiaoMapper) {
         this.mingancaozuoMapper = mingancaozuoMapper;
         this.bumenMapper = bumenMapper;
@@ -76,7 +80,11 @@ public class YuanGongGuanLiService {
         }
         //去掉员工工号中的空格为空时，为工号赋值null
         if (gongHao != null && gongHao.trim().equals("")) {
-            gongHao = null;
+            if (gongHao.trim().equals("")) {
+                gongHao = null;
+            } else {
+                gongHao = "%" + gongHao + "%";
+            }
         }
         //拼接百分号到员工姓名两边
         if (xingMing != null) {
@@ -119,13 +127,29 @@ public class YuanGongGuanLiService {
      * @param yuanGongBean
      * @return
      */
-    public String bianji(YuanGongBean yuanGongBean, HttpServletRequest request) {
+    public Map<String, Object> bianji(YuanGongBean yuanGongBean, HttpServletRequest request) {
         String msg = "修改失败!!!";
-        if (renyuandanganMapper.updateYuanGong(yuanGongBean) != null &&
-                renyuandanganMapper.updateDenglu(yuanGongBean) != null) {
-            msg = "修改!!!";
+        int Returncode = -1;
+        if (renyuandanganMapper.selectId(yuanGongBean) != null) {
+            msg = "身份证已存在！";
+            Returncode = -11;
         }
-        return msg;
+        else if (dengluMapper.selectId(yuanGongBean) != 0) {
+            msg = "手机号已存在！";
+            Returncode = -12;
+        } else if (yuanGongBean.getXingBie() != null && yuanGongBean.getXingBie().length() > 1) {
+            msg = "请输入正确的性别！";
+            Returncode = -14;
+        }
+        else if (renyuandanganMapper.updateYuanGong(yuanGongBean) != null &&
+                renyuandanganMapper.updateDenglu(yuanGongBean) != null) {
+            msg = "修改成功!!!";
+            Returncode = 200;
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("Returncode", Returncode);
+        map.put("msg", msg);
+        return map;
     }
 
     /**
@@ -134,13 +158,26 @@ public class YuanGongGuanLiService {
      * @param yuanGongBean
      * @return
      */
-    public String shanchu(YuanGongBean yuanGongBean, HttpServletRequest request) {
+    public Map<String, Object> shanchu(YuanGongBean yuanGongBean, HttpServletRequest request) {
         String msg = "删除失败!!!";
-        if (renyuandanganMapper.deleteDenglu(yuanGongBean) != null &&
-                renyuandanganMapper.deleteRenyuandangan(yuanGongBean) != null) {
-            msg = "删除成功!!!";
+        int Returncode = -1;
+        Map<String, Object> map = new HashMap<>();
+        if (yuanGongBean != null) {
+            Bumenbean bum = new Bumenbean();
+            bum.setDangAnId(yuanGongBean.getDangAnId());
+            //判断该员工是否是部门负责人
+            if (bumenMapper.selectFuZeRen(bum) != null) {
+                msg = "该员工是部门负责人，不能删除";
+                Returncode = -15;
+            } else if (renyuandanganMapper.deleteDenglu(yuanGongBean) != null &&
+                    renyuandanganMapper.deleteRenyuandangan(yuanGongBean) != null) {
+                msg = "删除成功!!!";
+                Returncode = 200;
+            }
+            map.put("Returncode", Returncode);
+            map.put("msg", msg);
         }
-        return msg;
+        return map;
     }
 
 
@@ -150,42 +187,61 @@ public class YuanGongGuanLiService {
      * @param yuanGongBean
      * @return
      */
-    public String xinzeng(YuanGongBean yuanGongBean, HttpServletRequest request) {
+    public Map<String, Object> xinzeng(YuanGongBean yuanGongBean, HttpServletRequest request) {
         String msg = "添加失败!!!";
-        if (yuanGongBean.getRuZhiShiJian() == null) {
-            yuanGongBean.setRuZhiShiJian(new Date(System.currentTimeMillis()));
-        }
-        int i = 0;
-        try {
-            i = renyuandanganMapper.insertRenyuandangan(yuanGongBean);
-        } catch (Exception e) {
-            msg = "添加失败，请核实信息是否属实！";
-            return msg;
-        }
+        int Returncode = -1;
+        Map<String, Object> map = new HashMap<>();
+        if (yuanGongBean != null) {
+            if (yuanGongBean.getRuZhiShiJian() == null) {
+                yuanGongBean.setRuZhiShiJian(new Date(System.currentTimeMillis()));
+            }
+            //设定密码默认为手机后六位，如果手机号码符合格式再往下走，否则被catch住
+            Pattern pattern = Pattern.compile("[0-9]*");
+            Matcher isNum = pattern.matcher(yuanGongBean.getShouJiHaoMa());
+            System.out.println("isNum.matches()=====" + isNum.matches());
 
-        if (i != 0) {
-            yuanGongBean.setGongHao(gongHao(yuanGongBean.getBuMenId()));
-            try {
-                AsymmetricEncryption asymmetricEncryption = new AsymmetricEncryption();
-                yuanGongBean.setMiMa2(asymmetricEncryption.jiaMi(yuanGongBean.getShouJiHaoMa().substring(5, 11), request)); // 密码加密存入
-                yuanGongBean.setSiYao((String) request.getSession().getAttribute(SessionKey.SIYAO)); // 得到私钥
-            } catch (Exception e) {
-                msg = "手机格式错误!";
-                renyuandanganMapper.shanchuRenyuandangan(yuanGongBean);
-                return msg;
+            //判断身份证是否已经存在
+            if (yuanGongBean.getShenFenZheng().length() != 18 ||
+                    renyuandanganMapper.selectId(yuanGongBean) != null) {
+                msg = "身份证已存在或者格式出错！";
+                Returncode = -11;
             }
-            long dangAnId = renyuandanganMapper.selectId(yuanGongBean);
-            yuanGongBean.setDangAnId(dangAnId);
-            Integer denglu = dengluMapper.insertDenglu(yuanGongBean);
-            if (denglu == 0) {
-                msg = "添加失败，请仔细核对信息是否正确！";
-                renyuandanganMapper.shanchuRenyuandangan(yuanGongBean);
-                return msg;
-            } else {
-                msg = "添加成功!!!";
+            //判断手机号码是否已经存在
+            else if (dengluMapper.selectId(yuanGongBean) != null || !isNum.matches() ||
+                    yuanGongBean.getShouJiHaoMa().length() != 11) {
+                msg = "手机号已存在或者格式错误！";
+                Returncode = -12;
+            }
+            else if (yuanGongBean.getXingBie() != null && yuanGongBean.getXingBie().length() > 1) {
+                msg = "请输入正确的性别！";
+                Returncode = -14;
+            }
+            else {
+                //将员工信息添加到员工档案表
+                if (renyuandanganMapper.insertRenyuandangan(yuanGongBean) != null) {
+                    //调用gongHao方法生成工号
+                    yuanGongBean.setGongHao(gongHao(yuanGongBean.getBuMenId()));
+//                try {
+                    AsymmetricEncryption asymmetricEncryption = new AsymmetricEncryption();
+                    yuanGongBean.setMiMa2(asymmetricEncryption.jiaMi(yuanGongBean.getShouJiHaoMa().substring(5, 11), request)); // 密码加密存入
+                    yuanGongBean.setSiYao((String) request.getSession().getAttribute(SessionKey.SIYAO)); // 得到私钥
+
+                    Long dangAnId = renyuandanganMapper.selectId(yuanGongBean);
+                    yuanGongBean.setDangAnId(dangAnId);
+                    Integer inte = dengluMapper.insertDenglu(yuanGongBean);
+                    if (inte != null) {
+                        msg = "添加成功!!!";
+                        Returncode = 200;
+                    }
+//                } catch (Exception e) {
+//
+//                }
+                }
             }
         }
-        return msg;
+        map.put("Returncode", Returncode);
+        map.put("msg", msg);
+        return map;
     }
 
 
@@ -195,17 +251,17 @@ public class YuanGongGuanLiService {
      * @return
      */
     public String gongHao(long buMenId) {
-        String gongHao = "xm" + (new Timestamp(System.currentTimeMillis())).toString().substring(0, 4);
-        Bumenbean bum = new Bumenbean();
-        bum.setId(buMenId);
-        //查询部门信息，部门负责人和部门人数
-        List<Bumenbean> list = bumenMapper.selectCount(bum);
-        String count = "" + list.get(0).getCount();
-        while (count.length() < 4) {
-            count = "0" + count;
-        }
-        gongHao = gongHao + count;
-        return gongHao;
+        String gongHao = ("" + System.currentTimeMillis()).substring(5, 13);
+//        Bumenbean bum = new Bumenbean();
+//        bum.setId(buMenId);
+//        //查询部门信息，部门负责人和部门人数
+//        List<Bumenbean> list = bumenMapper.selectCount(bum);
+//        String count = "" + list.get(0).getCount();
+//        while (count.length() < 4) {
+//            count = "0" + count;
+//        }
+//        gongHao = gongHao + count;
+        return "xm" + gongHao;
     }
 
     /**
@@ -230,18 +286,20 @@ public class YuanGongGuanLiService {
 
     /**
      * 这个方法用来新增操作记录
+     *
      * @param request 用来获取session
      */
-    public void minGanXinZeng(HttpServletRequest request){
+    public void minGanXinZeng(HttpServletRequest request) {
         mingancaozuoMapper.xinZeng((Mingancaozuo) request.getSession().getAttribute(SessionKey.MGSJ)); // 调用方法，传入对象
     }
 
 
     /**
      * 重置密码
+     *
      * @param yuanGongBean
      */
-    public  void updateChongZhiMiMa(YuanGongBean yuanGongBean){
+    public void updateChongZhiMiMa(YuanGongBean yuanGongBean) {
         dengluMapper.updateChongZhiMiMa(yuanGongBean);
     }
 

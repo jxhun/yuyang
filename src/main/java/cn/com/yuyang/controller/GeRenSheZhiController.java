@@ -73,22 +73,33 @@ public class GeRenSheZhiController {
     public Map<String, Object> updateXinXi(@RequestBody(required = false) YuanGongBean yuanGongBean, HttpServletRequest request) {
         String token = (String) request.getSession().getAttribute(SessionKey.TOKEN);    // 得到token
         Map<String, Object> returnMap = new HashMap<>();
-
         if(yuanGongBean!=null && token!=null && token.trim().equals(yuanGongBean.getToken())){
             geRenSheZhiService.updateXinXi(yuanGongBean);
             //代表旧密码不为空，则判断旧密码是否输入正确
-            if(!yuanGongBean.getJiuMiMa().trim().equals("")){
-                //此方法代表根据前端传过来的旧密码查询后台如果大于0则代表旧密码输入成功
-                Integer integer = geRenSheZhiService.selectMiMa(yuanGongBean);
-                //旧密码输入错误
-                if(integer<=0){
-                    returnMap.put("returncode", -1);
-                    returnMap.put("msg", "旧密码输入错误");
+            if(yuanGongBean.getShouJiHaoMa()!=null && !yuanGongBean.getShouJiHaoMa().trim().equals("")){
+                geRenSheZhiService.updateXinXi2(yuanGongBean,request);
+
+            }else {
+                if(yuanGongBean.getJiuMiMa()!=null && !yuanGongBean.getJiuMiMa().trim().equals("")){
+                    //此方法代表根据前端传过来的旧密码查询后台如果大于0则代表旧密码输入成功
+                    String s = geRenSheZhiService.selectMiMa2(yuanGongBean);
+                    if(s.equals(yuanGongBean.getJiuMiMa())){
+                        //如果旧密码输入成功则更新密码
+                        geRenSheZhiService.updateXinXi2(yuanGongBean,request);
+                        //更新了数据之后再进行查询用工信息
+//                    Renyuandangan renyuandangan = geRenSheZhiService.xinxiChaXun(yuanGongBean);
+//                    returnMap.put("returncode", 200);
+//                    returnMap.put("msg", "更新成功，");
+//                    returnMap.put("data", renyuandangan);
+
+                    }else{
+                        returnMap.put("returncode", -1);
+                        returnMap.put("msg", "旧密码输入错误");
+                    }
+
                 }
+
             }
-            //如果旧密码输入成功则更新密码
-            geRenSheZhiService.updateXinXi2(yuanGongBean);
-            //更新了数据之后再进行查询用工信息
             Renyuandangan renyuandangan = geRenSheZhiService.xinxiChaXun(yuanGongBean);
             returnMap.put("returncode", 200);
             returnMap.put("msg", "更新成功，");

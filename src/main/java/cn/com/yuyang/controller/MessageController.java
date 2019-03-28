@@ -376,6 +376,25 @@ public class MessageController {
 
         return map;
     }
+    //调用此接口，传入xinXiId，搜索草稿详情
+    @RequestMapping(value = {"/caogaoxiangxiangqing"},produces ="application/json;charset=UTF-8")
+    @ResponseBody
+    public Map<String, Object> caoGaoXiangXiangQing(@RequestBody XiangXiXinXiBean xiangXiXinXiBean, HttpServletRequest request) {
+        Integer did=(Integer) request.getSession().getAttribute(SessionKey.DANGANID);  //从session中获取登陆者的id
+        Map<String, Object> map=new HashMap<>();
+//        if(id==did){          //如果档案id和前台传过来的id相同，调用信息发送方法，并如下组装map
+        XinXiBean xinXiBean =messageService.caoGaoXiangXiangQing(xiangXiXinXiBean);   //
+        map.put("returncode", 200);
+        map.put("msg","正常请求");
+        map.put("data",xinXiBean);
+//        }
+//        else {                        //如果该用户档案id和前台传来的id不同，则返回错误信息；
+//            map.put("returncode", -1);
+//            map.put("msg","访问超时，请重新登陆");
+//        }
+
+        return map;
+    }
 
 
     @RequestMapping(value = {"/fileupload"}, method = RequestMethod.POST)
@@ -453,6 +472,13 @@ public class MessageController {
                 map.put("xinXiShiJian", xinXiBean.getXinXiShiJian().toString());
                 map.put("fuJianDiZhi", xinXiBean.getFuJianDiZhi());
                 map.put("faSongZhuangTai", xinXiBean.getFaSongZhuangTai());
+                if(id==xinXiBean.getShouXinId()){
+                    map.put("shouCangZhuangTai",xinXiBean.getShouJianRenShouCangZhuangTai());
+                }
+                else {
+                    map.put("shouCangZhuangTai",xinXiBean.getFaJianRenShouCangZhuangTai());
+                }
+
                 if (id == xinXiBean.getShouXinId()) {
                     map.put("yiDuZhuangTai", xinXiBean.getYiDuZhuangTai());
                 }

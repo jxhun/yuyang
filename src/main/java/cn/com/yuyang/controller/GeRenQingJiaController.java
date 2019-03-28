@@ -29,11 +29,14 @@ public class GeRenQingJiaController {
     @RequestMapping(value = "/qingjia",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
     public Map<String,Object> selectAll(@RequestBody(required = false) GeRenQingJiaBean geRenQingJiaBean, HttpServletRequest request){
+        System.out.println(geRenQingJiaBean.getToken()!= null && !request.getSession().getAttribute(SessionKey.TOKEN).equals(geRenQingJiaBean.getToken()));
 //        request.getSession().setAttribute(SessionKey.TOKEN, "toKen");
         if (geRenQingJiaBean.getToken()!= null && !request.getSession().getAttribute(SessionKey.TOKEN).equals(geRenQingJiaBean.getToken())) {
             Map<String, Object> selectAllMap = new HashMap<>();
+            ArrayList arrayList = new ArrayList();
             selectAllMap.put("RETURNCODE", -1);
             selectAllMap.put("MSG", "请求超时");
+            selectAllMap.put("DATA",arrayList);
             return selectAllMap;
         } else {
         qingJiaService.geRenQingJia(geRenQingJiaBean);
@@ -42,7 +45,6 @@ public class GeRenQingJiaController {
         selectAllMap.put("RETURNCODE",200);
         selectAllMap.put("MSG","请假申请已发出");
         selectAllMap.put("DATA",arrayList);
-        selectAllMap.put("TOKEN","token");
         return selectAllMap;
     }
     }

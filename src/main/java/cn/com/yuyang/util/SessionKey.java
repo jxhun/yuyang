@@ -24,4 +24,5 @@ public class SessionKey {
     public final static String SIYAO = "加密私钥"; // 加密的私钥
     public final static String BUMENGUANLI = "部门管理权限"; // 部门管理权限
     public final static String MGSJ = "敏感操作数据";
+    public final static String FJDZ = "附件地址";
 }
