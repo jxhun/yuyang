@@ -1,94 +1,119 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.com.yuyang.pojo.ZhiwubiaoMapper">
-  <resultMap id="quanXian" type="cn.com.yuyang.pojo.Denglu">
-    <id column="id" property="id"/>
-    <result column="zhuangTai" property="zhuangTai"/>
-    <result property="gongHao" column="gongHao"/>
-    <association property="renyuandangan" javaType="cn.com.yuyang.pojo.Renyuandangan">
-      <result property="xingMing" column="xingMing"/>
-      <result property="ruZhiShiJian" column="ruZhiShiJian"/>
-      <association property="bumen" javaType="cn.com.yuyang.pojo.Bumen">
-        <result property="buMenMingCheng" column="buMenMingCheng"/>
-      </association>
-      <association property="zhiwubiao" javaType="cn.com.yuyang.pojo.Zhiwubiao">
-        <result property="zhiWuMingCheng" column="zhiWuMingCheng"/>
-      </association>
-    </association>
-  </resultMap>
-  <select id="selectQuangXian" resultMap="quanXian">
-    select denglu.id,zhuangTai,xingMing,gongHao,buMenMingCheng,zhiWuMingCheng,ruZhiShiJian
-    from denglu,renyuandangan,bumen,zhiwubiao
-    where denglu.dangAnId=renyuandangan.id and buMenId=bumen.id and zhiWuId=zhiwubiao.id
-    <choose>
-      <when test="xingMing!=null">
-        and xingMing = #{xingMing}
-      </when>
-      <when test="gongHao!=null">
-        and gongHao = #{gongHao}
-      </when>
-      <when test="buMenMingCheng!=null">
-        and buMenMingCheng = #{buMenMingCheng}
-      </when>
-      <when test="zhiWuMingCheng!=null">
-        and zhiWuMingCheng = #{zhiWuMingCheng}
-      </when>
-    </choose>
+    <resultMap id="quanXian" type="cn.com.yuyang.pojo.Denglu">
+        <id column="id" property="id"/>
+        <result column="zhuangTai" property="zhuangTai"/>
+        <result property="gongHao" column="gongHao"/>
+        <association property="renyuandangan" javaType="cn.com.yuyang.pojo.Renyuandangan">
+            <result property="xingMing" column="xingMing"/>
+            <result property="ruZhiShiJian" column="ruZhiShiJian"/>
+            <association property="bumen" javaType="cn.com.yuyang.pojo.Bumen">
+                <result property="buMenMingCheng" column="buMenMingCheng"/>
+            </association>
+            <association property="zhiwubiao" javaType="cn.com.yuyang.pojo.Zhiwubiao">
+                <result property="zhiWuMingCheng" column="zhiWuMingCheng"/>
+            </association>
+        </association>
+    </resultMap>
+    <select id="selectQuangXian" resultMap="quanXian">
+        select denglu.id,zhuangTai,xingMing,gongHao,buMenMingCheng,zhiWuMingCheng,ruZhiShiJian
+        from denglu,renyuandangan,bumen,zhiwubiao
+        where denglu.dangAnId=renyuandangan.id and buMenId=bumen.id and zhiWuId=zhiwubiao.id
+        <choose>
+            <when test="xingMing!=null">
+                and xingMing = #{xingMing}
+            </when>
+            <when test="gongHao!=null">
+                and gongHao = #{gongHao}
+            </when>
+            <when test="buMenMingCheng!=null">
+                and buMenMingCheng = #{buMenMingCheng}
+            </when>
+            <when test="zhiWuMingCheng!=null">
+                and zhiWuMingCheng = #{zhiWuMingCheng}
+            </when>
+        </choose>
 
-  </select>
-  <select id="selectYaoQiu" resultType="cn.com.yuyang.pojo.Denglu">
-    select denglu.id
-    from denglu,renyuandangan
-    where dangAnId = renyuandangan.id and dangAnId IN
-    <foreach collection="dengluIds" index="index" item="dengluIds" open="(" separator="," close=")">
-      #{dengluIds}
-    </foreach>
-    <choose>
-      <when test="zhuangTai==1">
-        and (zaiZhiZhuangTai = '0' or zaiZhiZhuangTai = '2')
-      </when>
-      <otherwise>
-        and zaiZhiZhuangTai = '1'
-      </otherwise>
-    </choose>
-  </select>
-  <update id="updateZhuangTai">
-    update denglu set zhuangTai = #{zhuangTai} where dangAnId in
-    <foreach collection="dengluIds" index="index" item="dengluIds" open="(" separator="," close=")">
-      #{dengluIds}
-    </foreach>
-  </update>
-  <select id="selectZhiWu" resultType="cn.com.yuyang.pojo.Zhiwubiao">
-    select id, zhiWuMingCheng, zhiWuJianJie, chaKanKaoQin, qinJiaShenPi, quanXianGuanLi, chaKanYuanGong, caoZuoYuanGong, faBuXiuGaiGongGao, daiBanShiXiang, buMenGuanLi, chuangJianShiJian
-    from zhiwubiao
-    <if test="zhiWuMingCheng!=null">
-      where zhiWuMingCheng = #{zhiWuMingCheng}
-    </if>
-  </select>
-  <select id="selectZhiWuRen" resultType="cn.com.yuyang.pojo.Renyuandangan" parameterType="java.lang.Integer">
-    select id
-    from renyuandangan
-    where zhiWuId = #{zhiWuId}
-  </select>
-  <delete id="deleteZhiWu" parameterType="java.lang.Integer">
-    delete from zhiwubiao where id = #{zhiWuId}
-  </delete>
-  <insert id="insertZhiWu">
-    insert into zhiwubiao(zhiWuMingCheng, zhiWuJianJie, chaKanKaoQin, qinJiaShenPi, quanXianGuanLi, chaKanYuanGong,
-                          caoZuoYuanGong, faBuXiuGaiGongGao, daiBanShiXiang, buMenGuanLi, chuangJianShiJian)
-    values (#{zhiWuMingCheng},#{zhiWuJianJie},#{chaKanKaoQin},#{qinJiaShenPi},#{quanXianGuanLi},#{chaKanYuanGong},
-            #{caoZuoYuanGong},#{faBuXiuGaiGongGao},#{daiBanShiXiang},#{buMenGuanLi},#{chuangJianShiJian})
-  </insert>
-  <update id="updateZhiWu">
-    update zhiwubiao set zhiWuMingCheng = #{zhiWuMingCheng},zhiWuJianJie = #{zhiWuJianJie},
-                         chaKanKaoQin = #{chaKanKaoQin},qinJiaShenPi = #{qinJiaShenPi},
-                         quanXianGuanLi = #{quanXianGuanLi},chaKanYuanGong = #{chaKanYuanGong},
-                         caoZuoYuanGong = #{caoZuoYuanGong},faBuXiuGaiGongGao = #{faBuXiuGaiGongGao},
-                         daiBanShiXiang = #{daiBanShiXiang},chuangJianShiJian = #{chuangJianShiJian},
-                         buMenGuanLi = #{buMenGuanLi}
-    where id = #{id}
-  </update>
-  <select id="selectZhiwu2" resultType="cn.com.yuyang.pojo.Zhiwubiao">
-    select id,zhiWuMingCheng from zhiwubiao;
-  </select>
+    </select>
+    <select id="selectYaoQiu" resultType="cn.com.yuyang.pojo.Denglu">
+        select denglu.id
+        from denglu,renyuandangan
+        where dangAnId = renyuandangan.id and dangAnId IN
+        <foreach collection="dengluIds" index="index" item="dengluIds" open="(" separator="," close=")">
+            #{dengluIds}
+        </foreach>
+        <choose>
+            <when test="zhuangTai==1">
+                and (zaiZhiZhuangTai = '0' or zaiZhiZhuangTai = '2')
+            </when>
+            <otherwise>
+                and zaiZhiZhuangTai = '1'
+            </otherwise>
+        </choose>
+    </select>
+    <update id="updateZhuangTai">
+        update denglu set zhuangTai = #{zhuangTai} where dangAnId in
+        <foreach collection="dengluIds" index="index" item="dengluIds" open="(" separator="," close=")">
+            #{dengluIds}
+        </foreach>
+    </update>
+    <select id="selectZhiWu" resultType="cn.com.yuyang.pojo.Zhiwubiao">
+        select id, zhiWuMingCheng, zhiWuJianJie, chaKanKaoQin, qinJiaShenPi, quanXianGuanLi, chaKanYuanGong,
+        caoZuoYuanGong, faBuXiuGaiGongGao, daiBanShiXiang, buMenGuanLi, chuangJianShiJian
+        from zhiwubiao
+        <if test="zhiWuMingCheng!=null">
+            where zhiWuMingCheng = #{zhiWuMingCheng}
+        </if>
+    </select>
+    <select id="selectZhiWuRen" resultType="cn.com.yuyang.pojo.Renyuandangan" parameterType="java.lang.Integer">
+        select id
+        from renyuandangan
+        where zhiWuId = #{zhiWuId}
+    </select>
+    <delete id="deleteZhiWu" parameterType="java.lang.Integer">
+        delete
+        from zhiwubiao
+        where id = #{zhiWuId}
+    </delete>
+    <insert id="insertZhiWu">
+        insert into zhiwubiao(zhiWuMingCheng, zhiWuJianJie, chaKanKaoQin, qinJiaShenPi, quanXianGuanLi, chaKanYuanGong,
+                              caoZuoYuanGong, faBuXiuGaiGongGao, daiBanShiXiang, buMenGuanLi, chuangJianShiJian)
+        values (#{zhiWuMingCheng}, #{zhiWuJianJie}, #{chaKanKaoQin}, #{qinJiaShenPi}, #{quanXianGuanLi},
+                #{chaKanYuanGong},
+                #{caoZuoYuanGong}, #{faBuXiuGaiGongGao}, #{daiBanShiXiang}, #{buMenGuanLi}, #{chuangJianShiJian})
+    </insert>
+    <update id="updateZhiWu">
+        update zhiwubiao
+        set zhiWuMingCheng    = #{zhiWuMingCheng},
+            zhiWuJianJie      = #{zhiWuJianJie},
+            chaKanKaoQin      = #{chaKanKaoQin},
+            qinJiaShenPi      = #{qinJiaShenPi},
+            quanXianGuanLi    = #{quanXianGuanLi},
+            chaKanYuanGong    = #{chaKanYuanGong},
+            caoZuoYuanGong    = #{caoZuoYuanGong},
+            faBuXiuGaiGongGao = #{faBuXiuGaiGongGao},
+            daiBanShiXiang    = #{daiBanShiXiang},
+            chuangJianShiJian = #{chuangJianShiJian},
+            buMenGuanLi       = #{buMenGuanLi}
+        where id = #{id}
+    </update>
+    <select id="selectZhiwu2" resultType="cn.com.yuyang.pojo.Zhiwubiao">
+        select id,zhiWuMingCheng
+        from zhiwubiao
+        where zhiWuMingCheng not like '%经理'
+          and zhiWuMingCheng != '董事长';
+    </select>
+    <select id="selectZhiwu3" resultType="cn.com.yuyang.pojo.Zhiwubiao">
+        select id,zhiWuMingCheng
+        from zhiwubiao;
+    </select>
+
+    <select id="selectId" resultType="java.lang.Integer" parameterType="cn.com.yuyang.pojo.Zhiwubiao">
+        select id from zhiwubiao where zhiWuMingCheng=#{zhiWuMingCheng}
+    </select>
+    <update id="updateZhiWuMingCheng" parameterType="cn.com.yuyang.pojo.Zhiwubiao">
+        update zhiwubiao set zhiWuMingCheng = #{zhiWuMingCheng} where id=#{id}
+    </update>
+
 </mapper>

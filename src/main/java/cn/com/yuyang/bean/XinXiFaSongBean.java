@@ -5,6 +5,15 @@ public class XinXiFaSongBean {
     private String xinXiZhuTi;          //信息的主题
     private String xinXiNeiRong;        //信息的内容
     private int shouJianId;   //收件人档案id
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public int getShouJianId() {
         return shouJianId;

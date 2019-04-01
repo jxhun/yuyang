@@ -10,4 +10,5 @@ package cn.com.yuyang.util;
 public class MailFiled {
     public final static String mailName = "345810618@qq.com";   //  发件人账号
     public final static String mailCode = "qtoqtcbjamtobgcf";  //  发件人授权码
+
 }

@@ -39,21 +39,19 @@ public class BuMenGuanLiController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = {"/shouye"})
+    @RequestMapping(value = {"/shouye"}, method = RequestMethod.POST)
     public Map<String, Object> shouye(@RequestBody(required = false) Bumenbean bumen, HttpServletRequest request) {
         String token = (String) request.getSession().getAttribute(SessionKey.TOKEN);
-        String quanxian =  String.valueOf(request.getSession().getAttribute(SessionKey.QUANXIANGUANLI));
         Map<String, Object> map = new HashMap<>();
-        System.out.println("----------===========--------------=============------------" + bumen.getToken());
         if (!bumen.getToken().equals(token)) {
-            map.put("Returncode", -1);
+            map.put("returnCode", 408);
             map.put("msg", "登录超时！");
-        } else if (quanxian.equals("0")) {
-            map.put("Returncode", -1);
+        } else if (String.valueOf(request.getSession().getAttribute(SessionKey.QUANXIANGUANLI)).equals("0")) {
+            map.put("returnCode", -1);
             map.put("msg", "你没有这个权限！");
         } else {
             List<Bumenbean> list = buMenGuanLiService.shouye();
-            map.put("Returncode", 200);
+            map.put("returnCode", 200);
             map.put("msg", "成功！");
             map.put("data", list);
         }
@@ -71,17 +69,16 @@ public class BuMenGuanLiController {
     @RequestMapping(value = {"/chaxun"}, method = RequestMethod.POST)
     public Map<String, Object> chaxun(@RequestBody Bumenbean bumen, HttpServletRequest request) {
         String token = (String) request.getSession().getAttribute(SessionKey.TOKEN);
-        Integer quanxian = (Integer) request.getSession().getAttribute(SessionKey.QUANXIANGUANLI);
         Map<String, Object> map = new HashMap<>();
         if (!bumen.getToken().equals(token)) {
-            map.put("Returncode", -1);
+            map.put("returnCode", 408);
             map.put("msg", "登录超时！");
-        } else if (quanxian != 1) {
-            map.put("Returncode", -1);
+        } else if (String.valueOf(request.getSession().getAttribute(SessionKey.QUANXIANGUANLI)).equals("0")) {
+            map.put("returnCode", -1);
             map.put("msg", "你没有这个权限！");
         } else {
             List<Bumenbean> list = buMenGuanLiService.chaxun(bumen);
-            map.put("Returncode", 200);
+            map.put("returnCode", 200);
             map.put("msg", "成功");
             map.put("data", list);
         }
@@ -99,17 +96,16 @@ public class BuMenGuanLiController {
     @RequestMapping(value = {"/xinzeng"}, method = RequestMethod.POST)
     public Map<String, Object> xinzeng(@RequestBody Bumenbean bumen, HttpServletRequest request) {
         String token = (String) request.getSession().getAttribute(SessionKey.TOKEN);
-        Integer quanxian = (Integer) request.getSession().getAttribute(SessionKey.QUANXIANGUANLI);
         Map<String, Object> map = new HashMap<>();
         if (!bumen.getToken().equals(token)) {
-            map.put("Returncode", -1);
+            map.put("returnCode", 408);
             map.put("msg", "登录超时！");
-        } else if (quanxian != 1) {
-            map.put("Returncode", -1);
+        } else if (String.valueOf(request.getSession().getAttribute(SessionKey.QUANXIANGUANLI)).equals("0")) {
+            map.put("returnCode", -1);
             map.put("msg", "你没有这个权限！");
         } else {
-            map = buMenGuanLiService.xinzeng(bumen);
-            //            buMenGuanLiService.minGanXinZeng(request); // 调用方法，存入用户操作记录
+            map = buMenGuanLiService.xinzeng(bumen, request);
+            buMenGuanLiService.minGanXinZeng(request); // 调用方法，存入用户操作记录
         }
         return map;
     }
@@ -125,17 +121,16 @@ public class BuMenGuanLiController {
     @RequestMapping(value = {"/bianji"}, method = RequestMethod.POST)
     public Map<String, Object> bianji(@RequestBody Bumenbean bumen, HttpServletRequest request) {
         String token = (String) request.getSession().getAttribute(SessionKey.TOKEN);
-        Integer quanxian = (Integer) request.getSession().getAttribute(SessionKey.QUANXIANGUANLI);
         Map<String, Object> map = new HashMap<>();
         if (!bumen.getToken().equals(token)) {
-            map.put("Returncode", -1);
+            map.put("returnCode", 408);
             map.put("msg", "登录超时！");
-        } else if (quanxian != 1) {
-            map.put("Returncode", -1);
+        } else if (String.valueOf(request.getSession().getAttribute(SessionKey.QUANXIANGUANLI)).equals("0")) {
+            map.put("returnCode", -1);
             map.put("msg", "你没有这个权限！");
         } else {
-            map = buMenGuanLiService.bianji(bumen);
-//            buMenGuanLiService.minGanXinZeng(request); // 调用方法，存入用户操作记录
+            map = buMenGuanLiService.bianji(bumen, request);
+            buMenGuanLiService.minGanXinZeng(request); // 调用新增操作记录方法
         }
         return map;
     }
@@ -151,17 +146,16 @@ public class BuMenGuanLiController {
     @RequestMapping(value = {"/shanchu"}, method = RequestMethod.POST)
     public Map<String, Object> shanchu(@RequestBody Bumenbean bumen, HttpServletRequest request) {
         String token = (String) request.getSession().getAttribute(SessionKey.TOKEN);
-        Integer quanxian = (Integer) request.getSession().getAttribute(SessionKey.QUANXIANGUANLI);
         Map<String, Object> map = new HashMap<>();
-        if (!bumen.getToken().equals(token)) {
-            map.put("Returncode", -1);
+        if (bumen == null || !bumen.getToken().equals(token)) {
+            map.put("returnCode", 408);
             map.put("msg", "登录超时！");
-        } else if (quanxian != 1) {
-            map.put("Returncode", -1);
+        } else if (String.valueOf(request.getSession().getAttribute(SessionKey.QUANXIANGUANLI)).equals("0")) {
+            map.put("returnCode", -1);
             map.put("msg", "你没有这个权限！");
         } else {
-            map = buMenGuanLiService.shanchu(bumen);
-//            buMenGuanLiService.minGanXinZeng(request); // 调用方法，存入用户操作记录
+            map = buMenGuanLiService.shanchu(bumen, request);
+            buMenGuanLiService.minGanXinZeng(request); // 调用新增操作记录方法
         }
         return map;
     }

@@ -6,6 +6,15 @@ public class XinXiSouSuoBean {
     private int id;//登陆者的人员档案id
     private String riQi;//搜索条件：日期
     private String guanJianCi;//搜索条件：关键词
+    private String token;   //token
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public int getId() {
         return id;

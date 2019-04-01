@@ -23,7 +23,6 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/shouye")
-@Scope(value = "prototype")
 public class ShouYeController {
 
     private final ShouYeService shouYeGongHao;
@@ -57,11 +56,11 @@ public class ShouYeController {
             map.put("countGongGao", coutGongGao);
             map.put("countRiZhi", countRiZhi);
             map.put("kaoqin", kaoqin);
-            returnMap.put("returncode", 200);
+            returnMap.put("returnCode", 200);
             returnMap.put("msg", "更新成功，");
             returnMap.put("data", map);
         } else {
-            returnMap.put("returncode", -1);
+            returnMap.put("returnCode", 408);
             returnMap.put("msg", "登录超时，");
         }
 
@@ -75,10 +74,10 @@ public class ShouYeController {
         String token = (String) request.getSession().getAttribute(SessionKey.TOKEN);    // 得到token
         if (gongGaoBean != null && token != null && token.trim().equals(gongGaoBean.getToken())) {
             shouYeGongHao.updateGongGaoDianJi(gongGaoBean);//如果点击了公告则更新
-            returnMap.put("returncode", 200);
+            returnMap.put("returnCode", 200);
             returnMap.put("msg", "更新成功，");
         } else {
-            returnMap.put("returncode", -1);
+            returnMap.put("returnCode", 408);
             returnMap.put("msg", "登录超时，");
         }
         return returnMap;

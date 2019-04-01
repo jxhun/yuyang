@@ -21,6 +21,7 @@ public interface QingjiabiaoMapper {
     void updateShenHe(QingJiaShenHeBean qingJiaShenHeBean);
 
     void geRenQingJia(GeRenQingJiaBean geRenQingJiaBean);
+    void geRenQingJia2(GeRenQingJiaBean geRenQingJiaBean);
 
     void tiJiaoShenHe(QingJiaShenHeBean qingJiaShenHeBean);
 

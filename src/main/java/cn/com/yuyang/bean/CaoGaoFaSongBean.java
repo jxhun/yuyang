@@ -9,6 +9,16 @@ public class CaoGaoFaSongBean {
     private String neiRong;         //信息内容
     private int xinXiId;            //信息id
 
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     public int getId() {
         return id;
     }

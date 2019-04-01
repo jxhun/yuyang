@@ -1,6 +1,7 @@
 package cn.com.yuyang.pojo;
 
 
+import cn.com.yuyang.bean.CaoZuoJiLuBean;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -14,4 +15,5 @@ public interface MingancaozuoMapper {
      */
     Integer xinZeng(Mingancaozuo mingancaozuo);
 
+    List<Mingancaozuo> daoChuChaXun(CaoZuoJiLuBean caoZuoJiLuBean);
 }

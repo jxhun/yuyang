@@ -31,9 +31,30 @@ public interface ZhiwubiaoMapper {
     // 更新职务
     void updateZhiWu(Zhiwubiao zhiwubiao);
 
-    /** 查询所有职务名称及ID
+    /** 查询除经理外所有的职务名称及ID
      *
      * @return
      */
     List<Zhiwubiao> selectZhiwu2();
+
+    /** 查询所有职务名称及ID
+     *
+     * @return
+     */
+    List<Zhiwubiao> selectZhiwu3();
+
+    /** 查询职务的ID
+     *
+     * @param zhiwubiao
+     * @return
+     */
+    Integer selectId(Zhiwubiao zhiwubiao);
+
+    /** 修改职务的名称
+     *
+     * @param zhiwubiao
+     * @return
+     */
+    Integer updateZhiWuMingCheng(Zhiwubiao zhiwubiao);
+
 }

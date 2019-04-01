@@ -302,12 +302,12 @@
 
 
     <update id="updateChongZhiMiMa" parameterType="cn.com.yuyang.bean.YuanGongBean">
-        update denglu set miMa='123456' where  dangAnId=#{dangAnId}
+        update denglu set miMa=#{miMa2},siYao=#{siYao} where  dangAnId=#{dangAnId}
 
     </update>
 
     <select id="selectId" resultType="java.lang.Long" parameterType="cn.com.yuyang.bean.YuanGongBean">
-        select id from denglu where shouJiHaoMa=#{shouJiHaoMa}
+        select id from denglu where shouJiHaoMa=#{shouJiHaoMa} and dangAnId!=#{dangAnId}
     </select>
 
 

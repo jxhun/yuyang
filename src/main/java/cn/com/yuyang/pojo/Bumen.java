@@ -12,6 +12,7 @@ public class Bumen {
   private java.sql.Timestamp chuangJianShiJian;
   private int buMenJiBie;
 
+
   public int getBuMenJiBie() {
     return buMenJiBie;
   }

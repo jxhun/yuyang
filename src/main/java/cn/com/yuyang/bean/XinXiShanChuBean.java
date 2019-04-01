@@ -4,6 +4,15 @@ public class XinXiShanChuBean {
 
     private  int id;    //登陆者的档案id
     private int[] xinXiId;    //需要删除的信息的id
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public int getId() {
         return id;

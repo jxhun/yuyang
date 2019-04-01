@@ -148,11 +148,11 @@ public class KaoQinService {
 
                 kqlist.add(kaoqin);  // 存入对象到list
             } catch (ParseException e) {
-                map.put("returncode", -1);
+                map.put("returnCode", -1);
                 map.put("MSG", "excle格式错误，请检查excle格式");
             }
         }
-        map.put("returncode", 200);
+        map.put("returnCode", 200);
         map.put("MSG", "上传成功");
         kaoqinMapper.excle(kqlist);
         return map;

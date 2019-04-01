@@ -4,6 +4,15 @@ public class XinXiShouCangBean {
     private int id;                 //登陆者的档案id
     private int xinXiId;            //需要修改收藏状态的信息的id
     private int shouCangZhuangTai;  //需要修改收藏状态的信息的当前状态
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public int getId() {
         return id;

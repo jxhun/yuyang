@@ -140,5 +140,11 @@
         where buMenJiBie = #{buMenJiBie};
     </select>
 
+    <select id="selectFuZeRen2" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        select dangAnId
+        from bumen
+        where id = #{buMenId}
+    </select>
+
 
 </mapper>

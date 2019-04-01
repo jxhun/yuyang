@@ -95,7 +95,7 @@
             </if>
             <if test="zhengZhiMianMao!=null and zhengZhiMianMao!=''">
                 zhengZhiMianMao=#{zhengZhiMianMao},
-            </if>selectId
+            </if>
             <if test="shengRi!=null">
                 shengRi=#{shengRi},
             </if>
@@ -152,7 +152,7 @@
         set zaiZhiZhuangTai=2,
             zhiWuId=0,
             buMenId=0
-        where dangAnId = #{dangAnId}
+        where id = #{dangAnId}
     </update>
 
     <select id="selectHaoYou" resultMap="getOneToOne">
@@ -258,9 +258,10 @@
 
     <update id="updateGongGaoDianJi" parameterType="cn.com.yuyang.pojo.Renyuandangan">
         update renyuandangan
-        set gongGaoDianJiShiJian=now();
+        set gongGaoDianJiShiJian=now() where id=#{dangAnId} ;
 
     </update>
+
 
     <update id="updateTouXiang" parameterType="cn.com.yuyang.bean.YuanGongBean">
         update renyuandangan
@@ -301,7 +302,7 @@
                 #{xueLi},
                 #{youXiang},
                 #{biYeYuanXiao},
-                #{zaiZhiZhuangTai},
+                1,
                 #{minZu},
                 #{jiGuan},
                 #{shenFenZheng},
@@ -317,7 +318,10 @@
             parameterType="cn.com.yuyang.bean.YuanGongBean">
         select id
         from renyuandangan
-        where shenFenZheng = #{shenFenZheng};
+        where shenFenZheng = #{shenFenZheng}
+        <if test="dangAnId!=0">
+            and id!=#{dangAnId}
+        </if>
     </select>
 
 
@@ -372,6 +376,15 @@
         select miMa as miMa2,siYao from  denglu where dangAnId=#{dangAnId}
     </select>
     <update id="updateYuanGongBuMen" parameterType="cn.com.yuyang.bean.Bumenbean">
-        update renyuandangan set buMenId=#{id} where id=#{dangAnId}
+        update renyuandangan set buMenId=#{id},zhiWuId=#{zhiWuId} where id=#{dangAnId}
     </update>
+
+
+    <select id="selectShengRi" resultType="cn.com.yuyang.bean.BirthdayBean" parameterType="java.lang.String">
+        select  xingMing,youXiang from renyuandangan where shengRi like  #{arg0}
+    </select>
+
+
+
+
 </mapper>

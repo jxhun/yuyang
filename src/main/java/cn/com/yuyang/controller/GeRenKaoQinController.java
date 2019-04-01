@@ -49,8 +49,9 @@ public class GeRenKaoQinController {
         // 先创建map并将returnCode为-1放入，一旦之后的代码报错直接return
         Map<String, Object> map = new HashMap<>();
         map.put("returnCode", -1);
+        String token = (String) request.getSession().getAttribute(SessionKey.TOKEN);
 //        判断服务器session上存储的token与请求的token是否对应，避免恶意查看他人考勤
-        if (geRenKaoQinBean != null && request.getSession().getAttribute(SessionKey.TOKEN).equals(geRenKaoQinBean.getToken())) {
+        if (geRenKaoQinBean != null && token != null && token.equals(geRenKaoQinBean.getToken())) {
             try {
                 // 获取从service层获取的处理后的list
                 List<Map<String, Object>> list = kaoQinService.selectUser(geRenKaoQinBean);
@@ -67,6 +68,7 @@ public class GeRenKaoQinController {
                 e.printStackTrace();
             }
         } else {
+            map.put("returnCode", 408);
             map.put("msg", "登录超时");
         }
         return map;
@@ -98,6 +100,8 @@ public class GeRenKaoQinController {
                 e.printStackTrace();
             }
         } else {
+            map.put("returnCode", 408);
+
             map.put("msg", "登录超时");
         }
         return map;

@@ -3,7 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:task="http://www.springframework.org/schema/task"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
@@ -11,15 +11,23 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd
         http://www.springframework.org/schema/aop
-          http://www.springframework.org/schema/aop/spring-aop.xsd">
+          http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
     <!--1.开启Springioc 自动扫描注解包  只对mvc的包做扫描  -->
     <context:component-scan base-package="cn.com.yuyang.controller"/>
+
+    <!--定时任务配置项 -->
+    <task:annotation-driven scheduler="qbScheduler"/>
+    <task:scheduler id="qbScheduler" pool-size="10" />
+
 
     <mvc:default-servlet-handler/>
 
     <!--2. 开启注解，对jackson数据支持 -->
     <mvc:annotation-driven/>
+    <mvc:cors>
+        <mvc:mapping path="/**"/>
+    </mvc:cors>
 
      <!--配置扫描的包-->
     <context:component-scan base-package="cn.com.yuyang.bean">

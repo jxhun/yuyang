@@ -26,23 +26,31 @@ public class GeRenQingJiaController {
     public GeRenQingJiaController(QingJiaService qingJiaService){
         this.qingJiaService = qingJiaService;
     }
-    @RequestMapping(value = "/qingjia",method = {RequestMethod.GET,RequestMethod.POST})
+    @RequestMapping(value = "/qingjia",method = RequestMethod.POST)
     @ResponseBody
     public Map<String,Object> selectAll(@RequestBody(required = false) GeRenQingJiaBean geRenQingJiaBean, HttpServletRequest request){
-        System.out.println(geRenQingJiaBean.getToken()!= null && !request.getSession().getAttribute(SessionKey.TOKEN).equals(geRenQingJiaBean.getToken()));
-//        request.getSession().setAttribute(SessionKey.TOKEN, "toKen");
-        if (geRenQingJiaBean.getToken()!= null && !request.getSession().getAttribute(SessionKey.TOKEN).equals(geRenQingJiaBean.getToken())) {
+
+        if (geRenQingJiaBean!= null && geRenQingJiaBean.getToken()!= null && !request.getSession().getAttribute(SessionKey.TOKEN).equals(geRenQingJiaBean.getToken())) {
             Map<String, Object> selectAllMap = new HashMap<>();
             ArrayList arrayList = new ArrayList();
-            selectAllMap.put("RETURNCODE", -1);
+            selectAllMap.put("returnCode", 408);
             selectAllMap.put("MSG", "请求超时");
             selectAllMap.put("DATA",arrayList);
             return selectAllMap;
         } else {
-        qingJiaService.geRenQingJia(geRenQingJiaBean);
+            String bmid = String .valueOf(request.getSession().getAttribute(SessionKey.BUMENID));
+            Integer buMenId = Integer.parseInt(bmid);
+            String fuZheRenId = String.valueOf(qingJiaService.selectFuZeRen2(buMenId));
+            if(geRenQingJiaBean.getShenQingRen().equals(fuZheRenId) ){
+                qingJiaService.geRenQingJia2(geRenQingJiaBean);
+            }
+            else{
+                qingJiaService.geRenQingJia(geRenQingJiaBean);
+            }
+
         ArrayList arrayList = new ArrayList();
         Map<String,Object> selectAllMap = new HashMap<>();
-        selectAllMap.put("RETURNCODE",200);
+        selectAllMap.put("returnCode",200);
         selectAllMap.put("MSG","请假申请已发出");
         selectAllMap.put("DATA",arrayList);
         return selectAllMap;

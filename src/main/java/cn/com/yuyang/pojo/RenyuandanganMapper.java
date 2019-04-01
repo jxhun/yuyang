@@ -1,10 +1,7 @@
 package cn.com.yuyang.pojo;
 
 
-import cn.com.yuyang.bean.Bumenbean;
-import cn.com.yuyang.bean.GongGaoBean;
-import cn.com.yuyang.bean.IdBean;
-import cn.com.yuyang.bean.YuanGongBean;
+import cn.com.yuyang.bean.*;
 
 import java.util.List;
 
@@ -139,6 +136,15 @@ public interface RenyuandanganMapper {
      * @return
      */
     Integer updateYuanGongBuMen(Bumenbean bumenbean);
+
+    /**
+     * 生日祝福
+     * @param day
+     * @return
+     */
+    List<BirthdayBean> selectShengRi(String day);
+
+
 
 
 }

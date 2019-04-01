@@ -18,7 +18,7 @@ public interface XinxiMapper {
     List<XinXiBean> selectXinXiShouCang(IdBean idBean);
     List<XinXiBean> xinXiShouCangSouSuo(XinXiSouSuoBean xinXiSouSuoBean);
     List<XinXiBean> xinXiCaoGaoXiang(IdBean idBean);
-    XinXiBean caogaoxiangxiangqing(XiangXiXinXiBean xiangXiXinXiBean);
+    XinXiBean caoGaoXiangXiangQing(XiangXiXinXiBean xiangXiXinXiBean);
     void  caoGaoXiangShanChu(XinXiShanChuBean xinXiShanChuBean);
     List<XinXiBean> xinXiCaoGaoXiangSouSuo(XinXiSouSuoBean xinXiSouSuoBean);
     void yiDu(XiangXiXinXiBean xiangXiXinXiBean);

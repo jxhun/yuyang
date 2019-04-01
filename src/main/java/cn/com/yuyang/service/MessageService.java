@@ -199,7 +199,7 @@ public class MessageService {
     }
     //搜索草稿箱某条草稿的详情
     public XinXiBean caoGaoXiangXiangQing(XiangXiXinXiBean xiangXiXinXiBean){
-        return xinxiMapper.caogaoxiangxiangqing(xiangXiXinXiBean);
+        return xinxiMapper.caoGaoXiangXiangQing(xiangXiXinXiBean);
     }
 
 }

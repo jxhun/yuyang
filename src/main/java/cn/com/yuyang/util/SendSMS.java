@@ -30,7 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class SendSMS {
-	public static String  sendsms(String  phoneNumber) {
+	public static String sendSMS(String shoujihaoma){
 		// http://www.ihuyi.com/sms.html  互亿无线  返回结果解析为xml文件，可以通过dom4j解析
 		// 生成验证码
 		/*
@@ -45,71 +45,67 @@ public class SendSMS {
 		int mobile_code = (int)((Math.random() * 9 + 1) * 100000);
 		String content = "您的验证码是：" + mobile_code + "。请不要把验证码泄露给其他人。";
 		// 添加参数
-//		HashMap<String, String> params = new HashMap<>();
-//		params.put("account","C27449096");                              //查看用户名是登录用户中心->验证码短信->产品总览->APIID
-//		params.put("password","8e0643217dff7bb6de2b47e3b546c6b9");    //查看密码请登录用户中心->验证码短信->产品总览->APIKEY
-//		params.put("mobile",phoneNumber);                             // 发送给哪一个手机号
-//		params.put("content",content);
-		returncode = mobile_code+"";// 发送的文字
+		HashMap<String, String> params = new HashMap<>();
+		params.put("account","C36742792");                              //查看用户名是登录用户中心->验证码短信->产品总览->APIID
+		params.put("password","ac9861edcb995c527e672c5075dcdecd");    //查看密码请登录用户中心->验证码短信->产品总览->APIKEY
+		params.put("mobile",shoujihaoma);                             // 发送给哪一个手机号
+		params.put("content",content);                                   // 发送的文字
 
-//		// 实例化HTTP方法
-//		HttpPost request = new HttpPost();
-//		// 封装请求地址
-//		try {
-//			request.setURI(new URI("http://106.ihuyi.cn/webservice/sms.php?method=Submit"));
-//		} catch (URISyntaxException e) {
-//			e.printStackTrace();
-//		}
-//		// 设置参数
-//		List<NameValuePair> nameValuePairsList = new ArrayList<>();
-//		// 封装数据值
-//		for (String name : params.keySet()) {
-//			String value = params.get(name);
-//			nameValuePairsList.add(new BasicNameValuePair(name, value));  // gun
-//		}
-//		HttpClient client = new DefaultHttpClient();
-//		try {
-//			request.setEntity(new UrlEncodedFormEntity(nameValuePairsList, HTTP.UTF_8));
-//			HttpResponse response = client.execute(request);
-//			int statusCode = response.getStatusLine().getStatusCode();
-//			if(statusCode == 200){	//请求成功
-//				BufferedReader in = new BufferedReader(new InputStreamReader(response.getEntity()
-//						.getContent(),"utf-8"));
-//				StringBuilder sb = new StringBuilder("");
-//				String line = "";
-//				String NL = System.getProperty("line.separator");   // apache建议回车使用line.separator(回车)     \n
-//				while ((line = in.readLine()) != null) {
-//					sb.append(line).append(NL);    // 每添加一个值，追加一个回车
-//				}
-//				in.close();
-//				String SubmitResult = sb.toString();
-//				System.out.println("服务器返回结果内容：" + SubmitResult);
-//				Document doc = DocumentHelper.parseText(SubmitResult);
-//				Element root = doc.getRootElement();
-//
-//				String code = root.elementText("code");
-//				String msg = root.elementText("msg");
-//				String smsid = root.elementText("smsid");
-//
-//				System.out.println("回执状态码：" + code);
-//				System.out.println("回执消息：" + msg);
-//				System.out.println("回执ID：" + smsid);
-//				System.out.println("验证码：" + mobile_code);
-//
-//				if("2".equals(code)){
-//					System.out.println("短信提交成功");
-//
-//				}
-//			}
-//		} catch (IOException | DocumentException e) {
-//			e.printStackTrace();
-//		} finally{
-//			// Release connection
-//			request.releaseConnection();
-//			client.getConnectionManager().shutdown();
-//		}
-		System.out.println(returncode);
-		return returncode;
+		// 实例化HTTP方法
+		HttpPost request = new HttpPost();
+		// 封装请求地址
+		try {
+			request.setURI(new URI("http://106.ihuyi.cn/webservice/sms.php?method=Submit"));
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		// 设置参数
+		List<NameValuePair> nameValuePairsList = new ArrayList<>();
+		// 封装数据值
+		for (String name : params.keySet()) {
+			String value = params.get(name);
+			nameValuePairsList.add(new BasicNameValuePair(name, value));  // gun
+		}
+		HttpClient client = new DefaultHttpClient();
+		try {
+			request.setEntity(new UrlEncodedFormEntity(nameValuePairsList, HTTP.UTF_8));
+			HttpResponse response = client.execute(request);
+			int statusCode = response.getStatusLine().getStatusCode();
+			if(statusCode == 200){	//请求成功
+				BufferedReader in = new BufferedReader(new InputStreamReader(response.getEntity()
+						.getContent(),"utf-8"));
+				StringBuilder sb = new StringBuilder("");
+				String line = "";
+				String NL = System.getProperty("line.separator");   // apache建议回车使用line.separator(回车)     \n
+				while ((line = in.readLine()) != null) {
+					sb.append(line).append(NL);    // 每添加一个值，追加一个回车
+				}
+				in.close();
+				String SubmitResult = sb.toString();
+				System.out.println("服务器返回结果内容：" + SubmitResult);
+				Document doc = DocumentHelper.parseText(SubmitResult);
+				Element root = doc.getRootElement();
+
+				String code = root.elementText("code");
+				String msg = root.elementText("msg");
+				String smsid = root.elementText("smsid");
+
+				System.out.println("回执状态码：" + code);
+				System.out.println("回执消息：" + msg);
+				System.out.println("回执ID：" + smsid);
+
+				if("2".equals(code)){
+					System.out.println(code);
+					returncode = mobile_code+"";
+				}
+			}
+		} catch (IOException | DocumentException e) {
+			e.printStackTrace();
+		} finally{
+			// Release connection
+			request.releaseConnection();
+			client.getConnectionManager().shutdown();
+		}
+		return  returncode;
 	}
-
 }

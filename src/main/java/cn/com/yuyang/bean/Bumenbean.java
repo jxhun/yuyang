@@ -19,6 +19,16 @@ public class Bumenbean {
     private int count;
     private String token;
     private long buMenJiBie;
+    private long zhiWuId;
+
+
+    public long getZhiWuId() {
+        return zhiWuId;
+    }
+
+    public void setZhiWuId(long zhiWuId) {
+        this.zhiWuId = zhiWuId;
+    }
 
     public long getBuMenJiBie() {
         return buMenJiBie;

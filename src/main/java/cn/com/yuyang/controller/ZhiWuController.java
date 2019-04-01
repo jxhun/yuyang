@@ -48,10 +48,12 @@ public class ZhiWuController {
     public Map<String, Object> select(@RequestBody(required = false) ZhiWuBean zhiWuBean, HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
         map.put("returnCode", "-1");
+        String token = (String) request.getSession().getAttribute(SessionKey.TOKEN); // 得到token
 //        判断服务器session上存储的token与请求的token是否对应，避免恶意查看他人考勤
-        if (zhiWuBean != null && request.getSession().getAttribute(SessionKey.TOKEN).equals(zhiWuBean.getToken())) {
+        if (zhiWuBean != null && token != null && token.equals(zhiWuBean.getToken())) {
+            int quanxian = Integer.parseInt(String.valueOf(request.getSession().getAttribute(SessionKey.QUANXIANGUANLI)));
 //            // 确认此操作员是否有权限
-            if ((Long) request.getSession().getAttribute(SessionKey.QUANXIANGUANLI) == 1) {
+            if (quanxian == 1) {
                 try {
                     // 调用service层的查询方法
                     List<Zhiwubiao> list = zhiWuService.selectZhiWu(zhiWuBean);
@@ -65,6 +67,7 @@ public class ZhiWuController {
                 map.put("msg", "权限不足");
             }
         } else {
+            map.put("returnCode", 408);
             map.put("msg", "不是本人");
         }
         return map;
@@ -83,15 +86,18 @@ public class ZhiWuController {
         Map<String, String> map = new HashMap<>();
         map.put("returnCode", "-1");
         map.put("msg", "该职务有员工存在");
+        String token = (String) request.getSession().getAttribute(SessionKey.TOKEN); // 得到token
 //        判断服务器session上存储的token与请求的token是否对应，避免恶意查看他人考勤
-        if (zhiWuBean != null && request.getSession().getAttribute(SessionKey.TOKEN).equals(zhiWuBean.getToken())) {
+        if (zhiWuBean != null && token != null && token.equals(zhiWuBean.getToken())) {
+            int quanxian = Integer.parseInt(String.valueOf(request.getSession().getAttribute(SessionKey.QUANXIANGUANLI)));
 //            // 确认此操作员是否有权限
-            if ((Long) request.getSession().getAttribute(SessionKey.QUANXIANGUANLI) == 1) {
+            if (quanxian == 1) {
                 // 将职务id放入方法中查询此职务下面是否还有员工绑定
                 try {
                     if (zhiWuService.selectZhiWuRen(zhiWuBean.getZhiWuId()) == 0) {
                         // 此职务符合删除条件执行删除功能
-                        zhiWuService.deleteZhiWu(zhiWuBean.getZhiWuId());
+                        zhiWuService.deleteZhiWu(zhiWuBean.getZhiWuId(), request);
+                        zhiWuService.minGanXinZeng(request); // 调用操作记录方法
                         map.put("returnCode", "200");
                         map.put("msg", "删除成功");
                     }
@@ -102,6 +108,7 @@ public class ZhiWuController {
                 map.put("msg", "权限不足");
             }
         } else {
+            map.put("returnCode", "408");
             map.put("msg", "不是本人");
         }
         return map;
@@ -119,17 +126,21 @@ public class ZhiWuController {
     public Map<String, String> change(@RequestBody(required = false) Zhiwubiao zhiwubiao, @PathVariable("method") String method, HttpServletRequest request) {
         Map<String, String> map = new HashMap<>();
         map.put("returnCode", "-1");
+        String token = (String) request.getSession().getAttribute(SessionKey.TOKEN); // 得到token
 //        判断服务器session上存储的token与请求的token是否对应，避免恶意查看他人考勤
-        if (zhiwubiao != null && request.getSession().getAttribute(SessionKey.TOKEN).equals(zhiwubiao.getToken())) {
+        if (zhiwubiao != null && token != null && token.equals(zhiwubiao.getToken())) {
+            int quanxian = Integer.parseInt(String.valueOf(request.getSession().getAttribute(SessionKey.QUANXIANGUANLI)));
 //            // 确认此操作员是否有权限
-            if ((Long) request.getSession().getAttribute(SessionKey.QUANXIANGUANLI) == 1) {
+            if (quanxian == 1) {
                 try {
                     // 调用insert执行添加功能，如果成功则返回200及返回执行成功，如果添加失败会报SQLException进入catch返回职务名存在
                     if (method.equals("insert")) {
-                        zhiWuService.insertZhiWu(zhiwubiao);
+                        zhiWuService.insertZhiWu(zhiwubiao, request);
+                        zhiWuService.minGanXinZeng(request); // 调用操作记录方法
                         // 调用update执行添加功能，如果成功则返回200及返回执行成功，如果添加失败会报SQLException进入catch返回职务名存在
                     } else if (method.equals("update")) {
-                        zhiWuService.updateZhiWu(zhiwubiao);
+                        zhiWuService.updateZhiWu(zhiwubiao, request);
+                        zhiWuService.minGanXinZeng(request); // 调用操作记录方法
                     }
                     map.put("returnCode", "200");
                     map.put("msg", "执行成功");
@@ -141,6 +152,7 @@ public class ZhiWuController {
                 map.put("msg", "权限不足");
             }
         } else {
+            map.put("returnCode", "408");
             map.put("msg", "不是本人");
         }
         return map;

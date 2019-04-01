@@ -8,6 +8,15 @@ public class QingJiaShenHeBean {
     private String shangCengShenPiRen;
     private String token;
     private long buMenId;
+    private int shenQinRen;
+
+    public int getShenQinRen() {
+        return shenQinRen;
+    }
+
+    public void setShenQinRen(int shenQinRen) {
+        this.shenQinRen = shenQinRen;
+    }
 
     public long getBuMenId() {
         return buMenId;

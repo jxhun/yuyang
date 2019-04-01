@@ -20,10 +20,12 @@ public class MyJavaMail implements Runnable {
 
     private String youXiang;             // 收件人邮箱
     private String uuid;              // uuid唯一码
+    private String xingMing;              // uuid唯一码
 
-    public MyJavaMail(String youXiang) {  // username 平台用户名
+    public MyJavaMail(String youXiang,String xingMing) {  // username 平台用户名
 
         this.youXiang = youXiang;
+        this.xingMing=xingMing;
         // java系统默认生成的uuid，但是默认的uuid是有横杠隔开的，项目中需要手动去掉横杠
         this.uuid = UUID.randomUUID().toString().replaceAll("-","");  // 生成唯一随机码;
     }
@@ -66,9 +68,8 @@ public class MyJavaMail implements Runnable {
             message.setSubject("OA系统账号激活");
 
             // 6.设置邮件内容
-            String content = "<html><head></head><body><h1>这是一封激活邮件,激活请点击以下链接，如果不是本人操作，请勿点击!!(<font color='red'>若成功则自动跳转登录页面</font>)</h1><h3>" +
-                    "<a href='http://localhost:8080/dd.html' style='color:#f64a4a'>" +"点击此链接"+
-                    "</a></h3></body></html>";
+            String content = "亲爱的"+xingMing+",yuyang国际集团祝您生日快乐！";
+
             message.setContent(content, "text/html;charset=UTF-8");
             // 7.发送邮件
             Transport.send(message);   // 阻塞方法

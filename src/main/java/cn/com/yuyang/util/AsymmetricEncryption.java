@@ -178,7 +178,11 @@ public class AsymmetricEncryption {
         } catch (GeneralSecurityException e) {
             e.printStackTrace();
         }
-        return new String(decBytes);
+
+        if(decBytes!=null){
+            return new String(decBytes);
+        }
+      return  null;
     }
 }
 

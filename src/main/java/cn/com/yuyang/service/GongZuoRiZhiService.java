@@ -26,9 +26,6 @@ public class GongZuoRiZhiService {
     public GongZuoRiZhiService(GongzuojiluMapper gongzuojiluMapper){
         this.gongzuojiluMapper = gongzuojiluMapper;
     }
-    public GongzuojiluMapper getGongzuojiluMapper() {
-        return gongzuojiluMapper;
-    }
 
     /**
      * 查看自己的工作记录
@@ -76,6 +73,14 @@ public class GongZuoRiZhiService {
      */
     public void tiJiao(GongZuoJiLuBean gongZuoJiLuBean){
         gongZuoJiLuBean.setShiJian(new Timestamp(System.currentTimeMillis()));
+        if (gongzuojiluMapper.selectFuZeRen(gongZuoJiLuBean.getDangAnId()) == 0){
+            // 不是经理级别就会调用方法查到审阅人id并封装进POJO
+            gongZuoJiLuBean.setJieShouRenId(gongzuojiluMapper.selectShenYueRen(gongZuoJiLuBean.getDangAnId()));
+        }
+        else {
+            // 是经理级别就直接将董事id封装入审阅人id
+            gongZuoJiLuBean.setJieShouRenId(1);
+        }
         gongzuojiluMapper.tiJiao(gongZuoJiLuBean);
     }
     /**
@@ -106,23 +111,7 @@ public class GongZuoRiZhiService {
         return gongzuojiluMapper.selectRiZhiByBuMenId(gongZuoRiZhiBean);
     }
 
-    /**
-     * 写日志功能
-     * @param gongzuojilu 工作日志内容直接新增
-     */
-    public void insertRiZhi(Gongzuojilu gongzuojilu){
-        // 查询操作人员是否为经理级别
-        if (gongzuojiluMapper.selectFuZeRen(gongzuojilu.getDangAnId()) == 0){
-            // 不是经理级别就会调用方法查到审阅人id并封装进POJO
-            gongzuojilu.setJieShouRenId(gongzuojiluMapper.selectShenYueRen(gongzuojilu.getDangAnId()));
-        }
-        else {
-            // 是经理级别就直接将董事id封装入审阅人id
-            gongzuojilu.setJieShouRenId(1);
-        }
-        // 执行
-        gongzuojiluMapper.insertRiZhi(gongzuojilu);
-    }
+
 
     /**
      * 编辑日志跳转时查询，备用

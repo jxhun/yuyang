@@ -36,9 +36,7 @@ public class QingJiaShenHeController {
     @RequestMapping(value = "/selectAll", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public Map<String, Object> selectAll(@RequestBody(required = false) QingJiaShenHeBean qingJiaShenHeBean, HttpServletRequest request) {
-        System.out.println(qingJiaShenHeBean.getToken());
-        System.out.println(request.getSession().getAttribute(SessionKey.TOKEN));
-        System.out.println(qingJiaShenHeBean.getToken() == null || (qingJiaShenHeBean.getToken() != null && !request.getSession().getAttribute(SessionKey.TOKEN).equals(qingJiaShenHeBean.getToken())));
+
         qingJiaShenHeBean.setBuMenId((Long) request.getSession().getAttribute(SessionKey.BUMENID));
 
         //判断token值是否相同
@@ -51,7 +49,7 @@ public class QingJiaShenHeController {
             map0.put("shangCengShenPiRen", arrayList1);
             map0.put("qingJiaDATA", arrayList2);
             arrayList.add(map0);
-            selectAllMap.put("RETURNCODE", -1);
+            selectAllMap.put("returnCode",408);
             selectAllMap.put("MSG", "请求超时");
             selectAllMap.put("DATA", arrayList);
             return selectAllMap;
@@ -65,7 +63,7 @@ public class QingJiaShenHeController {
                 map0.put("shangCengShenPiRen", arrayList1);
                 map0.put("qingJiaDATA", arrayList2);
                 arrayList.add(map0);
-                selectAllMap.put("RETURNCODE", -1);
+                selectAllMap.put("returnCode", -1);
                 selectAllMap.put("MSG", "没有权限");
                 selectAllMap.put("DATA", arrayList);
                 return selectAllMap;
@@ -75,20 +73,17 @@ public class QingJiaShenHeController {
                 ArrayList arrayList1 = new ArrayList();
                 ArrayList arrayList2 = new ArrayList();
                 Map<String, Object> map0 = new HashMap<>();
-                int jiBie = 0;
                 if (buMenJiBie > 1) {
-                    jiBie = (int) (buMenJiBie - 1);
+                    buMenJiBie =  (buMenJiBie - 1);
                 }
-                System.out.println(jiBie);
                 //查询请假审批提交的上级部门名和部门负责人id
-                List<Bumen> shangCengShenPiRenList = qingJiaService.selectShangCengShenPiRen(jiBie);
+                List<Bumen> shangCengShenPiRenList = qingJiaService.selectShangCengShenPiRen(buMenJiBie);
                 for (Bumen bumen : shangCengShenPiRenList) {
                     Map<String, Object> map = new HashMap<String, Object>();
                     map.put("buMenMingCheng", bumen.getBuMenMingCheng());
                     map.put("dangAnId", bumen.getDangAnId());
                     arrayList1.add(map);
                 }
-                System.out.println("qqqqqqqqqqqqqqqqqqqqqq");
                 //提交到该审批人的请假申请
                 List<Qingjiabiao> qingJiaShenHeList = qingJiaService.selectAll(qingJiaShenHeBean);
                 for (Qingjiabiao qingjiabiao : qingJiaShenHeList) {
@@ -111,7 +106,7 @@ public class QingJiaShenHeController {
                 map0.put("qingJiaDATA", arrayList2);
                 arrayList.add(map0);
                 Map<String, Object> selectAllMap = new HashMap<>();
-                selectAllMap.put("RETURNCODE", 200);
+                selectAllMap.put("returnCode", 200);
                 selectAllMap.put("MSG", "msg");
                 selectAllMap.put("DATA", arrayList);
 //            selectAllMap.put("TOKEN", "token");
@@ -129,33 +124,28 @@ public class QingJiaShenHeController {
     @RequestMapping(value = "/updateShenHe", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public Map<String, Object> updateShenHe(@RequestBody(required = false) QingJiaShenHeBean qingJiaShenHeBean, HttpServletRequest request) {
-        System.out.println(qingJiaShenHeBean.getToken());
-        System.out.println(request.getSession().getAttribute(SessionKey.TOKEN));
-        System.out.println(qingJiaShenHeBean.getToken() == null || (qingJiaShenHeBean.getToken() != null && !request.getSession().getAttribute(SessionKey.TOKEN).equals(qingJiaShenHeBean.getToken())));
 
         //判断token值是否相同
         if (qingJiaShenHeBean.getToken() == null || (qingJiaShenHeBean.getToken() != null && !request.getSession().getAttribute(SessionKey.TOKEN).equals(qingJiaShenHeBean.getToken()))) {
             Map<String, Object> selectAllMap = new HashMap<>();
             ArrayList arrayList = new ArrayList();
-            selectAllMap.put("RETURNCODE", -1);
+            selectAllMap.put("returnCode", 408);
             selectAllMap.put("MSG", "请求超时");
             selectAllMap.put("DATA", arrayList);
             return selectAllMap;
         } else {
             if (String.valueOf(request.getSession().getAttribute(SessionKey.QINGJIASHENPI)).equals("0")) {
-                System.out.println("111111111111");
                 Map<String, Object> selectAllMap = new HashMap<>();
                 ArrayList arrayList = new ArrayList();
-                selectAllMap.put("RETURNCODE", -1);
+                selectAllMap.put("returnCode", -1);
                 selectAllMap.put("MSG", "没有权限");
                 selectAllMap.put("DATA", arrayList);
                 return selectAllMap;
             } else {
-                System.out.println("22222222222222");
                 qingJiaService.updateShenHe(qingJiaShenHeBean);
                 ArrayList arrayList = new ArrayList();
                 Map<String, Object> selectAllMap = new HashMap<>();
-                selectAllMap.put("RETURNCODE", 200);
+                selectAllMap.put("returnCode", 200);
                 selectAllMap.put("MSG", "审批成功");
                 selectAllMap.put("DATA", arrayList);
                 selectAllMap.put("TOKEN", "token");
@@ -173,15 +163,12 @@ public class QingJiaShenHeController {
     @RequestMapping(value = "/tiJiaoShenHe", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public Map<String, Object> tiJiaoShenHe(@RequestBody(required = false) QingJiaShenHeBean qingJiaShenHeBean, HttpServletRequest request) {
-        System.out.println(qingJiaShenHeBean.getToken());
-        System.out.println(request.getSession().getAttribute(SessionKey.TOKEN));
-        System.out.println(qingJiaShenHeBean.getToken() == null || (qingJiaShenHeBean.getToken() != null && !request.getSession().getAttribute(SessionKey.TOKEN).equals(qingJiaShenHeBean.getToken())));
 
         //判断token值是否相同
         if (qingJiaShenHeBean.getToken() == null || (qingJiaShenHeBean.getToken() != null && !request.getSession().getAttribute(SessionKey.TOKEN).equals(qingJiaShenHeBean.getToken()))) {
             Map<String, Object> selectAllMap = new HashMap<>();
             ArrayList arrayList = new ArrayList();
-            selectAllMap.put("RETURNCODE", -1);
+            selectAllMap.put("returnCode", 408);
             selectAllMap.put("MSG", "请求超时");
             selectAllMap.put("DATA", arrayList);
             return selectAllMap;
@@ -189,7 +176,7 @@ public class QingJiaShenHeController {
             if (String.valueOf(request.getSession().getAttribute(SessionKey.QINGJIASHENPI)).equals("0")) {
                 Map<String, Object> selectAllMap = new HashMap<>();
                 ArrayList arrayList = new ArrayList();
-                selectAllMap.put("RETURNCODE", -1);
+                selectAllMap.put("returnCode", -1);
                 selectAllMap.put("MSG", "没有权限");
                 selectAllMap.put("DATA", arrayList);
                 return selectAllMap;
@@ -197,7 +184,7 @@ public class QingJiaShenHeController {
                 qingJiaService.tiJiaoShenHe(qingJiaShenHeBean);
                 ArrayList arrayList = new ArrayList();
                 Map<String, Object> tiJiaoShenHeMap = new HashMap<>();
-                tiJiaoShenHeMap.put("RETURNCODE", 200);
+                tiJiaoShenHeMap.put("returnCode", 200);
                 tiJiaoShenHeMap.put("MSG", "向上提交请假审核成功");
                 tiJiaoShenHeMap.put("DATA", arrayList);
                 return tiJiaoShenHeMap;

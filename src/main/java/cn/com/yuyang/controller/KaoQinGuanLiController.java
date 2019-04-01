@@ -40,7 +40,7 @@ public class KaoQinGuanLiController {
      * @return
      * @throws ParseException
      */
-    @RequestMapping(value = "/chakan", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/chakan", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> selectKaoQinGuanLi(@RequestBody(required = false) KaoQinGuanLiBean kaoQinGuanLiBean, HttpServletRequest request) throws ParseException {
         HttpSession session = request.getSession();
@@ -49,13 +49,10 @@ public class KaoQinGuanLiController {
 //        request.getSession().setAttribute(SessionKey.TOKEN, "toKen");
         //判断token值是否相同
         String a = (String) session.getAttribute(SessionKey.TOKEN);
-        System.out.println("========1=======" + kaoQinGuanLiBean.getToken());
-        System.out.println("+++++++++++++++" + a);
-        System.out.println(kaoQinGuanLiBean.getToken() == null || !(a.equals(kaoQinGuanLiBean.getToken())));
-        if (kaoQinGuanLiBean.getToken() == null || !(a.equals(kaoQinGuanLiBean.getToken()))) {
+        if (kaoQinGuanLiBean == null || kaoQinGuanLiBean.getToken() == null || !(kaoQinGuanLiBean.getToken().equals(a))) {
             Map<String, Object> selectAllMap = new HashMap<>();
             ArrayList arrayList = new ArrayList();
-            selectAllMap.put("RETURNCODE", -1);
+            selectAllMap.put("returnCode", 408);
             selectAllMap.put("MSG", "请求超时");
             selectAllMap.put("DATA", arrayList);
             return selectAllMap;
@@ -63,7 +60,7 @@ public class KaoQinGuanLiController {
             if (String.valueOf(session.getAttribute(SessionKey.CHAKANKAOQIN)).equals("0")) {
                 Map<String, Object> selectAllMap = new HashMap<>();
                 ArrayList arrayList = new ArrayList();
-                selectAllMap.put("RETURNCODE", -1);
+                selectAllMap.put("returnCode", -1);
                 selectAllMap.put("MSG", "没有权限");
                 selectAllMap.put("DATA", arrayList);
                 return selectAllMap;
@@ -124,7 +121,7 @@ public class KaoQinGuanLiController {
                     arrayList.add(map);
                 }
                 Map<String, Object> kaoQinGuanLiMap = new HashMap<>();
-                kaoQinGuanLiMap.put("RETURNCODE", returnCode);
+                kaoQinGuanLiMap.put("returnCode", returnCode);
                 kaoQinGuanLiMap.put("MSG", msg);
                 kaoQinGuanLiMap.put("DATA", arrayList);
                 return kaoQinGuanLiMap;
@@ -137,19 +134,16 @@ public class KaoQinGuanLiController {
      *
      * @return
      */
-    @RequestMapping(value = "/selectBuMen", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/selectBuMen", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> selectBuMen(@RequestBody(required = false) KaoQinGuanLiBean kaoQinGuanLiBean, HttpServletRequest request) {
 //        request.getSession().setAttribute(SessionKey.TOKEN, "toKen");
         //判断token值是否相同
         String a = (String) request.getSession().getAttribute(SessionKey.TOKEN);
-        System.out.println("=======2========" + kaoQinGuanLiBean.getToken());
-        System.out.println("+++++++++++++++" + a);
-        System.out.println(kaoQinGuanLiBean.getToken() == null || !(a.equals(kaoQinGuanLiBean.getToken())));
-        if (kaoQinGuanLiBean.getToken() == null || !(a.equals(kaoQinGuanLiBean.getToken()))) {
+        if (kaoQinGuanLiBean == null || kaoQinGuanLiBean.getToken() == null || !(a.equals(kaoQinGuanLiBean.getToken()))) {
             Map<String, Object> selectBuMenMap = new HashMap<>();
             ArrayList arrayList = new ArrayList();
-            selectBuMenMap.put("RETURNCODE", -1);
+            selectBuMenMap.put("returnCode", 408);
             selectBuMenMap.put("MSG", "请求超时");
             selectBuMenMap.put("DATA", arrayList);
             return selectBuMenMap;
@@ -157,7 +151,7 @@ public class KaoQinGuanLiController {
             List<Bumen> selectBuMenList = kaoQinGuanLiService.selectBuMen();
             ArrayList arrayList = new ArrayList();
             Map<String, Object> selectBuMenMap = new HashMap<>();
-            selectBuMenMap.put("RETURNCODE", 200);
+            selectBuMenMap.put("returnCode", 200);
             selectBuMenMap.put("MSG", "提交请假审核成功");
             selectBuMenMap.put("DATA", selectBuMenList);
             return selectBuMenMap;
@@ -172,18 +166,14 @@ public class KaoQinGuanLiController {
      * @param request          request对象
      * @return 成功返回成功消息提醒，失败返回失败提醒
      */
-    @RequestMapping(value = "/excle")
+    @RequestMapping(value = "/excle", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> shangChuanXls(@RequestBody(required = false) MultipartFile articleFile, KaoQinGuanLiBean kaoQinGuanLiBean, HttpServletRequest request) {
-//        request.getSession().setAttribute(SessionKey.TOKEN, "toKen");
-        String a = (String) request.getSession().getAttribute(SessionKey.TOKEN);
-        System.out.println("======3=========" + kaoQinGuanLiBean.getToken());
-        System.out.println("+++++++++++++++" + a);
-        System.out.println(kaoQinGuanLiBean.getToken() == null || !(a.equals(kaoQinGuanLiBean.getToken())));
-        if (kaoQinGuanLiBean.getToken() == null || !(a.equals(kaoQinGuanLiBean.getToken()))) {
+        String token = String.valueOf(request.getSession().getAttribute(SessionKey.TOKEN));
+        if (kaoQinGuanLiBean == null || kaoQinGuanLiBean.getToken() == null || !(token.equals(kaoQinGuanLiBean.getToken()))) {
             Map<String, Object> map = new HashMap<>();
             ArrayList arrayList = new ArrayList();
-            map.put("RETURNCODE", -1);
+            map.put("returnCode", 408);
             map.put("MSG", "请求超时");
             map.put("DATA", arrayList);
             return map;

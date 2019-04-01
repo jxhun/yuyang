@@ -52,6 +52,10 @@ public class QingJiaService {
 
         qingjiabiaoMapper.geRenQingJia(geRenQingJiaBean);
     }
+    public void  geRenQingJia2(GeRenQingJiaBean geRenQingJiaBean){
+
+        qingjiabiaoMapper.geRenQingJia2(geRenQingJiaBean);
+    }
     /**
      * 该方法用于查询部门的级别
      * @param qingJiaShenHeBean 部门id
@@ -78,5 +82,7 @@ public class QingJiaService {
     public  void  tiJiaoShenHe (QingJiaShenHeBean qingJiaShenHeBean){
         qingjiabiaoMapper.tiJiaoShenHe(qingJiaShenHeBean);
     }
-
+    public Integer selectFuZeRen2(Integer buMenId){
+        return bumenMapper.selectFuZeRen2(buMenId);
+    }
 }

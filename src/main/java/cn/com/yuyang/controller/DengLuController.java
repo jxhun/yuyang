@@ -12,9 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,16 +32,18 @@ public class DengLuController {
         this.dengLuService = dengLuService;
     }
 
-    @RequestMapping(value = "/login")
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> loginByShoujiHaoMa(@RequestBody(required = false) YanZhengMaBean yanZhengMaBean, HttpServletRequest request) {
+    public Map<String, Object> loginByShoujiHaoMa(@RequestBody(required = false) YanZhengMaBean yanZhengMaBean,
+                                                  HttpServletRequest request, HttpServletResponse response) {
+        response.addHeader("Content-Type", "application/json;charset=UTF-8"); // 设置header
         Map<String, Object> map = new HashMap<>();
         //yanZhengMaBean存在
         if (yanZhengMaBean != null) {
             //根据前台传过来的手机号码或者工号判断该手机号查询是否存在
             Denglu denglu1 = dengLuService.loginByShoujiHaoMa(yanZhengMaBean);
             long t = 0;
-            if (denglu1!=null && denglu1.getDongJieShiJian() != null) {
+            if (denglu1 != null && denglu1.getDongJieShiJian() != null) {
                 //获取冻结时间
                 long dongJieShiJian = denglu1.getDongJieShiJian().getTime();
                 //获取当前时间
@@ -60,14 +64,13 @@ public class DengLuController {
                         dengLuService.setQuanXian(denglu1, request);
                         //根据ID，更新用户的登录次数和最后一次登录时间
                         dengLuService.updateLogin(denglu1);
-                        System.out.println("==degnlu444444="+request.getSession().getAttribute(SessionKey.TOKEN));
-                        map.put("returncode", "200");
+                        map.put("returnCode", "200");
                         map.put("msg", "登录成功");
                         map.put("data", denglu1);
                         map.put("toKen", request.getSession().getAttribute(SessionKey.TOKEN));
                         return map;
                     } else {
-                        map.put("returncode", "-1");
+                        map.put("returnCode", "-1");
                         map.put("msg", "验证码错误");
                     }
                 }
@@ -80,11 +83,10 @@ public class DengLuController {
                         dengLuService.updateJieDong(denglu1);
                     }
                     AsymmetricEncryption asymmetricEncryption = new AsymmetricEncryption();
-                    System.out.println("==sy="+denglu1.getSiYao());
                     String miMa = asymmetricEncryption.jieMi(denglu1.getMiMa(), denglu1.getSiYao());  // 传入加密的密码和私钥，解密
-                    asymmetricEncryption=null;
+                    asymmetricEncryption = null;
                     //前端传过来的密码跟得到的密码进行比较，，如果一样则登录成功
-                    if (yanZhengMaBean!=null && yanZhengMaBean.getMiMa().trim().equals(miMa)) {
+                    if (yanZhengMaBean != null && yanZhengMaBean.getMiMa().trim().equals(miMa)) {
                         //每一次登录成功，登录成功次数加1
                         denglu1.setDengLuCiShu(denglu1.getDengLuCiShu() + 1);
                         //根据ID查询人员档案信息和职务信息
@@ -94,11 +96,10 @@ public class DengLuController {
                         //根据ID，更新用户的登录次数和最后一次登录时间
                         dengLuService.updateLogin(denglu1);
 
-                        map.put("returncode", "200");
+                        map.put("returnCode", "200");
                         map.put("msg", "登录成功");
                         map.put("data", denglu1);
-                        map.put("toKen",request.getSession().getAttribute(SessionKey.TOKEN));
-                        System.out.println("==degnlu="+request.getSession().getAttribute(SessionKey.TOKEN));
+                        map.put("toKen", request.getSession().getAttribute(SessionKey.TOKEN));
 
                         return map;
                     } else {
@@ -117,21 +118,21 @@ public class DengLuController {
                             }
 
                         } else {
-                            map.put("returncode", "-1");
+                            map.put("returnCode", "-1");
                             map.put("msg", "该账户被冻结");
                         }
-                        map.put("returncode", "-1");
+                        map.put("returnCode", "-1");
                         map.put("msg", "密码错误");
                     }
 
                 } else if (denglu1.getZhuangTai() == -1) {
                     //该用户被停用
-                    map.put("returncode", "-1");
+                    map.put("returnCode", "-1");
                     map.put("msg", "该账户被停用了");
                 }
 
             } else {
-                map.put("returncode", "-1");
+                map.put("returnCode", "-1");
                 map.put("msg", "该手机号码不存在，请重新输入");
             }
         }
@@ -143,7 +144,7 @@ public class DengLuController {
      *
      * @return 返回一个map
      */
-    @RequestMapping(value = "/huoQuYanZhengMa")
+    @RequestMapping(value = "/huoQuYanZhengMa", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> huoQuYanZhengMa(@RequestBody(required = false) YanZhengMaBean yanZhengMaBean, HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
@@ -153,23 +154,23 @@ public class DengLuController {
             request.getSession().setAttribute(SessionKey.DENGLUID, denglu1.getId());
             //验证码存在，手机号存在，且验证码不为null
             if (denglu1 != null && denglu1.getId() > 0) {
-                String sendsms = SendSMS.sendsms(yanZhengMaBean.getShouJiHaoMa());
+                String sendsms = SendSMS.sendSMS(yanZhengMaBean.getShouJiHaoMa());
                 request.getSession().setAttribute("yanZhengMa", sendsms);
-                map.put("returncode", "200");
+                map.put("returnCode", "200");
                 map.put("msg", "验证码发送成功");
             } else {
-                map.put("returncode", "-1");
+                map.put("returnCode", "-1");
                 map.put("msg", "请输入正确的验证码");
             }
         } else {
-            map.put("returncode", "-1");
+            map.put("returnCode", "-1");
             map.put("msg", "该手机号码不存在，请重新输入");
         }
         return map;
     }
 
 
-    @RequestMapping(value = "/wangJiMiMa")
+    @RequestMapping(value = "/wangJiMiMa", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> wangJiMiMa(@RequestBody(required = false) YanZhengMaBean yanZhengMaBean, HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();

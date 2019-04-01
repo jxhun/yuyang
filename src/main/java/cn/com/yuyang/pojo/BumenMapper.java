@@ -81,4 +81,6 @@ public interface BumenMapper {
      */
     Integer selectFuZeRen(Bumenbean bumenbean);
 
+    Integer selectFuZeRen2(Integer buMenId);
+
 }

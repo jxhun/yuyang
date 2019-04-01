@@ -116,7 +116,9 @@ public class GongGaoService {
     public Map<String, Object> xiangQing(GongGaoBean gongGaoBean) {
         Map<String, Object> map = gonggaoMapper.gongGaoXiangQing(gongGaoBean);  // 调用查询公告详情方法
         String buMenMingCheng = gonggaoMapper.chaXunBuMenMingCheng(gongGaoBean); // 调用查询部门名称方法查询部门名称
-        map.put("buMenMingCheng",buMenMingCheng);  // 存入部门名称
+        if(map != null){  // 如果查询结果不为null
+            map.put("buMenMingCheng",buMenMingCheng);  // 存入部门名称
+        }
         return map;  // 调用查询公告详情方法
     }
 
@@ -168,4 +170,10 @@ public class GongGaoService {
         List<Bumen> list = bumenMapper.selectBumen();
         return list;
     }
+
+    public void updateGongGaoDianJi(GongGaoBean gongGaoBean){
+        renyuandanganMapper.updateGongGaoDianJi(gongGaoBean);
+
+    }
+
 }

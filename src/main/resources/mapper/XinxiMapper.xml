@@ -7,7 +7,7 @@
                x.shouXinId, (select renyuandangan.xingMing from renyuandangan where
             x.shouXinId =renyuandangan.id) as shouJianRenXingMing, x.xinXiNeiRong,x.yiDuZhuangTai,
                x.xinXiShiJian,x.fuJianDiZhi,x.id,x.shouJianRenShouCangZhuangTai,x.faJianRenShouCangZhuangTai from xinxi x where x.shouXinId =#{id}
-                                                                                                                            and (x.zhuangTai =0 or x.zhuangTai= 1) and x.faSongZhuangTai=1;
+            and (x.zhuangTai =0 or x.zhuangTai= 1) and x.faSongZhuangTai=1 order by yiDuZhuangTai asc ,xinXiShiJian desc ;
     </select>
 
 
@@ -16,15 +16,21 @@
         x.faXinId=renyuandangan.id)as faJianRenXingMing,x.xinXiBiaoTi,x.faSongZhuangTai,
         x.shouXinId, (select renyuandangan.xingMing from renyuandangan where
         x.shouXinId =renyuandangan.id) as shouJianRenXingMing, x.xinXiNeiRong,x.yiDuZhuangTai,
-        x.xinXiShiJian,x.fuJianDiZhi,x.id,x.shouJianRenShouCangZhuangTai ,x.faJianRenShouCangZhuangTai from xinxi x where x.shouXinId =#{id}
-        and  (x.zhuangTai =0 or x.zhuangTai= 1) and x.faSongZhuangTai=1
+        x.xinXiShiJian,x.fuJianDiZhi,x.id,x.shouJianRenShouCangZhuangTai ,x.faJianRenShouCangZhuangTai
+        from xinxi x ,renyuandangan ry1,renyuandangan ry2
+        where x.shouXinId =#{id}
+        and  (x.zhuangTai =0 or x.zhuangTai= 1) and x.faSongZhuangTai=1 and x.shouXinId =ry1.id and x.faXinId=ry2.id
         <if test="riQi != null and riQi!=''">
             and x.xinXiShiJian like concat(concat('%',#{riQi},'%'),'%')
         </if>
         <if test="guanJianCi != null and guanJianCi!='' ">
             and (xinXiBiaoTi like concat(concat('%',#{guanJianCi},'%'),'%') or
-            x.xinXiNeiRong like concat(concat('%',#{guanJianCi},'%'),'%'))
+            x.xinXiNeiRong like concat(concat('%',#{guanJianCi},'%'),'%') or ry2.xingMing in
+            (select xingMing from renyuandangan where id =x.faXinId and
+            xingMing like  concat(concat('%',#{guanJianCi},'%'),'%')))
+
         </if>
+        order by yiDuZhuangTai asc ,xinXiShiJian desc
     </select>
 
     <select id="selecetXiangQing" parameterType="cn.com.yuyang.bean.XiangXiXinXiBean"
@@ -87,7 +93,7 @@
                x.shouXinId, (select renyuandangan.xingMing from renyuandangan where
             x.shouXinId =renyuandangan.id) as shouJianRenXingMing, x.xinXiNeiRong,x.yiDuZhuangTai,
                x.xinXiShiJian,x.fuJianDiZhi,x.id,x.shouJianRenShouCangZhuangTai,x.faJianRenShouCangZhuangTai from xinxi x where x.faXinId =#{id}
-                                                                                                                            and (x.zhuangTai =0 or x.zhuangTai =2) and x.faSongZhuangTai=1;
+             and (x.zhuangTai =0 or x.zhuangTai =2) and x.faSongZhuangTai=1 order by xinXiShiJian desc;
     </select>
 
     <select id="yiFaXinXiSouSuo" parameterType="cn.com.yuyang.bean.XinXiSouSuoBean" resultType="cn.com.yuyang.bean.XinXiBean">
@@ -105,22 +111,33 @@
         <if test="guanJianCi != null and guanJianCi!='' ">
             and (x.xinXiBiaoTi like concat(concat('%',#{guanJianCi},'%'),'%') or
             x.xinXiNeiRong like concat(concat('%',#{guanJianCi},'%'),'%') or
-            ry2.xingMing in
+                 ry2.xingMing in
             (select renyuandangan.xingMing from renyuandangan where x.shouXinId =id and
             renyuandangan.xingMing like  concat(concat('%',#{guanJianCi},'%'),'%')))
         </if>
+        order by xinXiShiJian desc
     </select>
 
     <select id="selectXinXiShouCang" parameterType="cn.com.yuyang.bean.IdBean" resultType="cn.com.yuyang.bean.XinXiBean">
-        select x.faXinId,(SELECT renyuandangan.xingMing from renyuandangan where
-            x.faXinId=renyuandangan.id)as faJianRenXingMing,x.xinXiBiaoTi,x.faSongZhuangTai,
-               x.shouXinId, (select renyuandangan.xingMing from renyuandangan where
-            x.shouXinId =renyuandangan.id) as shouJianRenXingMing, x.xinXiNeiRong,x.yiDuZhuangTai,
-               x.xinXiShiJian,x.fuJianDiZhi,x.id,x.shouJianRenShouCangZhuangTai,x.faJianRenShouCangZhuangTai from xinxi x where
-            ((x.faXinId =#{id} and (x.zhuangTai =0 or x.zhuangTai =2) and x.shouJianRenShouCangZhuangTai=1) or
+        select x.faXinId,
+               (SELECT renyuandangan.xingMing from renyuandangan where
+            x.faXinId=renyuandangan.id)as faJianRenXingMing,
+               x.xinXiBiaoTi,
+               x.faSongZhuangTai,
+               x.shouXinId,
+               (select renyuandangan.xingMing from renyuandangan where
+            x.shouXinId =renyuandangan.id) as shouJianRenXingMing,
+               x.xinXiNeiRong,
+               x.yiDuZhuangTai,
+               x.xinXiShiJian,
+               x.fuJianDiZhi,
+               x.id,
+               x.shouJianRenShouCangZhuangTai,
+               x.faJianRenShouCangZhuangTai
+        from xinxi x where
+            ((x.faXinId =#{id} and (x.zhuangTai =0 or x.zhuangTai =2) and x.faJianRenShouCangZhuangTai=1) or
              (x.shouXinId =#{id} and (x.zhuangTai =0 or x.zhuangTai =1) and x.shouJianRenShouCangZhuangTai=1))
-                                                                                                                            and x.faSongZhuangTai=1
-
+        order  by xinXiShiJian desc
     </select>
 
     <select id="xinXiShouCangSouSuo" parameterType="cn.com.yuyang.bean.XinXiSouSuoBean" resultType="cn.com.yuyang.bean.XinXiBean">
@@ -140,6 +157,7 @@
             (select renyuandangan.xingMing from renyuandangan where
             renyuandangan.xingMing like  concat(concat('%',#{guanJianCi},'%'),'%')))
         </if>
+        order xinXiShiJian desc
     </select>
 
     <select id="xinXiCaoGaoXiang" parameterType="cn.com.yuyang.bean.IdBean" resultType="cn.com.yuyang.bean.XinXiBean">
@@ -148,7 +166,15 @@
                x.shouXinId, (select renyuandangan.xingMing from renyuandangan where
             x.shouXinId =renyuandangan.id) as shouJianRenXingMing, x.xinXiNeiRong,x.yiDuZhuangTai,
                x.xinXiShiJian,x.fuJianDiZhi,x.id,x.faJianRenShouCangZhuangTai from xinxi x where
-            x.faXinId =#{id} and x.faSongZhuangTai=0 and x.zhuangTai = 0
+            x.faXinId =#{id} and x.faSongZhuangTai=0 and x.zhuangTai = 0 order by xinXiShiJian desc
+    </select>
+    <select id="caoGaoXiangXiangQing" parameterType="cn.com.yuyang.bean.XiangXiXinXiBean" resultType="cn.com.yuyang.bean.XinXiBean">
+        select x.faXinId,(SELECT renyuandangan.xingMing from renyuandangan where
+        x.faXinId=renyuandangan.id)as faJianRenXingMing,x.xinXiBiaoTi,x.faSongZhuangTai,
+        x.shouXinId, (select renyuandangan.xingMing from renyuandangan where
+        x.shouXinId =renyuandangan.id) as shouJianRenXingMing, x.xinXiNeiRong,x.yiDuZhuangTai,
+        x.xinXiShiJian,x.fuJianDiZhi,x.id,x.faJianRenShouCangZhuangTai from xinxi x where
+        x.faXinId =#{id} and x.faSongZhuangTai=0 and x.zhuangTai = 0 and x.id=#{xinXiId}
     </select>
 
     <delete id="caoGaoXiangShanChu" parameterType="cn.com.yuyang.bean.XinXiShanChuBean">
@@ -175,6 +201,7 @@
             (select renyuandangan.xingMing from renyuandangan where
             renyuandangan.xingMing like  concat(concat('%',#{guanJianCi},'%'),'%')))
         </if>
+        order by xinXiShiJian desc
     </select>
 
 
@@ -209,16 +236,7 @@
     </update>
 
     <select id="countXinXi" resultType="java.lang.Integer">
-        select count(id) from xinxi where  shouXinId=#{dangAnId} and yiDuZhuangTai=0;
-    </select>
-
-    <select id="caogaoxiangxiangqing" parameterType="cn.com.yuyang.bean.XiangXiXinXiBean" resultType="cn.com.yuyang.bean.XinXiBean">
-        select x.faXinId,(SELECT renyuandangan.xingMing from renyuandangan where
-            x.faXinId=renyuandangan.id)as faJianRenXingMing,x.xinXiBiaoTi,x.faSongZhuangTai,
-               x.shouXinId, (select renyuandangan.xingMing from renyuandangan where
-            x.shouXinId =renyuandangan.id) as shouJianRenXingMing, x.xinXiNeiRong,x.yiDuZhuangTai,
-               x.xinXiShiJian,x.fuJianDiZhi,x.id,x.faJianRenShouCangZhuangTai from xinxi x where
-            x.faXinId =#{id} and x.faSongZhuangTai=0 and x.zhuangTai = 0 and x.id=#{xinXiId}
+        select count(id) from xinxi where  shouXinId=#{dangAnId} and yiDuZhuangTai=0 and  faSongZhuangTai=1 and (zhuangTai = 0 or zhuangTai = 1);
     </select>
 
 </mapper>

@@ -44,6 +44,15 @@
     values (#{shenQingRen},#{leiXing},#{qiShiShiJian},#{zhongZhiShiJian},#{qingJiaShiYou},
             (select bumen.dangAnId from bumen,renyuandangan where renyuandangan.buMenId = bumen.id and renyuandangan.id = #{shenQingRen}),0,now(),2)
   </insert>
+  <insert id="geRenQingJia2" parameterType="cn.com.yuyang.bean.GeRenQingJiaBean">
+    insert into
+      qingjiabiao(shenQingRen,leiXing,qiShiShiJian,zhongZhiShiJian,qingJiaShiYou,shenPiRen,chuLiZhuangTai,shenQingShiJian,zhuangTai)
+    values (#{shenQingRen},#{leiXing},#{qiShiShiJian},#{zhongZhiShiJian},#{qingJiaShiYou},
+            (select bumen.dangAnId
+             from bumen
+            where
+               buMenMingCheng = '人事部'),0,now(),2)
+  </insert>
   <update id="tiJiaoShenHe" parameterType="cn.com.yuyang.bean.QingJiaShenHeBean">
     update qingjiabiao
     set
