@@ -144,7 +144,11 @@ public interface RenyuandanganMapper {
      */
     List<BirthdayBean> selectShengRi(String day);
 
-
-
+    /** 查询员工职务ID
+     *
+     * @param bumen
+     * @return
+     */
+    Integer selectZhiWuId(Bumenbean bumen);
 
 }

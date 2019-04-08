@@ -384,7 +384,9 @@
         select  xingMing,youXiang from renyuandangan where shengRi like  #{arg0}
     </select>
 
-
+<select id="selectZhiWuId" resultType="java.lang.Integer">
+    select zhiWuId from oadb.renyuandangan where id=#{dangAnId}
+</select>
 
 
 </mapper>

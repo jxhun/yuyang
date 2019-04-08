@@ -97,19 +97,18 @@ public class BuMenGuanLiService {
                     Zhiwubiao zhiwubiao = new Zhiwubiao();
                     zhiwubiao.setZhiWuMingCheng(bumen.getBuMenMingCheng() + "经理");
                     zhiwubiao.setZhiWuJianJie("没有简介");
-                    zhiwubiao.setCaoZuoYuanGong(0);
-                    zhiwubiao.setChaKanKaoQin(0);
-                    zhiwubiao.setFaBuXiuGaiGongGao(0);
-                    zhiwubiao.setDaiBanShiXiang(0);
-                    zhiwubiao.setQinJiaShenPi(0);
-                    zhiwubiao.setQuanXianGuanLi(0);
+                    zhiwubiao.setChaKanKaoQin(1);
+                    zhiwubiao.setFaBuXiuGaiGongGao(1);
+                    zhiwubiao.setDaiBanShiXiang(1);
+                    zhiwubiao.setQinJiaShenPi(1);
                     zhiwubiao.setChuangJianShiJian(new Timestamp(System.currentTimeMillis()));
                     zhiwubiaoMapper.insertZhiWu(zhiwubiao);
                     Integer id = zhiwubiaoMapper.selectId(zhiwubiao);
                     //将修改后的职务ID和部门ID传入bean中，再将部门负责人的部门ID改为新部门的ID
                     bumen.setZhiWuId(id);
+                    System.out.println("id========" + bumenMapper.selectOne(bumen));
+                    System.out.println("id========" + id);
                     bumen.setId(bumenMapper.selectOne(bumen));
-                    ;
                     if (renyuandanganMapper.updateYuanGongBuMen(bumen) != null) {
                         msg = "部门添加成功！";
                         Returncode = 200;
@@ -137,6 +136,7 @@ public class BuMenGuanLiService {
         String msg = "部门编辑失败!!!";
         int Returncode = -1;
         Map<String, Object> map = new HashMap<>();
+        Integer ing = bumenMapper.selectFuZeRen2(Integer.parseInt(String.valueOf(bumen.getId())));
         //查询负责人的信息，如果getId方法不能取到值，则该员工不存在
         Renyuandangan renyuandangan = renyuandanganMapper.selectGeRenChaXun(bumen);
         if (renyuandangan != null && renyuandangan.getId() != 0) {
@@ -154,22 +154,32 @@ public class BuMenGuanLiService {
             }
             //通过部门名称和部门id查询部门要修改的名称是否存在，不存在时再修改部门
             if (bumenMapper.selectOne(bumen) == null || bumenMapper.selectOne(bumen) == 0) {
-                //修改部门经理的职务名字
+                Bumenbean bumen2 = new Bumenbean();
+                bumen2.setBuMenMingCheng(bumen.getBuMenMingCheng());
+                Integer bumen1 = bumenMapper.selectOne(bumen2);
                 Zhiwubiao zhiwubiao = new Zhiwubiao();
-                zhiwubiao.setId(renyuandangan.getZhiWuId());
-                zhiwubiao.setZhiWuMingCheng(bumen.getXingMing() + "经理");
-                zhiwubiaoMapper.updateZhiWuMingCheng(zhiwubiao);
 
 
+                if (bumen1 == 0) {
+                    //修改部门经理的职务名字
+                    zhiwubiao.setId(renyuandangan.getZhiWuId());
+                    zhiwubiao.setZhiWuMingCheng(bumen.getBuMenMingCheng() + "经理");
+                    zhiwubiaoMapper.updateZhiWuMingCheng(zhiwubiao);
+                }
+
+
+                Integer zhiWuId = renyuandanganMapper.selectZhiWuId(bumen);
                 Bumenbean bum = new Bumenbean();
                 //查出部门之前的负责人，将其职务ID改为0
-                Integer ing = bumenMapper.selectFuZeRen2(Integer.parseInt(String.valueOf(bumen.getId())));
+
                 bum.setDangAnId(ing);
                 bum.setZhiWuId(0);
                 bum.setId(bumen.getId());
                 renyuandanganMapper.updateYuanGongBuMen(bum);
 
+
                 bumen.setDangAnId(renyuandangan.getId());
+                bumen.setZhiWuId(zhiWuId);
                 if (bumenMapper.updateBuMen(bumen) != null && renyuandanganMapper.updateYuanGongBuMen(bumen) != null) {
 
                     msg = "部门编辑成功！";
@@ -183,7 +193,7 @@ public class BuMenGuanLiService {
             msg = "负责人不存在！";
             Returncode = -21;
         }
-        map.put("Returncode", Returncode);
+        map.put("returnCode", Returncode);
         map.put("msg", msg);
         return map;
     }

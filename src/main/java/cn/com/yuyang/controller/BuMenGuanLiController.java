@@ -93,7 +93,7 @@ public class BuMenGuanLiController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = {"/xinzeng"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/xinzeng"})
     public Map<String, Object> xinzeng(@RequestBody Bumenbean bumen, HttpServletRequest request) {
         String token = (String) request.getSession().getAttribute(SessionKey.TOKEN);
         Map<String, Object> map = new HashMap<>();
@@ -132,6 +132,7 @@ public class BuMenGuanLiController {
             map = buMenGuanLiService.bianji(bumen, request);
             buMenGuanLiService.minGanXinZeng(request); // 调用新增操作记录方法
         }
+        System.out.println("map" + map);
         return map;
     }
 
